@@ -10,10 +10,6 @@ from sklearn.pipeline import Pipeline
 with open('kmeans_model.pkl', 'rb') as file:
     kmeans_model = pickle.load(file)
 
-# Optionally, load the scaler if it was used during training
-# with open('scaler.pkl', 'rb') as file:
-#     scaler = pickle.load(file)
-
 st.title('K-means Clustering Prediction')
 
 # File uploader for CSV files
@@ -43,14 +39,17 @@ if uploaded_file is not None:
         try:
             # Apply preprocessing
             data_preprocessed = preprocessor.fit_transform(data)
+            
+            # Convert sparse matrix to dense matrix
+            data_preprocessed_dense = data_preprocessed.toarray()
 
             st.write("Data after preprocessing:")
-            st.write(pd.DataFrame(data_preprocessed).head())
+            st.write(pd.DataFrame(data_preprocessed_dense).head())
 
             # Predict button
             if st.button('Predict'):
                 try:
-                    predictions = kmeans_model.predict(data_preprocessed)
+                    predictions = kmeans_model.predict(data_preprocessed_dense)
                     st.write("Predictions:")
                     st.write(predictions)
                 except Exception as e:
