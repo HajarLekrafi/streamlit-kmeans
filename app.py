@@ -28,11 +28,11 @@ if uploaded_file is not None:
         st.write(f"Categorical columns: {categorical_columns.tolist()}")
         st.write(f"Numerical columns: {numerical_columns.tolist()}")
 
-        # Define preprocessing for categorical data
+        # Define preprocessing for categorical and numerical data
         preprocessor = ColumnTransformer(
             transformers=[
                 ('num', StandardScaler(), numerical_columns),
-                ('cat', OneHotEncoder(), categorical_columns)
+                ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_columns)
             ]
         )
 
@@ -40,8 +40,11 @@ if uploaded_file is not None:
             # Apply preprocessing
             data_preprocessed = preprocessor.fit_transform(data)
             
-            # Convert sparse matrix to dense matrix
-            data_preprocessed_dense = data_preprocessed.toarray()
+            # Convert sparse matrix to dense matrix if necessary
+            if hasattr(data_preprocessed, 'toarray'):
+                data_preprocessed_dense = data_preprocessed.toarray()
+            else:
+                data_preprocessed_dense = data_preprocessed
 
             st.write("Data after preprocessing:")
             st.write(pd.DataFrame(data_preprocessed_dense).head())
