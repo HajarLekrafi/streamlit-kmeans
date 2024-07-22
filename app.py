@@ -25,7 +25,6 @@ if uploaded_file is not None:
     expected_columns = ['Type_pro', 'Nat_pro_concat', 'Nb_propositions', 'Usage', 'Ville', 'Courtier', 'Mnt', 'Jnl']
     
     if all(col in data.columns for col in expected_columns):
-        # Convertir les types de données
         try:
             # Convertir les colonnes numériques en float, en remplaçant les valeurs non convertibles par NaN
             for col in ['Nb_propositions', 'Ville', 'Courtier', 'Mnt']:
@@ -82,8 +81,9 @@ if uploaded_file is not None:
                         st.write(f"Erreur lors de la prédiction des clusters : {e}")
             except Exception as e:
                 st.write(f"Erreur lors du prétraitement des données : {e}")
-        else:
-            st.write("Les colonnes du fichier CSV ne correspondent pas aux colonnes attendues.")
+        except Exception as e:
+            st.write(f"Erreur lors de la conversion des types de données : {e}")
+    else:
+        st.write("Les colonnes du fichier CSV ne correspondent pas aux colonnes attendues.")
 else:
     st.write("Veuillez uploader un fichier CSV.")
-
