@@ -2,13 +2,15 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-# Load the K-means model
+# Charger le modèle K-means et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
     kmeans_model = pickle.load(file)
+
+with open('preprocessor.pkl', 'rb') as file:
+    preprocessor = pickle.load(file)
 
 st.title('K-means Clustering Prediction')
 
@@ -20,7 +22,7 @@ if uploaded_file is not None:
     st.write("Data Preview:")
     st.write(data.head())
 
-    # Identify categorical and numerical columns
+    # Identifier les colonnes catégorielles et numériques
     categorical_columns = data.select_dtypes(include=['object']).columns
     numerical_columns = data.select_dtypes(include=[np.number]).columns
 
@@ -28,19 +30,11 @@ if uploaded_file is not None:
         st.write(f"Categorical columns: {categorical_columns.tolist()}")
         st.write(f"Numerical columns: {numerical_columns.tolist()}")
 
-        # Define preprocessing for categorical and numerical data
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numerical_columns),
-                ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_columns)
-            ]
-        )
-
         try:
-            # Apply preprocessing
-            data_preprocessed = preprocessor.fit_transform(data)
+            # Appliquer le prétraitement
+            data_preprocessed = preprocessor.transform(data)
             
-            # Convert sparse matrix to dense matrix if necessary
+            # Convertir la matrice creuse en matrice dense si nécessaire
             if hasattr(data_preprocessed, 'toarray'):
                 data_preprocessed_dense = data_preprocessed.toarray()
             else:
@@ -49,7 +43,7 @@ if uploaded_file is not None:
             st.write("Data after preprocessing:")
             st.write(pd.DataFrame(data_preprocessed_dense).head())
 
-            # Predict button
+            # Bouton de prédiction
             if st.button('Predict'):
                 try:
                     predictions = kmeans_model.predict(data_preprocessed_dense)
