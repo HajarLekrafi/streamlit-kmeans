@@ -2,7 +2,8 @@
 import streamlit as st
 import pickle
 import pandas as pd
-import numpy.ndarray
+import numpy
+
 # Load the K-means model
 with open('kmeans_model.pkl', 'rb') as file:
     kmeans_model = pickle.load(file)
