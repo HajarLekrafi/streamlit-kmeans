@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.cluster import KMeans
 from scipy.sparse import issparse
@@ -27,8 +26,13 @@ if uploaded_file is not None:
     st.write("Données chargées :")
     st.write(data.head())
     
+    # Vérifier les colonnes
+    st.write("Colonnes du fichier :")
+    st.write(data.columns.tolist())
+    
     # Prétraitement
     try:
+        # Assurez-vous que le préprocesseur a été ajusté pour les colonnes correctes
         data_preprocessed = preprocessor.transform(data)
         
         # Convertir les matrices creuses en matrices denses si nécessaire
@@ -37,6 +41,8 @@ if uploaded_file is not None:
         
         st.write("Données après prétraitement :")
         st.write(pd.DataFrame(data_preprocessed).head())
+        st.write("Shape des données prétraitées :")
+        st.write(pd.DataFrame(data_preprocessed).shape)
         
         # Afficher les centres des clusters
         if st.button('Afficher Centres des Clusters'):
