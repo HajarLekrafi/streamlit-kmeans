@@ -33,19 +33,7 @@ if uploaded_file is not None:
     # Prétraitement
     try:
         # Assurez-vous que le préprocesseur a été ajusté pour les colonnes correctes
-        numerical_cols = ['Nb_propositions', 'Ville', 'Courtier', 'Mnt']
-        categorical_cols = ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']
-        
-        # Créer le préprocesseur avec les mêmes colonnes
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numerical_cols),
-                ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
-            ]
-        )
-        
-        # Ajuster et transformer les données
-        data_preprocessed = preprocessor.fit_transform(data)
+        data_preprocessed = preprocessor.transform(data)
         
         # Convertir les matrices creuses en matrices denses si nécessaire
         if issparse(data_preprocessed):
