@@ -2,11 +2,17 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 
 # Load the K-means model
 with open('kmeans_model.pkl', 'rb') as file:
     kmeans_model = pickle.load(file)
+
+# Optionally, load the scaler if it was used during training
+# with open('scaler.pkl', 'rb') as file:
+#     scaler = pickle.load(file)
 
 st.title('K-means Clustering Prediction')
 
@@ -18,29 +24,38 @@ if uploaded_file is not None:
     st.write("Data Preview:")
     st.write(data.head())
 
-    # Check if the model is a KMeans model
-    if not hasattr(kmeans_model, 'predict'):
-        st.write("Error: The loaded model does not have a 'predict' method.")
-    else:
-        # Ensure the data is in the correct format (e.g., numeric)
-        if data.select_dtypes(include=[np.number]).empty:
-            st.write("Error: The uploaded data does not contain numeric columns.")
-        else:
-            # Assuming the model was trained on standardized data
-            # Apply the same transformations if necessary
-            scaler = StandardScaler()
-            try:
-                data_scaled = scaler.fit_transform(data)  # Replace with proper scaler if needed
-                st.write("Data after scaling:")
-                st.write(pd.DataFrame(data_scaled, columns=data.columns).head())
+    # Identify categorical and numerical columns
+    categorical_columns = data.select_dtypes(include=['object']).columns
+    numerical_columns = data.select_dtypes(include=[np.number]).columns
 
-                # Predict button
-                if st.button('Predict'):
-                    try:
-                        predictions = kmeans_model.predict(data_scaled)
-                        st.write("Predictions:")
-                        st.write(predictions)
-                    except Exception as e:
-                        st.write(f"An error occurred during prediction: {e}")
-            except Exception as e:
-                st.write(f"An error occurred during data transformation: {e}")
+    if len(categorical_columns) > 0:
+        st.write(f"Categorical columns: {categorical_columns.tolist()}")
+        st.write(f"Numerical columns: {numerical_columns.tolist()}")
+
+        # Define preprocessing for categorical data
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('num', StandardScaler(), numerical_columns),
+                ('cat', OneHotEncoder(), categorical_columns)
+            ]
+        )
+
+        try:
+            # Apply preprocessing
+            data_preprocessed = preprocessor.fit_transform(data)
+
+            st.write("Data after preprocessing:")
+            st.write(pd.DataFrame(data_preprocessed).head())
+
+            # Predict button
+            if st.button('Predict'):
+                try:
+                    predictions = kmeans_model.predict(data_preprocessed)
+                    st.write("Predictions:")
+                    st.write(predictions)
+                except Exception as e:
+                    st.write(f"An error occurred during prediction: {e}")
+        except Exception as e:
+            st.write(f"An error occurred during data transformation: {e}")
+    else:
+        st.write("No categorical columns found. Ensure all data is numeric.")
