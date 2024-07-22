@@ -2,10 +2,6 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.impute import SimpleImputer
-from sklearn.cluster import KMeans
 from scipy.sparse import issparse
 
 # Charger le modèle KMeans et le préprocesseur
