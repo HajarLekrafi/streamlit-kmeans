@@ -85,6 +85,26 @@ if uploaded_file is not None:
                             }
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
+                            
+                             # Afficher la répartition des clusters avec labels
+                            st.write("Répartition des clusters avec labels :")
+                            cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
+                            st.write(cluster_distribution)
+                            
+                            # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
+                            sinistre_col = None
+                            if 'Sinistre' in data.columns:
+                                sinistre_col = 'Sinistre'
+                            elif 'sinistre' in data.columns:
+                                sinistre_col = 'sinistre'
+                            
+                            if sinistre_col:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[[sinistre_col, 'Cluster']])
+                            else:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[['Cluster']])
+                            
                             # Afficher des graphiques interactifs
                             st.subheader("Répartition des Clusters")
                             cluster_distribution = data['Cluster'].value_counts().reset_index()
@@ -120,12 +140,7 @@ if uploaded_file is not None:
                                                   labels={'Mnt': 'Montant', 'Cluster_Label': 'Label du Cluster'})
                             st.plotly_chart(fig_violin)
 
-                            # Ajouter une carte géographique
-                            st.subheader("Carte Géographique des Clusters")
-                            fig_map = px.scatter_geo(data, locations='Ville', color='Cluster_Label', 
-                                                    title='Répartition Géographique des Clusters',
-                                                    labels={'Ville': 'Ville', 'Cluster_Label': 'Label du Cluster'})
-                            st.plotly_chart(fig_map)
+                            
 
                             # Ajouter une heatmap de corrélations
                             st.subheader("Heatmap des Corrélations")
@@ -135,20 +150,7 @@ if uploaded_file is not None:
                                                     labels={'color': 'Corrélations'})
                             st.plotly_chart(fig_heatmap)
 
-                            # Ajouter un diagramme en Arc
-                            st.subheader("Diagramme en Arc des Clusters")
-                            fig_sunburst = px.sunburst(data, path=['Cluster_Label', 'Type_pro'], 
-                                                      title='Hiérarchie des Clusters et Types de Propositions',
-                                                      labels={'Cluster_Label': 'Label du Cluster', 'Type_pro': 'Type de Proposition'})
-                            st.plotly_chart(fig_sunburst)
-
-                            # Ajouter une matrice de corrélations
-                            st.subheader("Matrice de Corrélations")
-                            fig_corr = px.imshow(data[['Nb_propositions', 'Mnt', 'Ville', 'Courtier']].corr(), 
-                                                 color_continuous_scale='Viridis', 
-                                                 title='Matrice de Corrélations',
-                                                 labels={'color': 'Corrélations'})
-                            st.plotly_chart(fig_corr)
+                    
                             
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
