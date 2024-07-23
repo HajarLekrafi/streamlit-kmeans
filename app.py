@@ -81,8 +81,8 @@ if uploaded_file is not None:
                             st.write(cluster_distribution)
                             
                             # Afficher toutes les prédictions avec labels
-                            st.write("Toutes les prédictions avec labels :")
-                            st.write(data[['Cluster', 'Cluster_Label']])
+                            st.write("Toutes les prédictions :")
+                            st.write(data[['Cluster']])
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
