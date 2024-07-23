@@ -87,7 +87,7 @@ if uploaded_file is not None:
                             
                             # Afficher la répartition des clusters avec labels
                             st.write("Répartition des clusters avec labels :")
-                            cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
+                            cluster_distribution = data.groupby('Cluster').size().reset_index(name='Count')
                             st.write(cluster_distribution)
                             
                             # Afficher des graphiques interactifs
@@ -100,7 +100,7 @@ if uploaded_file is not None:
                             st.plotly_chart(fig)
 
                             st.subheader("Analyse des Données")
-                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Cluster Analysis')
+                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Analyse des Données par Cluster')
                             st.plotly_chart(fig_scatter)
                             
                             # Ajouter un diagramme en boîte
