@@ -116,8 +116,8 @@ if uploaded_file is not None:
                             
                             # Ajouter un diagramme en boîte
                             st.subheader("Diagramme en Boîte")
-                            fig_box = px.box(data, x='Cluster_Label', y='Nb_propositions', 
-                                             title='Répartition des Nb_propositions par Cluster',
+                            fig_box = px.box(data, x='Cluster', y='Nb_propositions', 
+                                             title='Répartition des Nombres de propositions par Cluster',
                                              labels={'Cluster_Label': 'Cluster', 'Nb_propositions': 'Nombre de Propositions'})
                             st.plotly_chart(fig_box)
                             
