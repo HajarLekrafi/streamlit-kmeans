@@ -12,6 +12,36 @@ with open('preprocessor.pkl', 'rb') as file:
 
 st.title('K-means Clustering Prediction')
 
+# Exemple de CSS directement dans le code
+st.markdown("""
+    <style>
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1f77b4;
+        }
+        .description {
+            font-size: 18px;
+            color: #333;
+        }
+        .btn-custom {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+    <div class="title">K-means Clustering Prediction</div>
+    <div class="description">Téléchargez un fichier CSV pour prédire les clusters.</div>
+""", unsafe_allow_html=True)
+
 # Uploader le fichier CSV
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 
@@ -34,7 +64,6 @@ if uploaded_file is not None:
             for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
                 data[col] = data[col].astype(str)
 
-            
             # Gérer les valeurs manquantes (imputation ou suppression)
             if hasattr(preprocessor, 'transform'):
                 # Prétraitement
