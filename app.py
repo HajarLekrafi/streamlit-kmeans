@@ -140,15 +140,6 @@ if uploaded_file is not None:
                                                   labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster'})
                             st.plotly_chart(fig_violin)
 
-                            
-
-                            # Ajouter une heatmap de corrélations
-                            st.subheader("Heatmap des Corrélations")
-                            corr = data[['Nb_propositions', 'Ville', 'Courtier', 'Mnt']].corr()
-                            fig_heatmap = px.imshow(corr, color_continuous_scale='Viridis', 
-                                                    title='Matrice de Corrélations',
-                                                    labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster','Nb_propositions': 'Nombre de Propositions'})
-                            st.plotly_chart(fig_heatmap)
 
                     
                             
