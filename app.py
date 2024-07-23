@@ -135,9 +135,9 @@ if uploaded_file is not None:
 
                             # Ajouter un diagramme en Violin
                             st.subheader("Diagramme en Violin")
-                            fig_violin = px.violin(data, y='Mnt', color='Cluster_Label', box=True, 
+                            fig_violin = px.violin(data, y='Mnt', color='Cluster', box=True, 
                                                   title='Distribution des Montants par Cluster',
-                                                  labels={'Mnt': 'Montant', 'Cluster_Label': 'Label du Cluster'})
+                                                  labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster'})
                             st.plotly_chart(fig_violin)
 
                             
@@ -147,7 +147,7 @@ if uploaded_file is not None:
                             corr = data[['Nb_propositions', 'Ville', 'Courtier', 'Mnt']].corr()
                             fig_heatmap = px.imshow(corr, color_continuous_scale='Viridis', 
                                                     title='Matrice de Corrélations',
-                                                    labels={'color': 'Corrélations'})
+                                                    labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster','Nb_propositions': 'Nombre de Propositions'})
                             st.plotly_chart(fig_heatmap)
 
                     
