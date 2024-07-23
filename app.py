@@ -98,10 +98,10 @@ if uploaded_file is not None:
                             
                             if sinistre_col:
                                 st.write("Toutes les prédictions avec labels :")
-                                st.write(data[[sinistre_col, 'Cluster', 'Cluster_Label']])
+                                st.write(data[[sinistre_col, 'Cluster']])
                             else:
                                 st.write("Toutes les prédictions avec labels :")
-                                st.write(data[['Cluster', 'Cluster_Label']])
+                                st.write(data[['Cluster']])
                             
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
