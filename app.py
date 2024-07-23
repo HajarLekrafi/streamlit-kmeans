@@ -86,6 +86,21 @@ if uploaded_file is not None:
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
                             
+                             # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
+                            sinistre_col = None
+                            if 'Sinistre' in data.columns:
+                                sinistre_col = 'Sinistre'
+                            elif 'sinistre' in data.columns:
+                                sinistre_col = 'sinistre'
+                            
+                            if sinistre_col:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[[sinistre_col, 'Cluster']])
+                            else:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[['Cluster']])
+                            
+                            
                             # Afficher des graphiques interactifs
                             st.subheader("Répartition des Clusters")
                             cluster_distribution = data['Cluster'].value_counts().reset_index()
@@ -121,19 +136,7 @@ if uploaded_file is not None:
                                                          labels={'Cluster_Label': 'Cluster'})
                             st.plotly_chart(fig_pair)
                             
-                            # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
-                            sinistre_col = None
-                            if 'Sinistre' in data.columns:
-                                sinistre_col = 'Sinistre'
-                            elif 'sinistre' in data.columns:
-                                sinistre_col = 'sinistre'
-                            
-                            if sinistre_col:
-                                st.write("Toutes les prédictions avec labels :")
-                                st.write(data[[sinistre_col, 'Cluster']])
-                            else:
-                                st.write("Toutes les prédictions avec labels :")
-                                st.write(data[['Cluster']])
+                           
                             
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
