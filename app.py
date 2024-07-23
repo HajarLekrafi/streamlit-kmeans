@@ -128,14 +128,7 @@ if uploaded_file is not None:
                                                     title='Répartition des Montants par Cluster',
                                                     labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
                             st.plotly_chart(fig_hist)
-                            
-                            # Ajouter une matrice de dispersion
-                            st.subheader("Matrice de Dispersion")
-                            fig_pair = px.scatter_matrix(data, dimensions=['Nb_propositions', 'Mnt', 'Ville', 'Courtier'],
-                                                         color='Cluster_Label',
-                                                         title='Matrice de Dispersion des Variables par Cluster',
-                                                         labels={'Cluster_Label': 'Cluster', 'Nb_propositions': 'Nombre de Propositions','Mnt': 'Montant'})
-                            st.plotly_chart(fig_pair)
+
                             
                            
                             
