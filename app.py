@@ -137,7 +137,7 @@ if uploaded_file is not None:
                             st.subheader("Diagramme en Violin")
                             fig_violin = px.violin(data, y='Mnt', color='Cluster', box=True, 
                                                   title='Distribution des Montants par Cluster',
-                                                  labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster'})
+                                                  labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
                             st.plotly_chart(fig_violin)
 
                             # Ajouter un histogramme des Villes par Cluster
@@ -161,21 +161,12 @@ if uploaded_file is not None:
 
                            # Ajouter un histogramme pour la distribution des valeurs de Jnl par Cluster
                             if 'Jnl' in data.columns:
-                                st.subheader("Histogramme des Valeurs de Jnl par Cluster")
+                                st.subheader("Histogramme des Valeurs du Journal par Cluster")
                                 fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
                                                        labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
-                                                       title='Distribution des Valeurs de Jnl par Cluster')
+                                                       title='Distribution des Valeurs du journal par Cluster')
                                 st.plotly_chart(fig_jnl)
                                 
-                                
-                            
-                            # Ajouter un graphique en secteurs pour la répartition de Nat_pro_concat
-                            if 'Nature_reg' in data.columns:
-                                st.subheader("Répartition de Nature_reg")
-                                fig_nat_pro_concat = px.pie(data, names='Nature_reg', 
-                                                            title='Répartition des Valeurs de Nat_pro_concat',
-                                                            labels={'Nature_reg': 'Nature de Proposition'})
-                                st.plotly_chart(fig_nat_pro_concat)
                             
                                     
                         except Exception as e:
