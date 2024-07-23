@@ -10,6 +10,8 @@ with open('kmeans_model.pkl', 'rb') as file:
 with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
+st.title('K-means Clustering Prediction')
+
 # Lire le fichier CSS
 css_file_path = 'style.css'  # Assurez-vous que ce chemin est correct
 with open(css_file_path) as f:
@@ -17,12 +19,6 @@ with open(css_file_path) as f:
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
-
-# Titre de l'application
-st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
-
-# Description
-st.markdown('<p class="description">Téléchargez un fichier CSV pour prédire les clusters à l\'aide du modèle KMeans.</p>', unsafe_allow_html=True)
 
 # Uploader le fichier CSV
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
@@ -57,8 +53,7 @@ if uploaded_file is not None:
                         data_preprocessed = data_preprocessed.toarray()
                     
                     # Prédiction des clusters
-                    if st.button('Prédire les Clusters', key='predict_button', help="Cliquez pour prédire les clusters", 
-                                 css_class='btn-custom'):
+                    if st.button('Prédire les Clusters'):
                         try:
                             predictions = kmeans_model.predict(data_preprocessed)
                             data['Cluster'] = predictions
@@ -79,7 +74,7 @@ if uploaded_file is not None:
                             
                             # Afficher toutes les prédictions avec labels
                             st.write("Toutes les prédictions avec labels :")
-                            st.write(data[['Cluster', 'Cluster_Label']].style.set_table_attributes('class="data-table"'))
+                            st.write(data[['Cluster', 'Cluster_Label']])
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
