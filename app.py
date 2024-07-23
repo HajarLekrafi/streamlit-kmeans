@@ -140,22 +140,22 @@ if uploaded_file is not None:
                                                   labels={'Mnt': 'Montant', 'Cluster': 'Label du Cluster'})
                             st.plotly_chart(fig_violin)
 
-
+                            # Ajouter un histogramme des Villes par Cluster
                             if 'Ville' in data.columns:
-                                st.subheader("Villes par Cluster")
+                                st.subheader("Histogramme des Villes par Cluster")
                                 ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
-                                fig_ville_cluster = px.bar(ville_cluster, x='Ville', y='Count', color='Cluster',
-                                                           labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
-                                                           title='Répartition des Villes par Cluster')
+                                fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
+                                                                 labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
+                                                                 title='Répartition des Villes par Cluster')
                                 st.plotly_chart(fig_ville_cluster)
                             
-                            # Ajouter un graphique des Courtiers par Ville
+                            # Ajouter un histogramme des Courtiers par Ville
                             if 'Courtier' in data.columns and 'Ville' in data.columns:
-                                st.subheader("Courtiers par Ville")
+                                st.subheader("Histogramme des Courtiers par Ville")
                                 courtier_ville = data.groupby(['Ville', 'Courtier']).size().reset_index(name='Count')
-                                fig_courtier_ville = px.bar(courtier_ville, x='Ville', y='Count', color='Courtier',
-                                                            labels={'Ville': 'Ville', 'Count': 'Nombre de Courtiers'},
-                                                            title='Répartition des Courtiers par Ville')
+                                fig_courtier_ville = px.histogram(courtier_ville, x='Ville', y='Count', color='Courtier',
+                                                                  labels={'Ville': 'Ville', 'Count': 'Nombre de Courtiers'},
+                                                                  title='Répartition des Courtiers par Ville')
                                 st.plotly_chart(fig_courtier_ville)
 
                     
