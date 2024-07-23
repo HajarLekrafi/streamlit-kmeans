@@ -111,7 +111,7 @@ if uploaded_file is not None:
                             st.plotly_chart(fig)
 
                             st.subheader("Analyse des Données")
-                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Montant'},
+                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster', labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Montant'},
                                                      title='Analyse des Données par Cluster')
                             st.plotly_chart(fig_scatter)
                             
