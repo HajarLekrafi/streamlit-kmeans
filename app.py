@@ -170,11 +170,11 @@ if uploaded_file is not None:
                                 
                             
                             # Ajouter un graphique en secteurs pour la répartition de Nat_pro_concat
-                            if 'Nat_pro_concat' in data.columns:
-                                st.subheader("Répartition de Nat_pro_concat")
-                                fig_nat_pro_concat = px.pie(data, names='Nat_pro_concat', 
+                            if 'Nature_reg' in data.columns:
+                                st.subheader("Répartition de Nature_reg")
+                                fig_nat_pro_concat = px.pie(data, names='Nature_reg', 
                                                             title='Répartition des Valeurs de Nat_pro_concat',
-                                                            labels={'Nat_pro_concat': 'Nature de Proposition'})
+                                                            labels={'Nature_reg': 'Nature de Proposition'})
                                 st.plotly_chart(fig_nat_pro_concat)
                             
                                     
