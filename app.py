@@ -111,7 +111,8 @@ if uploaded_file is not None:
                             st.plotly_chart(fig)
 
                             st.subheader("Analyse des Données")
-                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Analyse des Données par Cluster')
+                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Montant'},
+                                                     title='Analyse des Données par Cluster')
                             st.plotly_chart(fig_scatter)
                             
                             # Ajouter un diagramme en boîte
@@ -125,7 +126,7 @@ if uploaded_file is not None:
                             st.subheader("Histogramme")
                             fig_hist = px.histogram(data, x='Mnt', color='Cluster_Label',
                                                     title='Répartition des Montants par Cluster',
-                                                    labels={'Mnt': 'Montant', 'Cluster_Label': 'Cluster'})
+                                                    labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
                             st.plotly_chart(fig_hist)
                             
                             # Ajouter une matrice de dispersion
