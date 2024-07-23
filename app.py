@@ -68,14 +68,23 @@ if uploaded_file is not None:
                             predictions = kmeans_model.predict(data_preprocessed)
                             data['Cluster'] = predictions
                             
+                            # Ajouter les labels des clusters
+                            labels = {
+                                0: "Faible Valeur, Faible Nombre de Propositions, Localisations Eparses",
+                                1: "Faible Valeur, Faible Nombre de Propositions, Localisations Mixtes",
+                                2: "Haute Valeur, Grand Nombre de Propositions, Localisations Eparses",
+                                3: "Valeur Moyenne, Très Faible Nombre de Propositions, Localisations Concentrees"
+                            }
+                            data['Cluster_Label'] = data['Cluster'].map(labels)
+                            
                             # Afficher la répartition des clusters
                             st.write("Répartition des clusters :")
                             cluster_distribution = data['Cluster'].value_counts()
                             st.write(cluster_distribution)
                             
-                            # Afficher toutes les prédictions
-                            st.write("Toutes les prédictions :")
-                            st.write(data[['Cluster']])
+                            # Afficher toutes les prédictions avec labels
+                            st.write("Toutes les prédictions avec labels :")
+                            st.write(data[['Cluster', 'Cluster_Label']])
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
