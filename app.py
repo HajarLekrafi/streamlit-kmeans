@@ -37,13 +37,13 @@ if uploaded_file is not None:
     st.write("Données chargées :")
     st.write(data.head())
     
+    # Vérifier les colonnes et les types de données
+    expected_columns = ['Type_pro', 'Nat_pro_concat', 'Nb_propositions', 'Usage', 'Ville', 'Courtier', 'Mnt', 'Jnl']
+    
     # Convertir les noms de colonnes en minuscules pour faciliter la vérification
     data.columns = [col.lower() for col in data.columns]
     
-    # Vérifier les colonnes et les types de données
-    expected_columns = ['type_pro', 'nat_pro_concat', 'nb_propositions', 'usage', 'ville', 'courtier', 'mnt', 'jnl']
-    
-    if all(col in data.columns for col in expected_columns):
+    if all(col.lower() in data.columns for col in expected_columns):
         try:
             # Convertir les colonnes numériques en float, en remplaçant les valeurs non convertibles par NaN
             for col in ['nb_propositions', 'ville', 'courtier', 'mnt']:
@@ -84,11 +84,10 @@ if uploaded_file is not None:
                             st.write(cluster_distribution)
                             
                             # Afficher toutes les prédictions avec labels
-                            if 'sinistre' in data.columns or 'sinistre' in data.columns:
-                                st.write("Toutes les prédictions avec labels et sinistre :")
+                            st.write("Toutes les prédictions :")
+                            if 'sinistre' in data.columns:
                                 st.write(data[['sinistre', 'Cluster', 'Cluster_Label']])
                             else:
-                                st.write("Toutes les prédictions avec labels :")
                                 st.write(data[['Cluster', 'Cluster_Label']])
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
