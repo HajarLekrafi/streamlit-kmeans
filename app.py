@@ -2,7 +2,6 @@ import streamlit as st
 import pickle
 import pandas as pd
 from scipy.sparse import issparse
-from sklearn.impute import SimpleImputer
 
 # Charger le modèle KMeans et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
@@ -74,9 +73,9 @@ if uploaded_file is not None:
                             cluster_distribution = data['Cluster'].value_counts()
                             st.write(cluster_distribution)
                             
-                            # Afficher les 10 premières prédictions
-                            st.write("Prédictions des premiers échantillons :")
-                            st.write(predictions[:10])
+                            # Afficher toutes les prédictions
+                            st.write("Toutes les prédictions :")
+                            st.write(data[['Cluster']])
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
