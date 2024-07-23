@@ -34,9 +34,6 @@ if uploaded_file is not None:
             for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
                 data[col] = data[col].astype(str)
 
-            # Afficher les types de données après conversion
-            st.write("Types de données après conversion :")
-            st.write(data.dtypes)
             
             # Gérer les valeurs manquantes (imputation ou suppression)
             if hasattr(preprocessor, 'transform'):
