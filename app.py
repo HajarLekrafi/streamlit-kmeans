@@ -3,6 +3,9 @@ import pickle
 import pandas as pd
 from scipy.sparse import issparse
 from sklearn.impute import SimpleImputer
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
 
 # Charger le modèle KMeans et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
@@ -88,6 +91,16 @@ if uploaded_file is not None:
                             st.write("Répartition des clusters avec labels :")
                             cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
                             st.write(cluster_distribution)
+                            
+                            # Afficher des graphiques
+                            st.subheader("Répartition des Clusters")
+                            fig = plt.figure(figsize=(10, 6))
+                            sns.countplot(data=data, x='Cluster_Label', order=labels.values())
+                            st.pyplot(fig)
+
+                            st.subheader("Analyse des Données")
+                            fig = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Cluster Analysis')
+                            st.plotly_chart(fig)
                             
                             # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
