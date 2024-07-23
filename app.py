@@ -95,7 +95,7 @@ if uploaded_file is not None:
                             # Afficher des graphiques
                             st.subheader("Répartition des Clusters")
                             fig = plt.figure(figsize=(10, 6))
-                            sns.countplot(data=data, x='Cluster_Label', order=labels.values())
+                            sns.countplot(data=data, x='Cluster', order=labels.values())
                             st.pyplot(fig)
 
                             st.subheader("Analyse des Données")
