@@ -80,13 +80,23 @@ if uploaded_file is not None:
                             cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
                             st.write(cluster_distribution)
                             
+                            
                             # Afficher toutes les prédictions avec labels
                             if 'Sinistre' in data.columns:
                                 st.write("Toutes les prédictions avec labels:")
-                                st.write(data[['Sinistre', 'Cluster', 'Cluster_Label']])
+                                st.write(data[['Sinistre', 'Cluster']])
                             else:
                                 st.write("Toutes les prédictions avec labels :")
-                                st.write(data[['Cluster', 'Cluster_Label']])
+                                st.write(data[['Cluster']])
+                                
+                            
+                            if 'sinistre' in data.columns:
+                                st.write("Toutes les prédictions avec labels:")
+                                st.write(data[['sinistre', 'Cluster']])
+                            else:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[['Cluster']])
+                            
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
