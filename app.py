@@ -48,20 +48,6 @@ if uploaded_file is not None:
                     if issparse(data_preprocessed):
                         data_preprocessed = data_preprocessed.toarray()
                     
-                    st.write("Données après prétraitement :")
-                    st.write(pd.DataFrame(data_preprocessed).head())
-                    st.write("Shape des données prétraitées :")
-                    st.write(pd.DataFrame(data_preprocessed).shape)
-                    
-                    # Afficher les centres des clusters
-                    if st.button('Afficher Centres des Clusters'):
-                        try:
-                            centers = kmeans_model.cluster_centers_
-                            st.write("Centres des clusters :")
-                            st.write(centers)
-                        except Exception as e:
-                            st.write(f"Erreur lors de l'affichage des centres des clusters : {e}")
-                    
                     # Prédiction des clusters
                     if st.button('Prédire les Clusters'):
                         try:
