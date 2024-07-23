@@ -124,7 +124,7 @@ if uploaded_file is not None:
                             
                             # Ajouter un histogramme
                             st.subheader("Histogramme")
-                            fig_hist = px.histogram(data, x='Mnt', color='Cluster_Label',
+                            fig_hist = px.histogram(data, x='Mnt', color='Cluster',
                                                     title='Répartition des Montants par Cluster',
                                                     labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
                             st.plotly_chart(fig_hist)
