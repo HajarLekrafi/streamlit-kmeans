@@ -10,8 +10,6 @@ with open('kmeans_model.pkl', 'rb') as file:
 with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
-st.title('K-means Clustering Prediction')
-
 # Lire le fichier CSS
 css_file_path = 'style.css'  # Assurez-vous que ce chemin est correct
 with open(css_file_path) as f:
@@ -19,6 +17,16 @@ with open(css_file_path) as f:
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
+# Afficher le logo
+logo_path = 'logo.png'  # Assurez-vous que ce chemin est correct
+st.markdown(f'<img src="{logo_path}" class="logo" alt="Logo">', unsafe_allow_html=True)
+
+# Titre de l'application
+st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
+
+# Description
+st.markdown('<p class="description">Téléchargez un fichier CSV pour prédire les clusters à l\'aide du modèle KMeans.</p>', unsafe_allow_html=True)
 
 # Uploader le fichier CSV
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
