@@ -159,16 +159,15 @@ if uploaded_file is not None:
                                 st.plotly_chart(fig_courtier_ville)
 
 
-                            # Ajouter un histogramme pour la variation de Jnl
+                           # Ajouter un histogramme pour la distribution des valeurs de Jnl par Cluster
                             if 'Jnl' in data.columns:
-                                st.subheader("Histogramme de la Variation de Jnl par Cluster")
-                                jnl_cluster = data.groupby(['Jnl', 'Cluster']).size().reset_index(name='Count')
-                                fig_jnl_cluster = px.histogram(jnl_cluster, x='Jnl', y='Count', color='Cluster',
-                                                                labels={'Jnl': 'Jnl', 'Count': 'Nombre d\'Occurrences'},
-                                                                title='Variation de Jnl par Cluster')
-                                st.plotly_chart(fig_jnl_cluster)
-                    
-                            
+                                st.subheader("Histogramme des Valeurs de Jnl par Cluster")
+                                fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
+                                                       labels={'Jnl': 'Valeur de Jnl', 'Cluster': 'Cluster'},
+                                                       title='Distribution des Valeurs de Jnl par Cluster')
+                                st.plotly_chart(fig_jnl)
+                                
+                                    
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
