@@ -85,10 +85,6 @@ if uploaded_file is not None:
                             }
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
-                            # Afficher la répartition des clusters avec labels
-                            st.write("Répartition des clusters avec labels :")
-                            cluster_distribution = data.groupby('Cluster').size().reset_index(name='Count')
-                            st.write(cluster_distribution)
                             
                             # Afficher des graphiques interactifs
                             st.subheader("Répartition des Clusters")
