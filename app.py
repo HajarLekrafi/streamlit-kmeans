@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 from scipy.sparse import issparse
+from sklearn.impute import SimpleImputer
 
 # Charger le modèle KMeans et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
@@ -50,9 +51,17 @@ if uploaded_file is not None:
             for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
                 data[col] = data[col].astype(str)
 
-            # Gérer les valeurs manquantes (imputation ou suppression)
+            # Imputer les valeurs manquantes
+            numeric_cols = ['Nb_propositions', 'Ville', 'Courtier', 'Mnt']
+            imputer = SimpleImputer(strategy='mean')
+            data[numeric_cols] = imputer.fit_transform(data[numeric_cols])
+            
+            # Gérer les valeurs manquantes pour les colonnes catégorielles
+            for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
+                data[col].fillna('Unknown', inplace=True)
+
+            # Prétraitement
             if hasattr(preprocessor, 'transform'):
-                # Prétraitement
                 try:
                     data_preprocessed = preprocessor.transform(data)
                     
@@ -89,10 +98,10 @@ if uploaded_file is not None:
                             
                             if sinistre_col:
                                 st.write("Toutes les prédictions avec labels :")
-                                st.write(data[[sinistre_col, 'Cluster']])
+                                st.write(data[[sinistre_col, 'Cluster', 'Cluster_Label']])
                             else:
                                 st.write("Toutes les prédictions avec labels :")
-                                st.write(data[['Cluster']])
+                                st.write(data[['Cluster', 'Cluster_Label']])
                             
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
