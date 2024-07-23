@@ -75,9 +75,9 @@ if uploaded_file is not None:
                             }
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
-                            # Afficher la répartition des clusters
-                            st.write("Répartition des clusters :")
-                            cluster_distribution = data['Cluster'].value_counts()
+                            # Afficher la répartition des clusters avec labels
+                            st.write("Répartition des clusters avec labels :")
+                            cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
                             st.write(cluster_distribution)
                             
                             # Afficher toutes les prédictions avec labels
