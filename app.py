@@ -3,8 +3,6 @@ import pickle
 import pandas as pd
 from scipy.sparse import issparse
 from sklearn.impute import SimpleImputer
-import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.express as px
 
 # Charger le modèle KMeans et le préprocesseur
@@ -15,7 +13,7 @@ with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
 # Lire le fichier CSS
-css_file_path = 'style.css'  # Assurez-vous que ce chemin est correct
+css_file_path = 'style.css'
 with open(css_file_path) as f:
     css = f.read()
 
@@ -23,8 +21,8 @@ with open(css_file_path) as f:
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Afficher le logo
-logo_path = 'logo.png'  # Assurez-vous que ce chemin est correct
-st.image(logo_path, width=200)  # Ajustez la largeur du logo si nécessaire
+logo_path = 'logo.png'
+st.image(logo_path, width=200)
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
@@ -46,7 +44,7 @@ if uploaded_file is not None:
     
     if all(col in data.columns for col in expected_columns):
         try:
-            # Convertir les colonnes numériques en float, en remplaçant les valeurs non convertibles par NaN
+            # Convertir les colonnes numériques en float
             for col in ['Nb_propositions', 'Ville', 'Courtier', 'Mnt']:
                 data[col] = pd.to_numeric(data[col], errors='coerce')
             
@@ -92,18 +90,40 @@ if uploaded_file is not None:
                             cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
                             st.write(cluster_distribution)
                             
-                            # Afficher des graphiques
+                            # Afficher des graphiques interactifs
                             st.subheader("Répartition des Clusters")
-                            fig = plt.figure(figsize=(10, 6))
-                            sns.countplot(data=data, x='Cluster')
-                            plt.xlabel('Cluster')
-                            plt.ylabel('Count')
-                            plt.title('Répartition des Clusters')
-                            st.pyplot(fig)
+                            cluster_distribution = data['Cluster'].value_counts().reset_index()
+                            cluster_distribution.columns = ['Cluster', 'Count']
+                            fig = px.bar(cluster_distribution, x='Cluster', y='Count', 
+                                         labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
+                                         title='Répartition des Clusters')
+                            st.plotly_chart(fig)
 
                             st.subheader("Analyse des Données")
-                            fig = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Cluster Analysis')
-                            st.plotly_chart(fig)
+                            fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster_Label', title='Cluster Analysis')
+                            st.plotly_chart(fig_scatter)
+                            
+                            # Ajouter un diagramme en boîte
+                            st.subheader("Diagramme en Boîte")
+                            fig_box = px.box(data, x='Cluster_Label', y='Nb_propositions', 
+                                             title='Répartition des Nb_propositions par Cluster',
+                                             labels={'Cluster_Label': 'Cluster', 'Nb_propositions': 'Nombre de Propositions'})
+                            st.plotly_chart(fig_box)
+                            
+                            # Ajouter un histogramme
+                            st.subheader("Histogramme")
+                            fig_hist = px.histogram(data, x='Mnt', color='Cluster_Label',
+                                                    title='Répartition des Montants par Cluster',
+                                                    labels={'Mnt': 'Montant', 'Cluster_Label': 'Cluster'})
+                            st.plotly_chart(fig_hist)
+                            
+                            # Ajouter une matrice de dispersion
+                            st.subheader("Matrice de Dispersion")
+                            fig_pair = px.scatter_matrix(data, dimensions=['Nb_propositions', 'Mnt', 'Ville', 'Courtier'],
+                                                         color='Cluster_Label',
+                                                         title='Matrice de Dispersion des Variables par Cluster',
+                                                         labels={'Cluster_Label': 'Cluster'})
+                            st.plotly_chart(fig_pair)
                             
                             # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
