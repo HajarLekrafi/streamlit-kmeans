@@ -84,7 +84,7 @@ if uploaded_file is not None:
                         
                         # Afficher les 10 premières prédictions
                         st.write("Prédictions des premiers échantillons :")
-                        st.write(predictions[:10])
+                        st.write(predictions)
                     except Exception as e:
                         st.write(f"Erreur lors de la prédiction des clusters : {e}")
             except Exception as e:
