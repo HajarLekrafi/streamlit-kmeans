@@ -163,10 +163,20 @@ if uploaded_file is not None:
                             if 'Jnl' in data.columns:
                                 st.subheader("Histogramme des Valeurs de Jnl par Cluster")
                                 fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
-                                                       labels={'Jnl': 'Valeur de Jnl', 'Cluster': 'Cluster'},
+                                                       labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
                                                        title='Distribution des Valeurs de Jnl par Cluster')
                                 st.plotly_chart(fig_jnl)
                                 
+                                
+                            
+                            # Ajouter un graphique en secteurs pour la répartition de Nat_pro_concat
+                            if 'Nat_pro_concat' in data.columns:
+                                st.subheader("Répartition de Nat_pro_concat")
+                                fig_nat_pro_concat = px.pie(data, names='Nat_pro_concat', 
+                                                            title='Répartition des Valeurs de Nat_pro_concat',
+                                                            labels={'Nat_pro_concat': 'Nature de Proposition'})
+                                st.plotly_chart(fig_nat_pro_concat)
+                            
                                     
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
