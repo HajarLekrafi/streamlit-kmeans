@@ -60,10 +60,10 @@ if uploaded_file is not None:
                             
                             # Ajouter les labels des clusters
                             labels = {
-                                0: "Faible Valeur, Faible Nombre de Propositions, Localisations Eparses",
-                                1: "Faible Valeur, Faible Nombre de Propositions, Localisations Mixtes",
-                                2: "Haute Valeur, Grand Nombre de Propositions, Localisations Eparses",
-                                3: "Valeur Moyenne, Très Faible Nombre de Propositions, Localisations Concentrees"
+                                0: "Faible Valeur du montant, Faible Nombre de Propositions, Localisations Eparses",
+                                1: "Faible Valeur du montant, Faible Nombre de Propositions, Localisations Mixtes",
+                                2: "Haute Valeur du montant, Grand Nombre de Propositions, Localisations Eparses",
+                                3: "Valeur du montant Moyenne, Très Faible Nombre de Propositions, Localisations Concentrees"
                             }
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
