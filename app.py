@@ -158,6 +158,15 @@ if uploaded_file is not None:
                                                                   title='Répartition des Courtiers par Ville')
                                 st.plotly_chart(fig_courtier_ville)
 
+
+                            # Ajouter un histogramme pour la variation de Jnl
+                            if 'Jnl' in data.columns:
+                                st.subheader("Histogramme de la Variation de Jnl par Cluster")
+                                jnl_cluster = data.groupby(['Jnl', 'Cluster']).size().reset_index(name='Count')
+                                fig_jnl_cluster = px.histogram(jnl_cluster, x='Jnl', y='Count', color='Cluster',
+                                                                labels={'Jnl': 'Jnl', 'Count': 'Nombre d\'Occurrences'},
+                                                                title='Variation de Jnl par Cluster')
+                                st.plotly_chart(fig_jnl_cluster)
                     
                             
                         except Exception as e:
