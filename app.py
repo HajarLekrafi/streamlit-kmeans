@@ -82,8 +82,8 @@ if uploaded_file is not None:
                             
                             # Afficher toutes les prédictions avec labels
                             if 'Sinistre' in data.columns:
-                                st.write("Toutes les prédictions avec labels et sinistre :")
-                                st.write(data[['sinistre', 'Cluster', 'Cluster_Label']])
+                                st.write("Toutes les prédictions avec labels:")
+                                st.write(data[['Sinistre', 'Cluster', 'Cluster_Label']])
                             else:
                                 st.write("Toutes les prédictions avec labels :")
                                 st.write(data[['Cluster', 'Cluster_Label']])
