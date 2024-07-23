@@ -20,7 +20,7 @@ st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Afficher le logo
 logo_path = 'logo.png'  # Assurez-vous que ce chemin est correct
-st.image(logo_path, width=100)  # Ajustez la largeur du logo si nécessaire
+st.image(logo_path, width=300)  # Ajustez la largeur du logo si nécessaire
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
