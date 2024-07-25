@@ -135,25 +135,21 @@ if uploaded_file is not None:
                             
                             data['Ville_Nom'] = data['Ville'].map(ville_mapping)
 
-                            # Afficher la section sélectionnée dans la barre latérale
-                            for option, selected in options.items():
-                                if selected:
-                                    if option == "Accueil":
-                                        st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
-                                        
-                                    elif option == "Répartition des Clusters":
-                                        st.subheader("Répartition des Clusters")
-                                        cluster_distribution = data['Cluster'].value_counts().reset_index()
-                                        cluster_distribution.columns = ['Cluster', 'Count']
-                                        st.write(cluster_distribution)
-                                        
-                                    elif option == "Histogramme des Villes par Cluster":
-                                        st.subheader("Histogramme des Villes par Cluster")
-                                        grouped_data = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        fig = px.bar(grouped_data, x='Ville_Nom', y='Count', color='Cluster', 
-                                                     labels={'Count': 'Nombre d\'Occurrences', 'Ville_Nom': 'Ville'},
-                                                     title="Histogramme des Villes les Plus Fréquentes par Cluster")
-                                        st.plotly_chart(fig)
+                            # Calculer la ville la plus fréquente pour chaque cluster
+                            most_frequent_cities = data.groupby('Cluster')['Ville_Nom'].agg(lambda x: x.value_counts().idxmax()).reset_index()
+                            most_frequent_cities.columns = ['Cluster', 'Ville_Nom']
+
+                            # Compter les occurrences de chaque ville dans chaque cluster pour l'affichage
+                            count_by_city_and_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
+
+                            # Préparer les données pour l'histogramme
+                            top_cities = count_by_city_and_cluster[count_by_city_and_cluster.groupby('Cluster')['Count'].transform(max) == count_by_city_and_cluster['Count']]
+
+                            # Tracer l'histogramme
+                            fig = px.bar(top_cities, x='Cluster', y='Count', color='Ville_Nom',
+                                         labels={'Count': 'Nombre d\'Occurrences', 'Cluster': 'Cluster'},
+                                         title="Histogramme des Villes les Plus Fréquentes par Cluster")
+                            st.plotly_chart(fig)
                                             
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
