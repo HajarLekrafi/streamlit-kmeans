@@ -183,7 +183,7 @@ if uploaded_file is not None:
                                         st.subheader("Histogramme des Villes par Cluster")
     
                                         # Grouper par 'Cluster' et 'Ville' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville']).size().reset_index(name='Count')
+                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         
                                         # Trouver la ville avec le maximum d'occurrences pour chaque cluster
                                         idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
