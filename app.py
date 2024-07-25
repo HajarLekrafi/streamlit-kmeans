@@ -214,7 +214,8 @@ if uploaded_file is not None:
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         # Trouver la ville avec le maximum d'occurrences pour chaque cluster
                                         idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
-                                        villes_max = ville_cluster.loc[idx_max_villes].reset_index(drop=True)
+                                        # Assurez-vous que 'Ville_Nom' est bien inclus dans 'villes_max'
+                                        villes_max = ville_cluster.loc[idx_max_villes, ['Cluster', 'Ville_Nom', 'Count']].reset_index(drop=True)
                                         # Afficher le DataFrame des villes les plus fréquentes par cluster
                                         st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
                                         st.write(villes_max)
