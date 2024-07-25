@@ -66,7 +66,6 @@ if uploaded_file is not None:
     st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
     st.write(data.head())
     
-    
     # Vérifier les colonnes et les types de données
     expected_columns = ['Type_pro', 'Nat_pro_concat', 'Nb_propositions', 'Usage', 'Ville', 'Courtier', 'Mnt', 'Jnl']
     
@@ -128,6 +127,10 @@ if uploaded_file is not None:
                                                     title='Répartition des Clusters')
                                         st.plotly_chart(fig)
                                         
+                                        # Afficher la répartition des clusters avec labels
+                                        st.write("Répartition des clusters avec labels :")
+                                        cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
+                                        st.write(cluster_distribution_labels)
                                         
                                     elif option == "Diagramme en Boîte":
                                         st.subheader("Diagramme en Boîte")
@@ -137,7 +140,7 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_box)
                                         
                                     elif option == "Histogramme":
-                                        st.subheader("Histogramme")
+                                        st.subheader("Histogramme des valeurs du montant")
                                         hist_fig = px.histogram(data, x='Mnt', color='Cluster',
                                                                 labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                                 title='Histogramme des Valeurs du Montant par Cluster')
@@ -158,8 +161,6 @@ if uploaded_file is not None:
                                                                          title='Répartition des Villes par Cluster')
                                         st.plotly_chart(fig_ville_cluster)
                                         
-                                
-                                            
                                     elif option == "Histogramme des Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
                                             st.subheader("Histogramme des Valeurs du Journal par Cluster")
