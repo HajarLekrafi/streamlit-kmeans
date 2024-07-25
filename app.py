@@ -139,7 +139,7 @@ if uploaded_file is not None:
                                                          title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
-                                    elif option == "Histogramme":
+                                    elif option == "Histogramme des valeurs du montant":
                                         st.subheader("Histogramme des valeurs du montant")
                                         hist_fig = px.histogram(data, x='Mnt', color='Cluster',
                                                                 labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
