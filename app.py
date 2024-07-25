@@ -45,12 +45,19 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
-# Sidebar for navigation
+# Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
-options = st.sidebar.radio("Choisissez une option", 
-                           ["Accueil", "Répartition des Clusters", "Analyse des Données", "Diagramme en Boîte", 
-                            "Histogramme", "Diagramme en Violin", "Histogramme des Villes par Cluster", 
-                            "Histogramme des Courtiers par Ville", "Histogramme des Valeurs du Journal par Cluster"])
+options = {
+    "Accueil": st.sidebar.checkbox("Accueil"),
+    "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
+    "Analyse des Données": st.sidebar.checkbox("Analyse des Données"),
+    "Diagramme en Boîte": st.sidebar.checkbox("Diagramme en Boîte"),
+    "Histogramme": st.sidebar.checkbox("Histogramme"),
+    "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
+    "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
+    "Histogramme des Courtiers par Ville": st.sidebar.checkbox("Histogramme des Courtiers par Ville"),
+    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster")
+}
 
 # Uploader le fichier CSV
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
@@ -108,67 +115,69 @@ if uploaded_file is not None:
                             data['Cluster_Label'] = data['Cluster'].map(labels)
                             
                             # Afficher la section sélectionnée dans la barre latérale
-                            if options == "Accueil":
-                                st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
-                                
-                            elif options == "Répartition des Clusters":
-                                st.subheader("Répartition des Clusters")
-                                cluster_distribution = data['Cluster_Label'].value_counts().reset_index()
-                                cluster_distribution.columns = ['Cluster_Label', 'Count']
-                                fig = px.bar(cluster_distribution, x='Cluster_Label', y='Count',
-                                             labels={'Cluster_Label': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
-                                             title='Répartition des Clusters')
-                                st.plotly_chart(fig)
-                                
-                            elif options == "Analyse des Données":
-                                st.subheader("Analyse des Données")
-                                st.write(data.describe())
-                                
-                            elif options == "Diagramme en Boîte":
-                                st.subheader("Diagramme en Boîte")
-                                fig_box = px.box(data, y='Mnt', color='Cluster',
-                                                 labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                 title='Diagramme en Boîte des Valeurs du Montant par Cluster')
-                                st.plotly_chart(fig_box)
-                                
-                            elif options == "Histogramme":
-                                st.subheader("Histogramme")
-                                hist_fig = px.histogram(data, x='Mnt', color='Cluster',
-                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                        title='Histogramme des Valeurs du Montant par Cluster')
-                                st.plotly_chart(hist_fig)
-                                
-                            elif options == "Diagramme en Violin":
-                                st.subheader("Diagramme en Violin")
-                                fig_violin = px.violin(data, y='Mnt', color='Cluster',
-                                                      labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                      title='Diagramme en Violin des Valeurs du Montant par Cluster')
-                                st.plotly_chart(fig_violin)
-                                
-                            elif options == "Histogramme des Villes par Cluster":
-                                st.subheader("Histogramme des Villes par Cluster")
-                                ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
-                                fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
-                                                                 labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
-                                                                 title='Répartition des Villes par Cluster')
-                                st.plotly_chart(fig_ville_cluster)
-                                
-                            elif options == "Histogramme des Courtiers par Ville":
-                                if 'Courtier' in data.columns and 'Ville' in data.columns:
-                                    st.subheader("Histogramme des Courtiers par Ville")
-                                    courtier_ville = data.groupby(['Ville', 'Courtier']).size().reset_index(name='Count')
-                                    fig_courtier_ville = px.histogram(courtier_ville, x='Ville', y='Count', color='Courtier',
-                                                                      labels={'Ville': 'Ville', 'Count': 'Nombre de Courtiers'},
-                                                                      title='Répartition des Courtiers par Ville')
-                                    st.plotly_chart(fig_courtier_ville)
-                                    
-                            elif options == "Histogramme des Valeurs du Journal par Cluster":
-                                if 'Jnl' in data.columns:
-                                    st.subheader("Histogramme des Valeurs du Journal par Cluster")
-                                    fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
-                                                           labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
-                                                           title='Distribution des Valeurs du journal par Cluster')
-                                    st.plotly_chart(fig_jnl)
+                            for option, selected in options.items():
+                                if selected:
+                                    if option == "Accueil":
+                                        st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
+                                        
+                                    elif option == "Répartition des Clusters":
+                                        st.subheader("Répartition des Clusters")
+                                        cluster_distribution = data['Cluster_Label'].value_counts().reset_index()
+                                        cluster_distribution.columns = ['Cluster_Label', 'Count']
+                                        fig = px.bar(cluster_distribution, x='Cluster_Label', y='Count',
+                                                    labels={'Cluster_Label': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
+                                                    title='Répartition des Clusters')
+                                        st.plotly_chart(fig)
+                                        
+                                    elif option == "Analyse des Données":
+                                        st.subheader("Analyse des Données")
+                                        st.write(data.describe())
+                                        
+                                    elif option == "Diagramme en Boîte":
+                                        st.subheader("Diagramme en Boîte")
+                                        fig_box = px.box(data, y='Mnt', color='Cluster',
+                                                         labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
+                                        st.plotly_chart(fig_box)
+                                        
+                                    elif option == "Histogramme":
+                                        st.subheader("Histogramme")
+                                        hist_fig = px.histogram(data, x='Mnt', color='Cluster',
+                                                                labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                                title='Histogramme des Valeurs du Montant par Cluster')
+                                        st.plotly_chart(hist_fig)
+                                        
+                                    elif option == "Diagramme en Violin":
+                                        st.subheader("Diagramme en Violin")
+                                        fig_violin = px.violin(data, y='Mnt', color='Cluster',
+                                                              labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                              title='Diagramme en Violin des Valeurs du Montant par Cluster')
+                                        st.plotly_chart(fig_violin)
+                                        
+                                    elif option == "Histogramme des Villes par Cluster":
+                                        st.subheader("Histogramme des Villes par Cluster")
+                                        ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
+                                        fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
+                                                                         labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
+                                                                         title='Répartition des Villes par Cluster')
+                                        st.plotly_chart(fig_ville_cluster)
+                                        
+                                    elif option == "Histogramme des Courtiers par Ville":
+                                        if 'Courtier' in data.columns and 'Ville' in data.columns:
+                                            st.subheader("Histogramme des Courtiers par Ville")
+                                            courtier_ville = data.groupby(['Ville', 'Courtier']).size().reset_index(name='Count')
+                                            fig_courtier_ville = px.histogram(courtier_ville, x='Ville', y='Count', color='Courtier',
+                                                                              labels={'Ville': 'Ville', 'Count': 'Nombre de Courtiers'},
+                                                                              title='Répartition des Courtiers par Ville')
+                                            st.plotly_chart(fig_courtier_ville)
+                                            
+                                    elif option == "Histogramme des Valeurs du Journal par Cluster":
+                                        if 'Jnl' in data.columns:
+                                            st.subheader("Histogramme des Valeurs du Journal par Cluster")
+                                            fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
+                                                                   labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
+                                                                   title='Distribution des Valeurs du journal par Cluster')
+                                            st.plotly_chart(fig_jnl)
                                 
                             # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
@@ -179,20 +188,18 @@ if uploaded_file is not None:
                             
                             if sinistre_col:
                                 st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
-                                st.write(data[[sinistre_col, 'Cluster']])
+                                st.write(data[[sinistre_col, 'Cluster', 'Cluster_Label']])
                             else:
                                 st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
-                                st.write(data[['Cluster']])
+                                st.write(data[['Cluster', 'Cluster_Label']])
                                 
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
                     st.write(f"Erreur lors du prétraitement des données : {e}")
             else:
-                st.write("Le préprocesseur n'est pas ajusté. Veuillez ajuster le préprocesseur avant de l'utiliser.")
+                st.write("Le préprocesseur n'est pas ajusté. Veuillez ajuster le préprocesseur pour les données.")
         except Exception as e:
-            st.write(f"Erreur lors de la conversion des types de données : {e}")
+            st.write(f"Erreur lors de la préparation des données : {e}")
     else:
-        st.write("Les colonnes du fichier CSV ne correspondent pas aux colonnes attendues.")
-else:
-    st.write("Veuillez uploader un fichier CSV.")
+        st.write("Le fichier CSV ne contient pas toutes les colonnes nécessaires.")
