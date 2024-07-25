@@ -4,6 +4,7 @@ import pandas as pd
 from scipy.sparse import issparse
 from sklearn.impute import SimpleImputer
 import plotly.express as px
+import plotly.graph_objects as go
 
 # Charger le modèle KMeans et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
@@ -193,11 +194,37 @@ if uploaded_file is not None:
                                         st.write(villes_max)
                                         
                                         # Créer et afficher le graphique
-                                        fig_ville_cluster = px.bar(villes_max, x='Cluster', y='Count', color='Ville',
-                                                                labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences', 'Ville': 'Ville'},
-                                                                title='Ville la plus fréquente par Cluster')
-                                        st.plotly_chart(fig_ville_cluster)
+                                        fig_ville_cluster = go.Figure()
 
+                                        # Ajouter les barres pour les villes les plus fréquentes
+                                        fig_ville_cluster.add_trace(go.Bar(
+                                            x=villes_max['Cluster'],
+                                            y=villes_max['Count'],
+                                            marker=dict(color='rgba(55, 83, 109, 0.7)'),
+                                            name='Ville la plus fréquente'
+                                        ))
+
+                                        # Ajouter les annotations pour les villes
+                                        for i, row in villes_max.iterrows():
+                                            fig_ville_cluster.add_annotation(
+                                                x=row['Cluster'],
+                                                y=row['Count'],
+                                                text=row['Ville'],
+                                                showarrow=True,
+                                                arrowhead=2,
+                                                ax=0,
+                                                ay=-40
+                                            )
+
+                                        fig_ville_cluster.update_layout(
+                                            title='Ville la Plus Fréquente par Cluster',
+                                            xaxis_title='Cluster',
+                                            yaxis_title='Nombre d\'Occurrences',
+                                            legend_title='Ville',
+                                            showlegend=False
+                                        )
+
+                                        st.plotly_chart(fig_ville_cluster)
                                         
                                     elif option == "Histogramme des Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
@@ -235,4 +262,3 @@ if uploaded_file is not None:
         st.error("Le fichier CSV ne contient pas les colonnes attendues.")
 else:
     st.write("Veuillez télécharger un fichier CSV pour commencer.")
-
