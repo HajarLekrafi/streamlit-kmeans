@@ -155,11 +155,24 @@ if uploaded_file is not None:
                                         
                                     elif option == "Histogramme des Villes par Cluster":
                                         st.subheader("Histogramme des Villes par Cluster")
-                                        ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
-                                        fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
-                                                                         labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
-                                                                         title='Répartition des Villes par Cluster')
+    
+                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                        ville_cluster = data.groupby(['Cluster', 'Ville']).size().reset_index(name='Count')
+                                        
+                                        # Trouver la ville avec le maximum d'occurrences pour chaque cluster
+                                        idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
+                                        villes_max = ville_cluster.loc[idx_max_villes].reset_index(drop=True)
+                                        
+                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
+                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
+                                        st.write(villes_max)
+                                        
+                                        # Créer et afficher le graphique
+                                        fig_ville_cluster = px.bar(villes_max, x='Cluster', y='Count', color='Ville',
+                                                                labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences', 'Ville': 'Ville'},
+                                                                title='Ville la plus fréquente par Cluster')
                                         st.plotly_chart(fig_ville_cluster)
+
                                         
                                     elif option == "Histogramme des Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
