@@ -13,7 +13,7 @@ with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
 # Lire le fichier CSS
-css_file_path = 'style.css'  # Assurez-vous que le chemin est correct
+css_file_path = 'style.css'
 with open(css_file_path) as f:
     css = f.read()
 
@@ -182,8 +182,10 @@ if uploaded_file is not None:
                 except Exception as e:
                     st.write(f"Erreur lors du prétraitement des données : {e}")
             else:
-                st.write("Le préprocesseur n'est pas disponible ou incorrect.")
+                st.write("Le préprocesseur n'est pas ajusté. Veuillez ajuster le préprocesseur avant de l'utiliser.")
         except Exception as e:
-            st.write(f"Erreur lors du traitement des données : {e}")
+            st.write(f"Erreur lors de la conversion des types de données : {e}")
     else:
-        st.write("Le fichier CSV n'a pas toutes les colonnes requises.")
+        st.write("Les colonnes du fichier CSV ne correspondent pas aux colonnes attendues.")
+else:
+    st.write("Veuillez uploader un fichier CSV.")
