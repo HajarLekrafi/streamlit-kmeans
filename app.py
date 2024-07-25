@@ -97,6 +97,10 @@ if uploaded_file is not None:
                                 st.write("Sélectionnez une option dans la barre de navigation pour afficher les graphiques.")
                                 
                             elif options == "Répartition des Clusters":
+                                st.write("Répartition des clusters avec labels :")
+                                cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
+                                st.write(cluster_distribution)
+                                
                                 st.subheader("Répartition des Clusters")
                                 cluster_distribution = data['Cluster'].value_counts().reset_index()
                                 cluster_distribution.columns = ['Cluster', 'Count']
@@ -158,7 +162,21 @@ if uploaded_file is not None:
                                                            labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
                                                            title='Distribution des Valeurs du journal par Cluster')
                                     st.plotly_chart(fig_jnl)
-                                    
+                                
+                            # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
+                            sinistre_col = None
+                            if 'Sinistre' in data.columns:
+                                sinistre_col = 'Sinistre'
+                            elif 'sinistre' in data.columns:
+                                sinistre_col = 'sinistre'
+                            
+                            if sinistre_col:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[[sinistre_col, 'Cluster']])
+                            else:
+                                st.write("Toutes les prédictions avec labels :")
+                                st.write(data[['Cluster']])
+                                
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
