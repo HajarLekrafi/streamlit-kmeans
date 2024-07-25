@@ -155,59 +155,30 @@ if uploaded_file is not None:
                                                               title='Diagramme en Violin des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_violin)
                                         
-                                    elif option == "Histogramme des Villes par Cluster":
-                                        st.subheader("Histogramme des Villes par Cluster")
-    
-                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville']).size().reset_index(name='Count')
-                                        
-                                        # Trouver la ville avec le maximum d'occurrences pour chaque cluster
-                                        idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
-                                        villes_max = ville_cluster.loc[idx_max_villes].reset_index(drop=True)
-                                        
-                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
-                                        st.write(villes_max)
-                                        
-                                        # Créer et afficher le graphique
-                                        fig_ville_cluster = px.bar(villes_max, x='Cluster', y='Count', color='Ville',
-                                                                labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences', 'Ville': 'Ville'},
-                                                                title='Ville la plus fréquente par Cluster')
-                                        st.plotly_chart(fig_ville_cluster)
-
-                                        
-                                    elif option == "Histogramme des Valeurs du Journal par Cluster":
-                                        if 'Jnl' in data.columns:
-                                            st.subheader("Histogramme des Valeurs du Journal par Cluster")
-                                            fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
-                                                                   labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
-                                                                   title='Distribution des Valeurs du journal par Cluster')
-                                            st.plotly_chart(fig_jnl)
+                                   
                                             
-                                    elif option == "Histogramme des Villes par Cluster":
-                                        # Ajouter la colonne des noms des villes si elle n'existe pas déjà
-                                        if 'Ville_Nom' not in data.columns:
-                                            ville_mapping = {
-                                                10: "AGADIR", 532: "AGHWINIT", 576: "AHFIR", 784: "AIN CHOCK", 783: "AIN SEBAA",
-                                                22: "AIT MELLOUL", 454: "AIT OURIR", 696: "AKNOUL", 436: "AL HAGGOUNIA", 50: "AL HOCEIMA",
-                                                24: "ASSA", 32: "ASSILAH", 369: "AZEMMOUR", 402: "AZILAL", 701: "AZROU",
-                                                108: "BENGUERIR", 116: "BENSLIMANE", 803: "BERKANE", 128: "BERRECHID", 130: "BIR JDID",
-                                                144: "BOUARFA", 494: "BOUJDOUR", 152: "BOULEMANE", 397: "BOUZNIKA", 160: "CASABLANCA",
-                                                720: "CHEFCHAOUEN", 491: "CHICHAOUA", 193: "DEMNATE", 821: "DEROUA", 202: "DRIOUCH",
-                                                246: "ERRACHIDIA", 301: "ESSAOUIRA", 204: "FES", 845: "FOUM ZGUID", 213: "GUELMIM",
-                                                555: "GUERCIF", 457: "GUIDIMAKA", 220: "IFRANE", 253: "IMINTANOUT", 254: "JERADA",
-                                                255: "KALAAT MGOUNA", 256: "KALAAT SRAGHNA", 264: "KENITRA", 270: "KHEMISSET",
-                                                272: "KHENIFRA", 274: "KHOURIBGA", 278: "LAAYOUNE", 312: "LAGOUIRA", 309: "LARACHE",
-                                                682: "MARRAKECH", 441: "MARTIL", 321: "MECHRAA BEL KSIRI", 661: "MEDIOUNA", 324: "MEKNES",
-                                                649: "MIDELT", 333: "MISSOUR", 754: "MOHAMMEDIA", 343: "NADOR", 351: "OUARZAZATE",
-                                                349: "OUAZZANE", 362: "RABAT", 375: "SAFI", 737: "SALE", 399: "SEFROU",
-                                                710: "SETTAT", 411: "SIDI KACEM", 413: "SIDI SLIMANE", 597: "SKHIRAT", 747: "TAMESNA",
-                                                417: "TAN TAN", 421: "TANGER", 423: "TAOUNATE", 425: "TAOURIRT", 428: "TARFAYA",
-                                                432: "TAROUDANT", 435: "TAZA", 437: "TEMARA", 659: "TERRITOIRES SUD", 440: "TETOUAN",
-                                                442: "TIFELT", 702: "TIZNIT", 447: "Youssoufia", 897: "ZEUB"
-
-                                            }
-                                            data['Ville_Nom'] = data['Ville'].map(ville_mapping)
+                                              # Ajouter la colonne des noms des villes si elle n'existe pas déjà
+                    if 'Ville_Nom' not in data.columns:
+                                ville_mapping = {
+                                    10: "AGADIR", 532: "AGHWINIT", 576: "AHFIR", 784: "AIN CHOCK", 783: "AIN SEBAA",
+                                    22: "AIT MELLOUL", 454: "AIT OURIR", 696: "AKNOUL", 436: "AL HAGGOUNIA", 50: "AL HOCEIMA",
+                                    24: "ASSA", 32: "ASSILAH", 369: "AZEMMOUR", 402: "AZILAL", 701: "AZROU",
+                                    108: "BENGUERIR", 116: "BENSLIMANE", 803: "BERKANE", 128: "BERRECHID", 130: "BIR JDID",
+                                    144: "BOUARFA", 494: "BOUJDOUR", 152: "BOULEMANE", 397: "BOUZNIKA", 160: "CASABLANCA",
+                                    720: "CHEFCHAOUEN", 491: "CHICHAOUA", 193: "DEMNATE", 821: "DEROUA", 202: "DRIOUCH",
+                                    246: "ERRACHIDIA", 301: "ESSAOUIRA", 204: "FES", 845: "FOUM ZGUID", 213: "GUELMIM",
+                                    555: "GUERCIF", 457: "GUIDIMAKA", 220: "IFRANE", 253: "IMINTANOUT", 254: "JERADA",
+                                    255: "KALAAT MGOUNA", 256: "KALAAT SRAGHNA", 264: "KENITRA", 270: "KHEMISSET",
+                                    272: "KHENIFRA", 274: "KHOURIBGA", 278: "LAAYOUNE", 312: "LAGOUIRA", 309: "LARACHE",
+                                    682: "MARRAKECH", 441: "MARTIL", 321: "MECHRAA BEL KSIRI", 661: "MEDIOUNA", 324: "MEKNES",
+                                    649: "MIDELT", 333: "MISSOUR", 754: "MOHAMMEDIA", 343: "NADOR", 351: "OUARZAZATE",
+                                    349: "OUAZZANE", 362: "RABAT", 375: "SAFI", 737: "SALE", 399: "SEFROU",
+                                    710: "SETTAT", 411: "SIDI KACEM", 413: "SIDI SLIMANE", 597: "SKHIRAT", 747: "TAMESNA",
+                                    417: "TAN TAN", 421: "TANGER", 423: "TAOUNATE", 425: "TAOURIRT", 428: "TARFAYA",
+                                    432: "TAROUDANT", 435: "TAZA", 437: "TEMARA", 659: "TERRITOIRES SUD", 440: "TETOUAN",
+                                    442: "TIFELT", 702: "TIZNIT", 447: "Youssoufia", 897: "ZEUB"
+                                }
+                                data['Ville_Nom'] = data['Ville'].map(ville_mapping)
 
                                         st.subheader("Histogramme des Villes par Cluster")
                                         # Grouper par 'Cluster' et 'Ville_Nom' et compter les occurrences
