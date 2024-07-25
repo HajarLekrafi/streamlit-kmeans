@@ -21,7 +21,7 @@ st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Afficher le logo
 logo_path = 'logo.png'
-st.image(logo_path, width=700, use_column_width=False, output_format='PNG')
+st.image(logo_path, width=500, use_column_width=False, output_format='PNG')
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
