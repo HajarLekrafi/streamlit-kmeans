@@ -207,23 +207,7 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
-                                    elif option == "Histogramme des Villes par Cluster":
-                                    
-                                        st.subheader("Histogramme des Villes par Cluster")
-                                        # Grouper par 'Cluster' et 'Ville_Nom' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        # Trouver la ville avec le maximum d'occurrences pour chaque cluster
-                                        idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
-                                        # Assurez-vous que 'Ville_Nom' est bien inclus dans 'villes_max'
-                                        villes_max = ville_cluster.loc[idx_max_villes, ['Cluster', 'Ville_Nom', 'Count']].reset_index(drop=True)
-                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
-                                        st.write(villes_max)
-                                        # Créer et afficher le graphique
-                                        fig_ville_cluster = px.bar(villes_max, x='Cluster', y='Count', color='Ville_Nom',
-                                                                labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences', 'Ville_Nom': 'Ville'},
-                                                                title='Ville la plus fréquente par Cluster')
-                                        st.plotly_chart(fig_ville_cluster)
+
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
