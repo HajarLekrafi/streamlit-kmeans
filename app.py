@@ -14,15 +14,19 @@ with open('preprocessor.pkl', 'rb') as file:
 
 # Lire le fichier CSS
 css_file_path = 'style.css'
-with open(css_file_path) as f:
-    css = f.read()
-
-# Inclure le CSS dans la page
-st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+try:
+    with open(css_file_path) as f:
+        css = f.read()
+    st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+except FileNotFoundError:
+    st.write("Fichier CSS non trouvé.")
 
 # Afficher le logo
 logo_path = 'logo.png'
-st.image(logo_path, width=200)
+try:
+    st.image(logo_path, width=200)
+except FileNotFoundError:
+    st.write("Logo non trouvé.")
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
@@ -177,6 +181,10 @@ if uploaded_file is not None:
                                 st.write("Toutes les prédictions avec labels :")
                                 st.write(data[['Cluster']])
                                 
+                            # Téléchargement des données traitées
+                            csv = data.to_csv(index=False).encode('utf-8')
+                            st.download_button(label="Télécharger les Données Traitée", data=csv, file_name='data_with_clusters.csv', mime='text/csv')
+                            
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
                 except Exception as e:
