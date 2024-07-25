@@ -122,10 +122,10 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Clusters":
                                         st.subheader("Répartition des Clusters")
-                                        cluster_distribution = data['Cluster_Label'].value_counts().reset_index()
-                                        cluster_distribution.columns = ['Cluster_Label', 'Count']
-                                        fig = px.bar(cluster_distribution, x='Cluster_Label', y='Count',
-                                                    labels={'Cluster_Label': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
+                                        cluster_distribution = data['Cluster'].value_counts().reset_index()
+                                        cluster_distribution.columns = ['Cluster', 'Count']
+                                        fig = px.bar(cluster_distribution, x='Cluster', y='Count',
+                                                    labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
                                                     title='Répartition des Clusters')
                                         st.plotly_chart(fig)
                                         
@@ -188,10 +188,10 @@ if uploaded_file is not None:
                             
                             if sinistre_col:
                                 st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
-                                st.write(data[[sinistre_col, 'Cluster', 'Cluster_Label']])
+                                st.write(data[[sinistre_col, 'Cluster']])
                             else:
                                 st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
-                                st.write(data[['Cluster', 'Cluster_Label']])
+                                st.write(data[['Cluster']])
                                 
                         except Exception as e:
                             st.write(f"Erreur lors de la prédiction des clusters : {e}")
