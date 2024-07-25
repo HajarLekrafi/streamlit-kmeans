@@ -51,7 +51,7 @@ options = {
     "Accueil": st.sidebar.checkbox("Accueil"),
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
     "Diagramme en Boîte": st.sidebar.checkbox("Diagramme en Boîte"),
-    "Histogramme": st.sidebar.checkbox("Histogramme"),
+    "Histogramme des valeurs du montant": st.sidebar.checkbox("Histogramme des valeurs du montant"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster")
