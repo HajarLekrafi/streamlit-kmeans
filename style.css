@@ -47,8 +47,8 @@
     animation: spinner 1.6s infinite ease;
     transform-style: preserve-3d;
     position: fixed;
-    top: 70px;
-    right: 70px;
+    top: 90px;
+    right: 90px;
 }
 
 .spinner > div {
