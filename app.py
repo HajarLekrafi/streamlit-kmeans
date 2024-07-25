@@ -66,10 +66,6 @@ if uploaded_file is not None:
     st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
     st.write(data.head())
     
-    # Afficher la répartition des clusters avec labels
-    st.write("Répartition des clusters avec labels :")
-    cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
-    st.write(cluster_distribution)
     
     # Vérifier les colonnes et les types de données
     expected_columns = ['Type_pro', 'Nat_pro_concat', 'Nb_propositions', 'Usage', 'Ville', 'Courtier', 'Mnt', 'Jnl']
