@@ -53,6 +53,43 @@ css = """
 .css-1n5s2n8:hover {
     background-color: #1558d6; /* Couleur de fond au survol */
 }
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1f77b4;
+}
+
+.description {
+    font-size: 18px;
+    color: #333;
+}
+
+.btn-custom {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.data-table {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.logo {
+    width: 100px; /* Ajustez la taille du logo selon vos besoins */
+    height: auto;
+}
 """
 
 # Inclure le CSS dans la page
@@ -60,7 +97,7 @@ st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Afficher le logo
 logo_path = 'logo.png'
-st.image(logo_path, width=200)
+st.image(logo_path, width=100, use_column_width=False, caption='Logo', output_format='PNG')
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
@@ -81,7 +118,7 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     # Charger les données
     data = pd.read_csv(uploaded_file)
-    st.write("Données chargées :")
+    st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
     st.write(data.head())
     
     # Vérifier les colonnes et les types de données
@@ -135,7 +172,7 @@ if uploaded_file is not None:
                                 st.write("Sélectionnez une option dans la barre de navigation pour afficher les graphiques.")
                                 
                             elif options == "Répartition des Clusters":
-                                st.write("Répartition des clusters avec labels :")
+                                st.write("<div class='data-table'>Répartition des clusters avec labels :</div>", unsafe_allow_html=True)
                                 cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
                                 st.write(cluster_distribution)
                                 
@@ -209,10 +246,10 @@ if uploaded_file is not None:
                                 sinistre_col = 'sinistre'
                             
                             if sinistre_col:
-                                st.write("Toutes les prédictions avec labels :")
+                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
                                 st.write(data[[sinistre_col, 'Cluster']])
                             else:
-                                st.write("Toutes les prédictions avec labels :")
+                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
                                 st.write(data[['Cluster']])
                                 
                         except Exception as e:
