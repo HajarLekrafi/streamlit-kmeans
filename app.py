@@ -13,9 +13,47 @@ with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
 # Lire le fichier CSS
-css_file_path = 'style.css'
-with open(css_file_path) as f:
-    css = f.read()
+css = """
+/* Style de la sidebar */
+.css-1n7v3v7 {
+    background-color: #f0f2f6; /* Couleur de fond */
+    color: #333; /* Couleur du texte */
+    border-right: 1px solid #ddd; /* Bordure droite */
+}
+
+/* Style des titres de la sidebar */
+.css-1n7v3v7 .css-1t7q6xk {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a73e8; /* Couleur des titres */
+}
+
+/* Style des options de navigation */
+.css-1n7v3v7 .css-1wa3eu0 {
+    background-color: #ffffff; /* Couleur de fond des options */
+    border: 1px solid #ddd; /* Bordure */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.css-1n7v3v7 .css-1wa3eu0:hover {
+    background-color: #f1f3f4; /* Couleur de fond au survol */
+}
+
+/* Style des boutons */
+.css-1n5s2n8 {
+    background-color: #1a73e8; /* Couleur de fond des boutons */
+    color: #fff; /* Couleur du texte des boutons */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 20px;
+    border: none;
+}
+
+.css-1n5s2n8:hover {
+    background-color: #1558d6; /* Couleur de fond au survol */
+}
+"""
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
