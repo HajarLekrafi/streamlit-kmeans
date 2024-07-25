@@ -209,7 +209,7 @@ if uploaded_file is not None:
                                             fig_ville_cluster.add_annotation(
                                                 x=row['Cluster'],
                                                 y=row['Count'],
-                                                text=row['Ville_nom'],
+                                                text=row['Ville'],
                                                 showarrow=True,
                                                 arrowhead=2,
                                                 ax=0,
