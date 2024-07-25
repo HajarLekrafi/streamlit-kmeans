@@ -12,98 +12,37 @@ with open('kmeans_model.pkl', 'rb') as file:
 with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
-# Lire le fichier CSS
-css = """
-/* Style de la sidebar */
-.css-1n7v3v7 {
-    background-color: #f0f2f6; /* Couleur de fond */
-    color: #333; /* Couleur du texte */
-    border-right: 1px solid #ddd; /* Bordure droite */
-}
-
-/* Style des titres de la sidebar */
-.css-1n7v3v7 .css-1t7q6xk {
-    font-size: 20px;
-    font-weight: bold;
-    color: #1a73e8; /* Couleur des titres */
-}
-
-/* Style des options de navigation */
-.css-1n7v3v7 .css-1wa3eu0 {
-    background-color: #ffffff; /* Couleur de fond des options */
-    border: 1px solid #ddd; /* Bordure */
-    border-radius: 5px; /* Coins arrondis */
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
-.css-1n7v3v7 .css-1wa3eu0:hover {
-    background-color: #f1f3f4; /* Couleur de fond au survol */
-}
-
-/* Style des boutons */
-.css-1n5s2n8 {
-    background-color: #1a73e8; /* Couleur de fond des boutons */
-    color: #fff; /* Couleur du texte des boutons */
-    border-radius: 5px; /* Coins arrondis */
-    padding: 10px 20px;
-    border: none;
-}
-
-.css-1n5s2n8:hover {
-    background-color: #1558d6; /* Couleur de fond au survol */
-}
-
-.title {
-    font-size: 36px;
-    font-weight: bold;
-    color: #1f77b4;
-}
-
-.description {
-    font-size: 18px;
-    color: #333;
-}
-
-.btn-custom {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.data-table {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-.logo {
-    width: 100px; /* Ajustez la taille du logo selon vos besoins */
-    height: auto;
-}
-"""
+# Lire le CSS depuis le fichier
+with open('style.css', 'r') as file:
+    css = file.read()
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Afficher le logo
 logo_path = 'logo.png'
-st.image(logo_path, width=100, use_column_width=False, caption='Logo', output_format='PNG')
+st.image(logo_path, width=200, use_column_width=False, output_format='PNG')
 
 # Titre de l'application
 st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
 
 # Description
 st.markdown('<p class="description">Téléchargez un fichier CSV pour prédire les clusters à l\'aide du modèle KMeans.</p>', unsafe_allow_html=True)
+
+# Spinner HTML
+spinner_html = """
+<div class="spinner">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+"""
+
+# Inclure le spinner dans la page
+st.markdown(spinner_html, unsafe_allow_html=True)
 
 # Sidebar for navigation
 st.sidebar.header("Navigation")
@@ -169,58 +108,50 @@ if uploaded_file is not None:
                             
                             # Afficher la section sélectionnée dans la barre latérale
                             if options == "Accueil":
-                                st.write("Sélectionnez une option dans la barre de navigation pour afficher les graphiques.")
+                                st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
                                 
                             elif options == "Répartition des Clusters":
-                                st.write("<div class='data-table'>Répartition des clusters avec labels :</div>", unsafe_allow_html=True)
-                                cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
-                                st.write(cluster_distribution)
-                                
                                 st.subheader("Répartition des Clusters")
-                                cluster_distribution = data['Cluster'].value_counts().reset_index()
-                                cluster_distribution.columns = ['Cluster', 'Count']
-                                fig = px.bar(cluster_distribution, x='Cluster', y='Count', 
-                                             labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
+                                cluster_distribution = data['Cluster_Label'].value_counts().reset_index()
+                                cluster_distribution.columns = ['Cluster_Label', 'Count']
+                                fig = px.bar(cluster_distribution, x='Cluster_Label', y='Count',
+                                             labels={'Cluster_Label': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
                                              title='Répartition des Clusters')
                                 st.plotly_chart(fig)
-                            
+                                
                             elif options == "Analyse des Données":
                                 st.subheader("Analyse des Données")
-                                fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster', 
-                                                         labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Montant'},
-                                                         title='Analyse des Données par Cluster')
-                                st.plotly_chart(fig_scatter)
+                                st.write(data.describe())
                                 
                             elif options == "Diagramme en Boîte":
                                 st.subheader("Diagramme en Boîte")
-                                fig_box = px.box(data, x='Cluster', y='Nb_propositions', 
-                                                 title='Répartition des Nombres de Propositions par Cluster',
-                                                 labels={'Cluster': 'Cluster', 'Nb_propositions': 'Nombre de Propositions'})
+                                fig_box = px.box(data, y='Mnt', color='Cluster',
+                                                 labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                 title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                 st.plotly_chart(fig_box)
                                 
                             elif options == "Histogramme":
                                 st.subheader("Histogramme")
-                                fig_hist = px.histogram(data, x='Mnt', color='Cluster',
-                                                        title='Répartition des Montants par Cluster',
-                                                        labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
-                                st.plotly_chart(fig_hist)
+                                hist_fig = px.histogram(data, x='Mnt', color='Cluster',
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                        title='Histogramme des Valeurs du Montant par Cluster')
+                                st.plotly_chart(hist_fig)
                                 
                             elif options == "Diagramme en Violin":
                                 st.subheader("Diagramme en Violin")
-                                fig_violin = px.violin(data, y='Mnt', color='Cluster', box=True, 
-                                                      title='Distribution des Montants par Cluster',
-                                                      labels={'Mnt': 'Montant', 'Cluster': 'Cluster'})
+                                fig_violin = px.violin(data, y='Mnt', color='Cluster',
+                                                      labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                      title='Diagramme en Violin des Valeurs du Montant par Cluster')
                                 st.plotly_chart(fig_violin)
                                 
                             elif options == "Histogramme des Villes par Cluster":
-                                if 'Ville' in data.columns:
-                                    st.subheader("Histogramme des Villes par Cluster")
-                                    ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
-                                    fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
-                                                                     labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
-                                                                     title='Répartition des Villes par Cluster')
-                                    st.plotly_chart(fig_ville_cluster)
-                                    
+                                st.subheader("Histogramme des Villes par Cluster")
+                                ville_cluster = data.groupby(['Ville', 'Cluster']).size().reset_index(name='Count')
+                                fig_ville_cluster = px.histogram(ville_cluster, x='Ville', y='Count', color='Cluster',
+                                                                 labels={'Ville': 'Ville', 'Count': 'Nombre d\'Occurrences'},
+                                                                 title='Répartition des Villes par Cluster')
+                                st.plotly_chart(fig_ville_cluster)
+                                
                             elif options == "Histogramme des Courtiers par Ville":
                                 if 'Courtier' in data.columns and 'Ville' in data.columns:
                                     st.subheader("Histogramme des Courtiers par Ville")
