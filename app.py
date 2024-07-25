@@ -162,14 +162,7 @@ if uploaded_file is not None:
                                                                          title='Répartition des Villes par Cluster')
                                         st.plotly_chart(fig_ville_cluster)
                                         
-                                    elif option == "Histogramme des Courtiers par Ville":
-                                        if 'Courtier' in data.columns and 'Ville' in data.columns:
-                                            st.subheader("Histogramme des Courtiers par Ville")
-                                            courtier_ville = data.groupby(['Ville', 'Courtier']).size().reset_index(name='Count')
-                                            fig_courtier_ville = px.histogram(courtier_ville, x='Ville', y='Count', color='Courtier',
-                                                                              labels={'Ville': 'Ville', 'Count': 'Nombre de Courtiers'},
-                                                                              title='Répartition des Courtiers par Ville')
-                                            st.plotly_chart(fig_courtier_ville)
+                                
                                             
                                     elif option == "Histogramme des Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
