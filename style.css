@@ -1,32 +1,79 @@
-/* style.css */
+/* Style général de la page */
+body {
+    background-color: #f5f5f5; /* Couleur de fond */
+    font-family: Arial, sans-serif; /* Police de caractère */
+}
+
+/* Titre principal */
 .title {
-    font-size: 36px;
-    font-weight: bold;
-    color: #1f77b4;
+    font-size: 2.5rem; /* Taille de police */
+    color: #2c3e50; /* Couleur du texte */
+    text-align: center; /* Alignement du texte */
+    margin-top: 20px; /* Marge supérieure */
+    margin-bottom: 20px; /* Marge inférieure */
 }
 
+/* Description */
 .description {
-    font-size: 18px;
-    color: #333;
+    font-size: 1.2rem; /* Taille de police */
+    color: #34495e; /* Couleur du texte */
+    text-align: center; /* Alignement du texte */
+    margin-bottom: 30px; /* Marge inférieure */
 }
 
-.btn-custom {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
+/* Sidebar */
+.sidebar .sidebar-content {
+    background-color: #2c3e50; /* Couleur de fond */
+    color: #ecf0f1; /* Couleur du texte */
 }
 
-.data-table {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
+.sidebar .sidebar-content .stRadio {
+    color: #ecf0f1; /* Couleur des éléments radio */
+}
+
+/* Boutons */
+.stButton {
+    background-color: #3498db; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    border: none; /* Bordure */
+}
+
+.stButton:hover {
+    background-color: #2980b9; /* Couleur de fond au survol */
+}
+
+/* Affichage des images */
+img {
+    border-radius: 10px; /* Coins arrondis pour les images */
+}
+
+/* En-têtes et sous-en-têtes */
+h2, h3, h4 {
+    color: #2c3e50; /* Couleur du texte */
+    font-weight: bold; /* Texte en gras */
+}
+
+/* Tableaux */
+.dataframe {
+    border-collapse: collapse; /* Supprimer les espaces entre les bordures des cellules */
+    width: 100%; /* Largeur du tableau */
+}
+
+.dataframe th, .dataframe td {
+    border: 1px solid #ddd; /* Bordure des cellules */
+    padding: 8px; /* Espacement interne des cellules */
+}
+
+.dataframe th {
+    background-color: #2c3e50; /* Couleur de fond de l'en-tête */
+    color: #ffffff; /* Couleur du texte de l'en-tête */
+}
+
+/* Graphiques Plotly */
+.stPlotlyChart {
+    margin: auto; /* Centrer les graphiques */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre portée */
 }
