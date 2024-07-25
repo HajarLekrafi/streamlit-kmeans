@@ -29,20 +29,21 @@ st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow
 # Description
 st.markdown('<p class="description">Téléchargez un fichier CSV pour prédire les clusters à l\'aide du modèle KMeans.</p>', unsafe_allow_html=True)
 
-# Spinner HTML
-spinner_html = """
-<div class="spinner">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
+# loader HTML
+loader_html = """
+<div class="loader">
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
+<div class="loader-square"></div>
 </div>
 """
 
 # Inclure le spinner dans la page
-st.markdown(spinner_html, unsafe_allow_html=True)
+st.markdown(loader_html, unsafe_allow_html=True)
 
 # Sidebar for navigation
 st.sidebar.header("Navigation")
