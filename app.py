@@ -50,12 +50,10 @@ st.sidebar.header("Navigation")
 options = {
     "Accueil": st.sidebar.checkbox("Accueil"),
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
-    "Analyse des Données": st.sidebar.checkbox("Analyse des Données"),
     "Diagramme en Boîte": st.sidebar.checkbox("Diagramme en Boîte"),
     "Histogramme": st.sidebar.checkbox("Histogramme"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
-    "Histogramme des Courtiers par Ville": st.sidebar.checkbox("Histogramme des Courtiers par Ville"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster")
 }
 
@@ -67,6 +65,11 @@ if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
     st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
     st.write(data.head())
+    
+    # Afficher la répartition des clusters avec labels
+    st.write("Répartition des clusters avec labels :")
+    cluster_distribution = data.groupby('Cluster_Label').size().reset_index(name='Count')
+    st.write(cluster_distribution)
     
     # Vérifier les colonnes et les types de données
     expected_columns = ['Type_pro', 'Nat_pro_concat', 'Nb_propositions', 'Usage', 'Ville', 'Courtier', 'Mnt', 'Jnl']
@@ -129,9 +132,6 @@ if uploaded_file is not None:
                                                     title='Répartition des Clusters')
                                         st.plotly_chart(fig)
                                         
-                                    elif option == "Analyse des Données":
-                                        st.subheader("Analyse des Données")
-                                        st.write(data.describe())
                                         
                                     elif option == "Diagramme en Boîte":
                                         st.subheader("Diagramme en Boîte")
