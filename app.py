@@ -87,6 +87,8 @@ if uploaded_file is not None:
             # Gérer les valeurs manquantes pour les colonnes catégorielles
             for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
                 data[col].fillna('Unknown', inplace=True)
+                
+             
 
             # Prétraitement
             if hasattr(preprocessor, 'transform'):
@@ -181,6 +183,64 @@ if uploaded_file is not None:
                                                                    labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
+                                            
+                                            
+                                    elif option == "Histogramme des Villes par Cluster":
+                                        # Ajouter la colonne des noms des villes si elle n'existe pas déjà
+                                        if 'Ville_Nom' not in data.columns:
+                                            ville_mapping = {
+                                                10: "AGADIR", 532: "AGHWINIT", 576: "AHFIR", 784: "AIN CHOCK", 783: "AIN SEBAA",
+                                                22: "AIT MELLOUL", 454: "AIT OURIR", 696: "AKNOUL", 436: "AL HAGGOUNIA", 50: "AL HOCEIMA",
+                                                433: "AL MARSA (LAYOUNE PLAGE)", 264: "AMGALA", 531: "AWSERD", 176: "AZEMMOUR", 643: "AZILAH",
+                                                70: "AZILAL", 425: "AZROU", 615: "BEN AHMED", 201: "BEN GUERIR", 781: "BEN M'SIK",
+                                                110: "BEN SLIMANE", 90: "BENI MELLAL", 575: "BERKANE", 621: "BERRCHID", 536: "BIR ANZARANE",
+                                                542: "BIR GANDOUZ", 312: "BOUARFA", 130: "BOUJDOUR", 431: "BOUKRAA", 140: "BOULEMANE",
+                                                791: "BOUSKOURA", 121: "BOUZNIKA", 789: "CASA ANFA", 780: "CASABLANCA", 150: "CHEFCHAOUEN",
+                                                601: "CHEMAIA", 465: "CHICHAOUA", 530: "DAKHLA", 792: "DAR BOUAZZA", 435: "DARWA",
+                                                432: "DCHEIRA (LAAYOUNE)", 11: "DCHIRA (AGADIR)", 782: "DERB SULTAN", 501: "DRIOUCH",
+                                                544: "EL ARGOUB", 622: "EL GARA", 491: "EL HAJEB", 170: "EL JADIDA", 190: "EL KALAA DES SRAGHNA",
+                                                218: "ERFOUD", 210: "ERRACHIDIA", 240: "ESSAOUIRA", 260: "ES-SMARA", 900: "ETRANGER",
+                                                682: "FAM AL HISSN", 270: "FES", 310: "FIGUIG", 101: "FKIH BEN SALAH", 726: "FNIDEK",
+                                                439: "FOUM EL OUED", 223: "GOULMIMA", 537: "GUEBILAT EL FOULA", 320: "GUELMIM", 135: "GUELTAT ZEMMOUR",
+                                                703: "GUERCIF", 266: "HAWZA", 761: "IFNI", 420: "IFRANE", 440: "IKHFENNIR", 545: "IMILILI",
+                                                471: "IMI-N-TANOUTE", 21: "INEZGANE", 262: "JDIRIA", 582: "JERADA", 131: "JRIFIA", 104: "KASBAT TADLA",
+                                                330: "KENITRA", 186: "KHEMIS ZMAMRA", 360: "KHEMISSET", 380: "KHENIFRA", 400: "KHOURIBGA",
+                                                731: "KSAR EL KEBIR", 430: "LAAYOUNE", 547: "LAGOUIRA", 735: "LARACHE", 450: "MARRAKECH",
+                                                727: "MARTIL", 336: "MECHRA BEL KSIRI", 728: "MEDIEK", 793: "MEDIOUNA", 480: "MEKNES",
+                                                860: "MELILLIA", 391: "MIDELT", 538: "MIJIK", 144: "MISSOUR", 787: "MOHAMMEDIA", 653: "M'SIED",
+                                                500: "NADOR", 794: "NOUACER", 550: "OUARZAZATE", 341: "OUAZZANE", 695: "OUED AMLIL", 411: "OUED ZEM",
+                                                570: "OUJDA", 539: "OUM DREYGA", 810: "RABAT", 235: "RISSANI", 368: "ROMMANI", 590: "SAFI",
+                                                815: "SALE", 850: "SEBTA", 281: "SEFROU", 610: "SETTAT", 263: "SIDI AHMED LAAROUSSI",
+                                                179: "SIDI BENNOUR", 346: "SIDI KACEM", 349: "SIDI SLIMANE", 332: "SIDI YAHIA EL GHARB",
+                                                124: "SIDI YAHIA ZAIRE", 821: "SKHIRATE", 353: "SOUK LARBAA EL RHARB", 765: "TAFRAOUT", 438: "TAH",
+                                                650: "TAN TAN", 640: "TANGER", 660: "TAOUNATE", 585: "TAOURIRT", 437: "TARFAYA", 61: "TARGUISTE",
+                                                41: "TAROUDANT", 680: "TATA", 690: "TAZA", 825: "TEMARA", 720: "TETOUAN", 268: "TFARITI", 533: "TICHLA",
+                                                374: "TIFLET", 559: "TINEGHIR", 750: "TIZNIT", 607: "YOUSSOUFIA", 565: "ZAGORA", 519: "ZAIO",
+                                                534: "ZOUG", 412: "BOUJAAD", 28: "OULED TAIMA", 937: "NOUAKCHOTT", 81: "DEMNATE",
+                                                434: "OUED EDDAHAB", 151: "Bab Taza", 587: "SIDI MELLOUK", 822: "Ain Aouda", 523: "BEN TAIB",
+                                                57: "IMZOUREN", 629: "HAD SOUALEM", 507: "ZGHENGHEN", 812: "AIN ATIK", 347: "JORF ELMELHA",
+                                                194: "EL ATTAOUIA", 461: "AMIZMIZ", 941: "TINEJDAD", 647: "Tanger-Tétouan", 515: "AROUI",
+                                                561: "TALIOUINE", 231: "RICH", 623: "OULED ABBOU", 177: "BIR JDID", 619: "SIDI HAJJAJ",
+                                                476: "OURIKA", 826: "M'RIRT", 940: "SOUK EL SEBT", 827: "MECHRA BEL KSIRI", 938: "ASSILAH",
+                                                939: "BOUIZAKARNE", 861: "EL BROUJ", 816: "SIDI ALLAL EL BAHRAOUI", 405: "Boujad", 942: "Sidi Rahal",
+                                                943: "Tamaris", 944: "IMOUZZER"
+                                            }
+                                            data['Ville_Nom'] = data['Ville'].map(ville_mapping)
+
+                                        # Calculer la fréquence des villes par cluster
+                                        city_cluster_counts = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Counts')
+
+                                        # Créer le graphique Plotly
+                                        fig = px.bar(city_cluster_counts, x='Ville_Nom', y='Counts', color='Cluster', barmode='group',
+                                                    labels={'Ville_Nom': 'Nom de la Ville', 'Counts': 'Nombre de Cas', 'Cluster': 'Cluster'},
+                                                    title='Répartition des Villes par Cluster')
+
+                                        # Ajuster les labels des axes pour meilleure lisibilité
+                                        fig.update_layout(xaxis_tickangle=-45)
+
+                                        # Afficher le graphique
+                                        st.plotly_chart(fig)
+
                                 
                             # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
