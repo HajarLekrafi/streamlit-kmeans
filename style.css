@@ -155,8 +155,8 @@
 
 .loader {
     position: fixed; /* Change to fixed for consistent positioning */
-    top: 20px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
+    top: 70px; /* Adjust as needed */
+    right: 70px; /* Adjust as needed */
     width: 96px;
     height: 96px;
     transform: rotate(45deg);
