@@ -61,6 +61,7 @@ options = {
     "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
     "Répartition des Types de Proposition par Cluster": st.sidebar.checkbox("Répartition des Types de Proposition par Cluster"),
     "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.sidebar.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions"),
+    "Analyse des Tendances des Montants par Année": st.sidebar.checkbox("Analyse des Tendances des Montants par Année")
 }
 
 
@@ -236,7 +237,50 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_pareto)
 
                                         
-        
+                                    elif option == "Analyse des Tendances des Montants par Année":
+                                        st.subheader("Analyse des Tendances des Montants par Année")
+                                        
+                                        # Nettoyer la colonne 'Mnt' et 'annee'
+                                        data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
+                                        data['Mnt'].fillna(0, inplace=True)
+                                        
+                                        # Convertir la colonne 'annee' en numérique si ce n'est pas déjà fait
+                                        data['annee'] = pd.to_numeric(data['annee'], errors='coerce')
+                                        
+                                        # Grouper les données par année et calculer la somme des montants pour chaque année
+                                        trend_data = data.groupby('annee')['Mnt'].sum().reset_index()
+                                        
+                                        # Créer le graphique linéaire
+                                        fig_trend = go.Figure()
+
+                                        # Ajouter la ligne des tendances
+                                        fig_trend.add_trace(go.Scatter(
+                                            x=trend_data['annee'],
+                                            y=trend_data['Mnt'],
+                                            mode='lines+markers',
+                                            name='Montants',
+                                            line=dict(color='rgba(55, 83, 109, 0.8)'),
+                                            marker=dict(color='rgba(55, 83, 109, 0.7)')
+                                        ))
+
+                                        # Configurer le layout du graphique
+                                        fig_trend.update_layout(
+                                            title='Tendances des Montants par Année',
+                                            xaxis_title='Année',
+                                            yaxis_title='Montant Total',
+                                            xaxis=dict(
+                                                tickmode='linear',  # Assure que toutes les années sont affichées
+                                                dtick=1  # Intervalle des années (1 an)
+                                            ),
+                                            yaxis=dict(
+                                                title='Montant Total'
+                                            ),
+                                            plot_bgcolor='rgba(240, 240, 240, 0.5)'
+                                        )
+
+                                        # Afficher le graphique
+                                        st.plotly_chart(fig_trend)
+
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
