@@ -56,13 +56,7 @@ options = {
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
-    "Distribution des Montants par Année": st.sidebar.checkbox("Distribution des Montants par Année"),
-    "Diagramme en Barres Horizontales": st.sidebar.checkbox("Diagramme en Barres Horizontales"),
-    "Carte Géographique des Villes": st.sidebar.checkbox("Carte Géographique des Villes"),
-    "Nuage de Points des Propositions contre Montant": st.sidebar.checkbox("Nuage de Points des Propositions contre Montant"),
-    "Graphique en Lignes des Valeurs du Montant au Fil des Années": st.sidebar.checkbox("Graphique en Lignes des Valeurs du Montant au Fil des Années"),
-    "Heatmap des Montants par Ville et Cluster": st.sidebar.checkbox("Heatmap des Montants par Ville et Cluster")
+    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
 
 
@@ -271,12 +265,7 @@ if uploaded_file is not None:
                                     else:
                                         st.write("Option non disponible.")
                                         
-                                elif option == "Diagramme en Barres Horizontales":
-                                        st.subheader("Diagramme en Barres Horizontales des Valeurs du Montant par Ville")
-                                        fig_bar_horizontal = px.bar(data, x='Mnt', y='Ville_Nom', color='Cluster',
-                                                                labels={'Mnt': 'Valeur du Montant', 'Ville_Nom': 'Ville'},
-                                                                title='Distribution des Valeurs du Montant par Ville')
-                                        st.plotly_chart(fig_bar_horizontal)
+                                
 
                                         
                                         
