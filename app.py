@@ -52,7 +52,6 @@ options = {
     "Accueil": st.sidebar.checkbox("Accueil"),
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
     "Valeurs des Montants par Cluster": st.sidebar.checkbox("Valeurs des Montants par Cluster"),
-    "Histogramme des valeurs du montant": st.sidebar.checkbox("Histogramme des valeurs du montant"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
@@ -172,12 +171,6 @@ if uploaded_file is not None:
                                                          title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
-                                    elif option == "Histogramme des valeurs du montant":
-                                        st.subheader("Histogramme des valeurs du montant")
-                                        hist_fig = px.histogram(data, x='Mnt', color='Cluster',
-                                                                labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                                title='Histogramme des Valeurs du Montant par Cluster')
-                                        st.plotly_chart(hist_fig)
                                         
                                     elif option == "Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
