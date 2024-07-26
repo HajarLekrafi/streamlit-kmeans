@@ -51,8 +51,8 @@ st.sidebar.header("Navigation")
 options = {
     "Accueil": st.sidebar.checkbox("Accueil"),
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
-    "Valeurs des Montants par Cluster": st.sidebar.checkbox("Valeurs des Montants par Cluster"),
-    "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
+    "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
+    "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
@@ -164,15 +164,15 @@ if uploaded_file is not None:
                                         cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
                                         st.write(cluster_distribution_labels)
                                         
-                                    elif option == "Valeurs des Montants par Cluster":
-                                        st.subheader("Valeurs des Montants par Cluster")
+                                    elif option == "Valeurs des Montants par Cluster en BoxPlot":
+                                        st.subheader("BocPlot")
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
                                                          labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                          title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
                                         
-                                    elif option == "Diagramme en Violin":
+                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
                                         fig_violin = px.violin(data, y='Mnt', color='Cluster',
                                                               labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
