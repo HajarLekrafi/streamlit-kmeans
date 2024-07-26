@@ -54,8 +54,10 @@ options = {
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
-    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
-}
+    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
+    "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster")
+
+    }
 
 
 # Uploader le fichier CSV
@@ -248,6 +250,15 @@ if uploaded_file is not None:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
                                     else:
                                         st.write("Option non disponible.")
+                                        
+                                elif option == "Répartition des Propositions par Cluster":
+                                            st.subheader("Répartition des Propositions par Cluster")
+                                            repartition_propositions = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
+                                            fig_bar_propositions = px.bar(repartition_propositions, x='Cluster', y='Nb_propositions',
+                                                                        labels={'Cluster': 'Cluster', 'Nb_propositions': 'Total des Propositions'},
+                                                                        title='Répartition des Propositions par Cluster')
+                                            st.plotly_chart(fig_bar_propositions)
+
                                        
                                     
                                     
