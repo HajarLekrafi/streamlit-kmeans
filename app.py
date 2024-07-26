@@ -56,7 +56,7 @@ options = {
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Nombre de Sinistres par Année": st.sidebar.checkbox("HNombre de Sinistres par Année")
+    "Nombre de Sinistres par Année": st.sidebar.checkbox("Nombre de Sinistres par Année")
 
 }
 
@@ -91,6 +91,11 @@ if uploaded_file is not None:
             for col in ['Type_pro', 'Nat_pro_concat', 'Usage', 'Jnl']:
                 data[col].fillna('Unknown', inplace=True)
                 
+            # Nettoyer la colonne 'sinistre'
+            if 'sinistre' in data.columns:
+                data['sinistre'] = pd.to_numeric(data['sinistre'], errors='coerce')
+                data['sinistre'].fillna(0, inplace=True)
+                data['sinistre'] = data['sinistre'].astype(int)
              
 
             # Prétraitement
@@ -246,8 +251,8 @@ if uploaded_file is not None:
                                         if 'annee' in data.columns:
                                             sinistre_col = 'Sinistre' if 'Sinistre' in data.columns else 'sinistre'
                                             if sinistre_col in data.columns:
-                                                # Vérifier que les valeurs dans 'sinistre_col' sont bien des 1 et des 0
-                                                if data[sinistre_col].dtype in [int, float] and data[sinistre_col].dropna().isin([0, 1]).all():
+                                                # Assurez-vous que la colonne contient uniquement des valeurs 0 et 1
+                                                if set(data[sinistre_col].unique()).issubset({0, 1}):
                                                     sinistres_par_annee = data[data[sinistre_col] == 1]['annee'].value_counts().sort_index()
                                                     fig = px.bar(sinistres_par_annee.reset_index(), x='index', y='annee',
                                                                 labels={'index': 'Année', 'annee': 'Nombre de Sinistres'},
