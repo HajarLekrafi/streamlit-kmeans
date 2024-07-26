@@ -184,14 +184,16 @@ if uploaded_file is not None:
                                         # Grouper les données par 'Cluster' et 'Ville' et sommer les montants
                                         heatmap_data = data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
                                         
-                                        # Afficher les premières lignes de heatmap_data pour vérification
-                                        st.write("Données pour la heatmap :", heatmap_data.head())
+                                        # Afficher les données groupées pour vérification
+                                        st.write("<div class='data-table'>Données de Heatmap :</div>", unsafe_allow_html=True)
+                                        st.write(heatmap_data)
                                         
                                         # Créer un tableau croisé dynamique
                                         heatmap_pivot = heatmap_data.pivot(index='Cluster', columns='Ville_Nom', values='Mnt').fillna(0)
                                         
                                         # Afficher le tableau croisé dynamique pour vérification
-                                        st.write("Tableau croisé dynamique pour la heatmap :", heatmap_pivot)
+                                        st.write("<div class='data-table'>Tableau des Montants par Cluster et Ville :</div>", unsafe_allow_html=True)
+                                        st.write(heatmap_pivot)
                                         
                                         # Créer la heatmap
                                         fig_heatmap = px.imshow(heatmap_pivot.values,
@@ -200,9 +202,10 @@ if uploaded_file is not None:
                                                                 color_continuous_scale='Viridis',
                                                                 labels={'color': 'Montant'},
                                                                 title='Heatmap des Montants par Cluster')
-
+                                        
                                         # Afficher la heatmap
                                         st.plotly_chart(fig_heatmap)
+
 
 
 
