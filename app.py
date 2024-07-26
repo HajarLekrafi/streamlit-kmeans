@@ -244,16 +244,20 @@ if uploaded_file is not None:
                                         if 'annee' in data.columns:
                                             sinistre_col = 'Sinistre' if 'Sinistre' in data.columns else 'sinistre'
                                             if sinistre_col in data.columns:
-                                                sinistres_par_annee = data[data[sinistre_col] == 1]['annee'].value_counts().sort_index()
-                                                fig = px.bar(sinistres_par_annee.reset_index(), x='index', y=sinistres_par_annee.values, 
-                                                             labels={'index': 'Année', 'y': 'Nombre de Sinistres'}, title='Nombre de Sinistres par Année')
-                                                st.plotly_chart(fig)
-                                                
+                                                # Vérifier que les valeurs dans 'sinistre_col' sont bien des 1 et des 0
+                                                if data[sinistre_col].dtype in [int, float] and data[sinistre_col].dropna().isin([0, 1]).all():
+                                                    sinistres_par_annee = data[data[sinistre_col] == 1]['annee'].value_counts().sort_index()
+                                                    fig = px.bar(sinistres_par_annee.reset_index(), x='index', y='annee',
+                                                                labels={'index': 'Année', 'annee': 'Nombre de Sinistres'},
+                                                                title='Nombre de Sinistres par Année')
+                                                    st.plotly_chart(fig)
+                                                else:
+                                                    st.error(f"La colonne '{sinistre_col}' contient des valeurs inattendues.")
+                                            else:
                                                 st.error(f"La colonne '{sinistre_col}' n'existe pas dans les données.")
                                         else:
                                             st.error("La colonne 'annee' n'existe pas dans les données.")
-                                    else:
-                                        st.write(f"Option '{option}' non implémentée.")
+
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
