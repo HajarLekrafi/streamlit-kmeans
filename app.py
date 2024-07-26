@@ -246,6 +246,8 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
+            
+                                            
                                     elif option == "Somme des Montants par Journal":
                                         st.subheader("Somme des Montants par Journal")
                                         if 'Mnt' in data.columns and 'Jnl' in data.columns:
@@ -266,16 +268,11 @@ if uploaded_file is not None:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
                                     else:
                                         st.write("Option non disponible.")
-                                        
-                                elif option == "Diagramme en Boîte par Année":
-                                    st.subheader("Diagramme en Boîte des Montants par Année")
-                                    if 'annee' in data.columns:
-                                        fig_box_by_year = px.box(data, x='annee', y='Mnt',
-                                                                labels={'annee': 'Année', 'Mnt': 'Valeur du Montant'},
-                                                                title='Diagramme en Boîte des Montants par Année')
-                                        st.plotly_chart(fig_box_by_year)
-                                    else:
-                                        st.error("La colonne 'annee' est absente des données.")
+                                       
+                                    
+                                    
+
+                                    
 
 
                                         
