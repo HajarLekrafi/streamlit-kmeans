@@ -53,7 +53,7 @@ options = {
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
-    "Valeurs des Montants par Cluster en Diagramme en heatmap": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en heatmap"),
+    "Diagramme de Pareto pour Montants": st.sidebar.checkbox("Diagramme de Pareto pour Montants"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
     "Montants par Ville la Plus Fréquente de Chaque Cluster": st.sidebar.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
@@ -178,37 +178,65 @@ if uploaded_file is not None:
                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
-                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Heatmap":
-                                        st.subheader("Heatmap des Montants par Cluster")
+                                    elif option == "Diagramme de Pareto pour Montants":
+                                        st.subheader("Diagramme de Pareto pour Montants")
                                         
-                                        # Grouper les données par 'Cluster' et 'Ville' et sommer les montants
-                                        heatmap_data = data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
+                                        # Nettoyer la colonne 'Mnt'
+                                        data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
+                                        data['Mnt'].fillna(0, inplace=True)
                                         
-                                        # Afficher les données groupées pour vérification
-                                        st.write("<div class='data-table'>Données de Heatmap :</div>", unsafe_allow_html=True)
-                                        st.write(heatmap_data)
+                                        # Grouper les données par montant et compter les occurrences
+                                        montant_counts = data['Mnt'].value_counts().reset_index()
+                                        montant_counts.columns = ['Montant', 'Count']
                                         
-                                        # Créer un tableau croisé dynamique
-                                        heatmap_pivot = heatmap_data.pivot(index='Cluster', columns='Ville_Nom', values='Mnt').fillna(0)
+                                        # Ordonner les montants par fréquence décroissante
+                                        montant_counts = montant_counts.sort_values(by='Montant', ascending=False).reset_index(drop=True)
                                         
-                                        # Afficher le tableau croisé dynamique pour vérification
-                                        st.write("<div class='data-table'>Tableau des Montants par Cluster et Ville :</div>", unsafe_allow_html=True)
-                                        st.write(heatmap_pivot)
+                                        # Calculer la somme cumulative des montants et des fréquences
+                                        montant_counts['Cumulative Count'] = montant_counts['Count'].cumsum()
+                                        montant_counts['Cumulative Percentage'] = 100 * montant_counts['Cumulative Count'] / montant_counts['Count'].sum()
                                         
-                                        # Créer la heatmap
-                                        fig_heatmap = px.imshow(heatmap_pivot.values,
-                                                                x=heatmap_pivot.columns,
-                                                                y=heatmap_pivot.index,
-                                                                color_continuous_scale='Viridis',
-                                                                labels={'color': 'Montant'},
-                                                                title='Heatmap des Montants par Cluster')
-                                        
-                                        # Afficher la heatmap
-                                        st.plotly_chart(fig_heatmap)
+                                        # Créer le diagramme de Pareto
+                                        fig_pareto = go.Figure()
 
+                                        # Ajouter les barres pour les montants
+                                        fig_pareto.add_trace(go.Bar(
+                                            x=montant_counts['Montant'],
+                                            y=montant_counts['Count'],
+                                            name='Fréquence',
+                                            marker=dict(color='rgba(55, 83, 109, 0.7)')
+                                        ))
 
+                                        # Ajouter la ligne cumulative
+                                        fig_pareto.add_trace(go.Scatter(
+                                            x=montant_counts['Montant'],
+                                            y=montant_counts['Cumulative Percentage'],
+                                            mode='lines+markers',
+                                            name='Cumulative Percentage',
+                                            yaxis='y2',
+                                            line=dict(color='rgba(219, 64, 82, 0.8)')
+                                        ))
 
+                                        # Configurer le layout du graphique
+                                        fig_pareto.update_layout(
+                                            title='Diagramme de Pareto pour Montants',
+                                            xaxis_title='Montant',
+                                            yaxis_title='Fréquence',
+                                            yaxis2=dict(
+                                                title='Pourcentage Cumulatif',
+                                                titlefont=dict(color='rgba(219, 64, 82, 0.8)'),
+                                                tickfont=dict(color='rgba(219, 64, 82, 0.8)'),
+                                                overlaying='y',
+                                                side='right'
+                                            ),
+                                            barmode='group'
+                                        )
 
+                                        # Afficher le graphique
+                                        st.plotly_chart(fig_pareto)
+
+                                        
+        
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
