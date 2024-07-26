@@ -55,7 +55,8 @@ options = {
     "Histogramme des valeurs du montant": st.sidebar.checkbox("Histogramme des valeurs du montant"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
-    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster")
+    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
+    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
 
 # Uploader le fichier CSV
@@ -242,7 +243,29 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
-                                      
+                                    elif option == "Somme des Montants par Journal":
+                                        st.subheader("Somme des Montants par Journal")
+                                        if 'Mnt' in data.columns and 'Jnl' in data.columns:
+                                            # Nettoyer la colonne 'Mnt'
+                                            data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
+                                            data['Mnt'].fillna(0, inplace=True)
+                                            
+                                            # Préparer les données pour le graphique
+                                            somme_montants = data.groupby('Jnl')['Mnt'].sum().reset_index()
+                                            
+                                            # Créer le graphique
+                                            fig = px.bar(somme_montants, x='Jnl', y='Mnt',
+                                                         title='Somme des Montants par Journal',
+                                                         labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
+                                                         color='Mnt')
+                                            st.plotly_chart(fig)
+                                        else:
+                                            st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
+                                    else:
+                                        st.write("Option non disponible.")
+                                    
+                                    # Sortie de la boucle après avoir affiché la section correspondante
+                                    break
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
