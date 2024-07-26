@@ -251,13 +251,13 @@ if uploaded_file is not None:
                                     else:
                                         st.write("Option non disponible.")
                                         
-                                elif option == "Répartition des Propositions par Cluster":
-                                            st.subheader("Répartition des Propositions par Cluster")
-                                            repartition_propositions = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
-                                            fig_bar_propositions = px.bar(repartition_propositions, x='Cluster', y='Nb_propositions',
+                                    elif option == "Répartition des Propositions par Cluster":
+                                        st.subheader("Répartition des Propositions par Cluster")
+                                        repartition_propositions = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
+                                        fig_bar_propositions = px.bar(repartition_propositions, x='Cluster', y='Nb_propositions',
                                                                         labels={'Cluster': 'Cluster', 'Nb_propositions': 'Total des Propositions'},
                                                                         title='Répartition des Propositions par Cluster')
-                                            st.plotly_chart(fig_bar_propositions)
+                                        st.plotly_chart(fig_bar_propositions)
 
                                        
                                     
