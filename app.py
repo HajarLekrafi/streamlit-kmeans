@@ -51,7 +51,7 @@ st.sidebar.header("Navigation")
 options = {
     "Accueil": st.sidebar.checkbox("Accueil"),
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
-    "Diagramme en Boîte": st.sidebar.checkbox("Diagramme en Boîte"),
+    "Somme des Montants par Cluster": st.sidebar.checkbox("Somme des Montants par Cluster"),
     "Histogramme des valeurs du montant": st.sidebar.checkbox("Histogramme des valeurs du montant"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
@@ -156,7 +156,7 @@ if uploaded_file is not None:
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
-                                                    labels={'Cluster': 'Cluster', 'Count': 'Nombre d\'Occurrences'},
+                                                    labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
                                                     title='Répartition des Clusters')
                                         st.plotly_chart(fig)
                                         
@@ -165,8 +165,8 @@ if uploaded_file is not None:
                                         cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
                                         st.write(cluster_distribution_labels)
                                         
-                                    elif option == "Diagramme en Boîte":
-                                        st.subheader("Diagramme en Boîte")
+                                    elif option == "Somme des Montants par Cluster":
+                                        st.subheader("Somme des Montants par Cluster")
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
                                                          labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                          title='Diagramme en Boîte des Valeurs du Montant par Cluster')
