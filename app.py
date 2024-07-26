@@ -180,51 +180,51 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_violin)
                                         
                                     elif option == "Histogramme des Villes par Cluster":
-                                        st.subheader("Histogramme des Villes par Cluster")
-    
-                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        
-                                        # Trouver la ville avec le maximum d'occurrences pour chaque cluster
-                                        idx_max_villes = ville_cluster.groupby('Cluster')['Count'].idxmax()
-                                        villes_max = ville_cluster.loc[idx_max_villes].reset_index(drop=True)
-                                        
-                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
-                                        st.write(villes_max)
-                                        
-                                        # Créer et afficher le graphique
-                                        fig_ville_cluster = go.Figure()
+                                            st.subheader("Histogramme des Villes par Cluster")
+                                            
+                                            # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                            ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
+                                            
+                                            # Initialiser un DataFrame pour stocker les résultats finaux
+                                            villes_secondes = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                            
+                                            # Trouver la ville avec le maximum d'occurrences pour chaque cluster
+                                            for cluster in ville_cluster['Cluster'].unique():
+                                                cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
+                                                
+                                                if len(cluster_data) > 1:
+                                                    # Sélectionner la deuxième ville la plus fréquente
+                                                    villes_secondes = villes_secondes.append(cluster_data.iloc[1], ignore_index=True)
+                                                else:
+                                                    # Si il n'y a qu'une seule ville dans le cluster, l'ajouter quand même
+                                                    villes_secondes = villes_secondes.append(cluster_data.iloc[0], ignore_index=True)
+                                            
+                                            # Afficher le DataFrame des deuxièmes villes les plus fréquentes par cluster
+                                            st.write("<div class='data-table'>Deuxième ville la plus fréquente par Cluster :</div>", unsafe_allow_html=True)
+                                            st.write(villes_secondes)
+                                            
+                                            # Créer et afficher le graphique
+                                            fig_ville_cluster = go.Figure()
 
-                                        # Ajouter les barres pour les villes les plus fréquentes
-                                        fig_ville_cluster.add_trace(go.Bar(
-                                            x=villes_max['Cluster'],
-                                            y=villes_max['Count'],
-                                            marker=dict(color='rgba(55, 83, 109, 0.7)'),
-                                            name='Ville la plus fréquente'
-                                        ))
+                                            # Ajouter les barres pour les deuxièmes villes les plus fréquentes
+                                            fig_ville_cluster.add_trace(go.Bar(
+                                                x=villes_secondes['Cluster'],
+                                                y=villes_secondes['Count'],
+                                                marker=dict(color='rgba(55, 83, 109, 0.7)'),
+                                                name='Deuxième ville la plus fréquente'
+                                            ))
 
-                                        # Ajouter les annotations pour les villes
-                                        for i, row in villes_max.iterrows():
-                                            fig_ville_cluster.add_annotation(
-                                                x=row['Cluster'],
-                                                y=row['Count'],
-                                                text=row['Ville_Nom'],
-                                                showarrow=True,
-                                                arrowhead=2,
-                                                ax=0,
-                                                ay=-40
+                                            # Configurer le layout du graphique
+                                            fig_ville_cluster.update_layout(
+                                                title='Histogramme des Deuxièmes Villes les Plus Fréquentes par Cluster',
+                                                xaxis_title='Cluster',
+                                                yaxis_title='Nombre de villes',
+                                                barmode='group'
                                             )
 
-                                        fig_ville_cluster.update_layout(
-                                            title='Ville la Plus Fréquente par Cluster',
-                                            xaxis_title='Cluster',
-                                            yaxis_title='Nombre d\'Occurrences',
-                                            legend_title='Ville',
-                                            showlegend=False
-                                        )
+                                            # Afficher le graphique
+                                            st.plotly_chart(fig_ville_cluster)
 
-                                        st.plotly_chart(fig_ville_cluster)
                                         
                                     elif option == "Histogramme des Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
