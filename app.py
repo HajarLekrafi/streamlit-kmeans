@@ -54,7 +54,7 @@ options = {
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
-    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
+    "Valeurs du Journal par Cluster": st.sidebar.checkbox("Valeurs du Journal par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
 
@@ -229,7 +229,7 @@ if uploaded_file is not None:
 
 
                                         
-                                    elif option == "Histogramme des Valeurs du Journal par Cluster":
+                                    elif option == "Valeurs du Journal par Cluster":
                                         if 'Jnl' in data.columns:
                                             st.subheader("Histogramme des Valeurs du Journal par Cluster")
                                             fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
