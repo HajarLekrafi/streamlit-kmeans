@@ -178,28 +178,32 @@ if uploaded_file is not None:
                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
-                                    elif option == "Valeurs des Montants par Cluster en Heatmap ":
+                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Heatmap":
                                         st.subheader("Heatmap des Montants par Cluster")
                                         
                                         # Grouper les données par 'Cluster' et 'Ville' et sommer les montants
                                         heatmap_data = data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
-
+                                        
+                                        # Afficher les premières lignes de heatmap_data pour vérification
+                                        st.write("Données pour la heatmap :", heatmap_data.head())
+                                        
                                         # Créer un tableau croisé dynamique
                                         heatmap_pivot = heatmap_data.pivot(index='Cluster', columns='Ville_Nom', values='Mnt').fillna(0)
                                         
                                         # Afficher le tableau croisé dynamique pour vérification
-                                        st.write("<div class='data-table'>Tableau des Montants par Cluster et Ville :</div>", unsafe_allow_html=True)
-                                        st.write(heatmap_pivot)
-                                            # Créer la heatmap
+                                        st.write("Tableau croisé dynamique pour la heatmap :", heatmap_pivot)
+                                        
+                                        # Créer la heatmap
                                         fig_heatmap = px.imshow(heatmap_pivot.values,
-                                                            x=heatmap_pivot.columns,
-                                                            y=heatmap_pivot.index,
-                                                            color_continuous_scale='Viridis',
-                                                            labels={'color': 'Montant'},
-                                                            title='Heatmap des Montants par Cluster')
+                                                                x=heatmap_pivot.columns,
+                                                                y=heatmap_pivot.index,
+                                                                color_continuous_scale='Viridis',
+                                                                labels={'color': 'Montant'},
+                                                                title='Heatmap des Montants par Cluster')
 
                                         # Afficher la heatmap
                                         st.plotly_chart(fig_heatmap)
+
 
 
                                         
