@@ -54,7 +54,6 @@ options = {
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
-    "Valeurs du Journal par Cluster": st.sidebar.checkbox("Valeurs du Journal par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
 
@@ -226,16 +225,6 @@ if uploaded_file is not None:
                                         # Afficher le graphique
                                         st.plotly_chart(fig_ville_cluster)
 
-
-
-                                        
-                                    elif option == "Valeurs du Journal par Cluster":
-                                        if 'Jnl' in data.columns:
-                                            st.subheader("Histogramme des Valeurs du Journal par Cluster")
-                                            fig_jnl = px.histogram(data, x='Jnl', color='Cluster', 
-                                                                   labels={'Jnl': 'Valeur du Journal', 'Cluster': 'Cluster'},
-                                                                   title='Distribution des Valeurs du journal par Cluster')
-                                            st.plotly_chart(fig_jnl)
                                             
             
                                             
