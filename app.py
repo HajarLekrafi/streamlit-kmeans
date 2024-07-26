@@ -56,7 +56,10 @@ options = {
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
+    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
+    "Distribution des Montants par Année": st.sidebar.checkbox("Distribution des Montants par Année")
+
+    
 }
 
 # Uploader le fichier CSV
@@ -264,6 +267,11 @@ if uploaded_file is not None:
                                     else:
                                         st.write("Option non disponible.")
                                     
+                                
+                                elif option == "Distribution des Montants par Année":
+                                        st.subheader("Distribution des Montants par Année")
+                                        fig = px.box(data, x='annee', y='Mnt', title="Distribution des Montants par Année")
+                                        st.plotly_chart(fig)
                                     
                                         
                                         
