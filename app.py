@@ -186,37 +186,38 @@ if uploaded_file is not None:
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         
                                         # Initialiser un DataFrame pour stocker les résultats finaux
-                                        villes_secondes = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                        villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                        villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
                                         
-                                        # Trouver la ville avec le maximum d'occurrences pour chaque cluster
+                                        # Boucle pour chaque cluster
                                         for cluster in ville_cluster['Cluster'].unique():
                                             cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
                                             
-                                            if len(cluster_data) > 1:
-                                                # Sélectionner la deuxième ville la plus fréquente
-                                                villes_secondes = pd.concat([villes_secondes, cluster_data.iloc[[1]]], ignore_index=True)
-                                            else:
-                                                # Si il n'y a qu'une seule ville dans le cluster, l'ajouter quand même
-                                                villes_secondes = pd.concat([villes_secondes, cluster_data.iloc[[0]]], ignore_index=True)
+                                            # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
+                                            for idx, row in cluster_data.iterrows():
+                                                if row['Ville_Nom'] not in villes_utilisees:
+                                                    villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
+                                                    villes_utilisees.add(row['Ville_Nom'])
+                                                    break
                                         
-                                        # Afficher le DataFrame des deuxièmes villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Deuxième ville la plus fréquente par Cluster :</div>", unsafe_allow_html=True)
-                                        st.write(villes_secondes)
+                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
+                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
+                                        st.write(villes_finales)
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
 
-                                        # Ajouter les barres pour les deuxièmes villes les plus fréquentes
+                                        # Ajouter les barres pour les villes les plus fréquentes
                                         fig_ville_cluster.add_trace(go.Bar(
-                                            x=villes_secondes['Cluster'],
-                                            y=villes_secondes['Count'],
+                                            x=villes_finales['Cluster'],
+                                            y=villes_finales['Count'],
                                             marker=dict(color='rgba(55, 83, 109, 0.7)'),
-                                            name='Deuxième ville la plus fréquente'
+                                            name='Ville la plus fréquente'
                                         ))
 
                                         # Configurer le layout du graphique
                                         fig_ville_cluster.update_layout(
-                                            title='Histogramme des Deuxièmes Villes les Plus Fréquentes par Cluster',
+                                            title='Histogramme des Villes les Plus Fréquentes par Cluster',
                                             xaxis_title='Cluster',
                                             yaxis_title='Nombre de villes',
                                             barmode='group'
@@ -224,6 +225,7 @@ if uploaded_file is not None:
 
                                         # Afficher le graphique
                                         st.plotly_chart(fig_ville_cluster)
+
 
 
                                         
