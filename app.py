@@ -56,7 +56,7 @@ options = {
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Nombre de Sinistres par Année": st.sidebar.checkbox("Nombre de Sinistres par Année")
+    "Répartition des Sinistres par Nature_reg et Journal": st.sidebar.checkbox("Répartition des Sinistres par Nature_reg et Journal")
 
 }
 
@@ -244,27 +244,18 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
-                                    
-                                    elif option == "Nombre de Sinistres par Année":
-                                        st.subheader("Nombre de Sinistres par Année")
-                                        # Assurez-vous que la colonne 'annee' existe et est bien formatée
-                                        if 'annee' in data.columns:
-                                            sinistre_col = 'Sinistre' if 'Sinistre' in data.columns else 'sinistre'
-                                            if sinistre_col in data.columns:
-                                                # Assurez-vous que la colonne contient uniquement des valeurs 0 et 1
-                                                if set(data[sinistre_col].unique()).issubset({0, 1}):
-                                                    sinistres_par_annee = data[data[sinistre_col] == 1]['annee'].value_counts().sort_index()
-                                                    fig = px.bar(sinistres_par_annee.reset_index(), x='index', y='annee',
-                                                                labels={'index': 'Année', 'annee': 'Nombre de Sinistres'},
-                                                                title='Nombre de Sinistres par Année')
-                                                    st.plotly_chart(fig)
-                                                else:
-                                                    st.error(f"La colonne '{sinistre_col}' contient des valeurs inattendues.")
-                                            else:
-                                                st.error(f"La colonne '{sinistre_col}' n'existe pas dans les données.")
-                                        else:
-                                            st.error("La colonne 'annee' n'existe pas dans les données.")
-
+                                    elif option == "Répartition des Sinistres par Nature_reg et Journal":
+                                            
+                                     st.subheader("Répartition des Sinistres par Nature_reg et Journal")
+                                    sinistre_repartition = data[data['sinistre'] == 1].groupby(['Nature_reg', 'Journal']).size().reset_index(name='Nombre_de_Sinistres')
+                                        
+                                    fig = px.bar(sinistre_repartition, x='Nature_reg', y='Nombre_de_Sinistres', color='Journal',
+                                                    title='Répartition des Sinistres par Nature_reg et Journal',
+                                                    labels={'Nature_reg': 'Nature du Réglement', 'Nombre_de_Sinistres': 'Nombre de Sinistres', 'Journal': 'Journal'},
+                                                    barmode='stack')
+                                    st.plotly_chart(fig)
+                                else:
+                                    st.error("Les colonnes nécessaires ('sinistre', 'Nature_reg', 'Journal') ne sont pas présentes dans les données.")       
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
