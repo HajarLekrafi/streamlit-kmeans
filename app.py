@@ -56,9 +56,7 @@ options = {
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
-    "Diagramme en Boîte par Année": st.sidebar.checkbox("Diagramme en Boîte par Année")
-
+    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
 
 
