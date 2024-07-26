@@ -264,8 +264,7 @@ if uploaded_file is not None:
                                     else:
                                         st.write("Option non disponible.")
                                     
-                                    # Sortie de la boucle après avoir affiché la section correspondante
-                                    break
+                                    
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
