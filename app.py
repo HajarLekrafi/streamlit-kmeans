@@ -56,11 +56,9 @@ options = {
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
     "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster"),
-    "Distribution des Montants": st.sidebar.checkbox("Distribution des Montants"),
     "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
     "Répartition des Types de Proposition par Cluster": st.sidebar.checkbox("Répartition des Types de Proposition par Cluster"),
     "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.sidebar.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions"),
-    "BoxPlot des Montants par Ville": st.sidebar.checkbox("BoxPlot des Montants par Ville")
 }
 
 
@@ -251,13 +249,7 @@ if uploaded_file is not None:
                                         else:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
                                     
-                                    # Nouveaux graphes ajoutés
-                                    elif option == "Distribution des Montants":
-                                        st.subheader("Distribution des Montants")
-                                        fig_dist_montants = px.histogram(data, x='Mnt',
-                                                                        labels={'Mnt': 'Valeur du Montant'},
-                                                                        title='Distribution des Valeurs du Montant')
-                                        st.plotly_chart(fig_dist_montants)
+                        
                                     
                                     elif option == "Moyenne des Montants par Cluster":
                                         st.subheader("Moyenne des Montants par Cluster")
@@ -290,15 +282,7 @@ if uploaded_file is not None:
                                                                 title='Diagramme de Nuage de Points pour Montants et Nombre de Propositions')
                                         st.plotly_chart(fig_scatter)
                                     
-                                    elif option == "BoxPlot des Montants par Ville":
-                                        st.subheader("BoxPlot des Montants par Ville")
-                                        fig_box_ville = px.box(data, x='Ville_Nom', y='Mnt',
-                                                            labels={'Ville_Nom': 'Ville', 'Mnt': 'Valeur du Montant'},
-                                                            title='Diagramme en Boîte des Valeurs du Montant par Ville')
-                                        st.plotly_chart(fig_box_ville)
-                                    
-                                    else:
-                                        st.write("Option non disponible.")
+                                   
 
 
                                         
