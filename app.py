@@ -102,7 +102,6 @@ if uploaded_file is not None:
                 data['sinistre'].fillna(0, inplace=True)
                 data['sinistre'] = data['sinistre'].astype(int)
              
-
             # Prétraitement
             if hasattr(preprocessor, 'transform'):
                 try:
@@ -143,9 +142,8 @@ if uploaded_file is not None:
                                 649: "MIDELT", 333: "MISSOUR", 754: "MOHAMMEDIA", 343: "NADOR", 351: "OUARZAZATE",
                                 349: "OUAZZANE", 362: "RABAT", 375: "SAFI", 737: "SALE", 399: "SEFROU",
                                 710: "SETTAT", 411: "SIDI KACEM", 413: "SIDI SLIMANE", 597: "SKHIRAT", 747: "TAMESNA",
-                                417: "TAN TAN", 421: "TANGER", 423: "TAOUNATE", 425: "TAOURIRT", 427: "TAROUDANT",
-                                436: "TAZA", 453: "TIZNIT", 456: "TOULAL", 709: "TIFLET", 459: "TILILA",
-                                529: "ZAGORA"
+                                417: "TANGIER", 422: "TATA", 423: "TAOURIRT", 427: "TAROUDANT", 436: "TAZA",
+                                453: "TIZNIT", 456: "TOULAL", 709: "TIFLET", 459: "TILILA", 529: "ZAGORA"
                             }
                             data['Ville_Nom'] = data['Ville'].map(ville_mapping).fillna('Inconnue')
                             
