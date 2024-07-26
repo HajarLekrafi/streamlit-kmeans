@@ -54,6 +54,7 @@ options = {
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
+    "Montants par Ville la Plus Fréquente de Chaque Cluster": st.sidebar.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
     "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster"),
     "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
@@ -249,7 +250,43 @@ if uploaded_file is not None:
                                         else:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
                                     
-                        
+                                    elif option == "Montants par Ville la Plus Fréquente de Chaque Cluster":
+                                        st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
+                                        
+                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
+                                        
+                                        # Initialiser un DataFrame pour stocker les résultats finaux
+                                        villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                        villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
+                                        
+                                        # Boucle pour chaque cluster
+                                        for cluster in ville_cluster['Cluster'].unique():
+                                            cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
+                                            
+                                            # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
+                                            for idx, row in cluster_data.iterrows():
+                                                if row['Ville_Nom'] not in villes_utilisees:
+                                                    villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
+                                                    villes_utilisees.add(row['Ville_Nom'])
+                                                    break
+
+                                        # Filtrer les montants pour les villes les plus fréquentes
+                                        villes_finales = villes_finales.rename(columns={'Ville_Nom': 'Ville'})
+                                        filtered_data = data[data['Ville_Nom'].isin(villes_finales['Ville'])]
+
+                                        # Créer un DataFrame pour les montants par ville et cluster
+                                        montants_villes = filtered_data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
+                                        
+                                        # Créer l'histogramme
+                                        fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
+                                                                    title='Distribution des Montants par Ville la Plus Fréquente de Chaque Cluster',
+                                                                    labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
+                                                                    histfunc='count')
+
+                                        # Afficher le graphique
+                                        st.plotly_chart(fig_histogramme)
+
                                     
                                     elif option == "Moyenne des Montants par Cluster":
                                         st.subheader("Moyenne des Montants par Cluster")
