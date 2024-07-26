@@ -61,7 +61,8 @@ options = {
     "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
     "Répartition des Types de Proposition par Cluster": st.sidebar.checkbox("Répartition des Types de Proposition par Cluster"),
     "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.sidebar.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions"),
-    "Analyse des Tendances des Montants par Année": st.sidebar.checkbox("Analyse des Tendances des Montants par Année")
+    "Analyse des Tendances des Montants par Année": st.sidebar.checkbox("Analyse des Tendances des Montants par Année"),
+    "BoxPlot des Montants par Type de Proposition": st.sidebar.checkbox("BoxPlot des Montants par Type de Proposition")
 }
 
 
@@ -171,6 +172,29 @@ if uploaded_file is not None:
                                         st.write("Répartition des clusters avec labels :")
                                         cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
                                         st.write(cluster_distribution_labels)
+                                        
+                                    elif option == "BoxPlot des Montants par Type de Proposition":
+                                        st.subheader("BoxPlot des Montants par Type de Proposition")
+
+                                        # Vérifier que les colonnes nécessaires sont présentes
+                                        if 'Mnt' in data.columns and 'Type_pro' in data.columns:
+                                            # Créer le BoxPlot
+                                            fig_box = px.box(data, x='Type_pro', y='Mnt',
+                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'},
+                                                            title='BoxPlot des Montants par Type de Proposition')
+                                            
+                                            # Configurer le layout du graphique
+                                            fig_box.update_layout(
+                                                xaxis_title='Type de Proposition',
+                                                yaxis_title='Montant',
+                                                plot_bgcolor='rgba(240, 240, 240, 0.5)'
+                                            )
+
+                                            # Afficher le graphique
+                                            st.plotly_chart(fig_box)
+                                        else:
+                                            st.error("Les colonnes nécessaires ('Mnt', 'Type_pro') ne sont pas présentes dans les données.")
+
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
                                         st.subheader("BoxPlot")
