@@ -53,7 +53,7 @@ options = {
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
-    "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
+    "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
     "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal")
 }
@@ -165,7 +165,7 @@ if uploaded_file is not None:
                                         st.write(cluster_distribution_labels)
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
-                                        st.subheader("BocPlot")
+                                        st.subheader("BoxPlot")
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
                                                          labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                          title='Diagramme en Boîte des Valeurs du Montant par Cluster')
@@ -179,7 +179,7 @@ if uploaded_file is not None:
                                                               title='Diagramme en Violin des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_violin)
                                         
-                                    elif option == "Histogramme des Villes par Cluster":
+                                    elif option == "Répartition des Villes par Cluster":
                                         st.subheader("Histogramme des Villes par Cluster")
                                         
                                         # Grouper par 'Cluster' et 'Ville' et compter les occurrences
