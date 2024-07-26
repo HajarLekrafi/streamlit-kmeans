@@ -55,9 +55,7 @@ options = {
     "Histogramme des valeurs du montant": st.sidebar.checkbox("Histogramme des valeurs du montant"),
     "Diagramme en Violin": st.sidebar.checkbox("Diagramme en Violin"),
     "Histogramme des Villes par Cluster": st.sidebar.checkbox("Histogramme des Villes par Cluster"),
-    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster"),
-    "Répartition des Sinistres par Nature_reg et Journal": st.sidebar.checkbox("Répartition des Sinistres par Nature_reg et Journal")
-
+    "Histogramme des Valeurs du Journal par Cluster": st.sidebar.checkbox("Histogramme des Valeurs du Journal par Cluster")
 }
 
 # Uploader le fichier CSV
@@ -244,18 +242,7 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
-                                    elif option == "Répartition des Sinistres par Nature_reg et Journal":
-                                            
-                                     st.subheader("Répartition des Sinistres par Nature_reg et Journal")
-                                    sinistre_repartition = data[data['sinistre'] == 1].groupby(['Nature_reg', 'Journal']).size().reset_index(name='Nombre_de_Sinistres')
-                                        
-                                    fig = px.bar(sinistre_repartition, x='Nature_reg', y='Nombre_de_Sinistres', color='Journal',
-                                                    title='Répartition des Sinistres par Nature_reg et Journal',
-                                                    labels={'Nature_reg': 'Nature du Réglement', 'Nombre_de_Sinistres': 'Nombre de Sinistres', 'Journal': 'Journal'},
-                                                    barmode='stack')
-                                    st.plotly_chart(fig)
-                                else:
-                                    st.error("Les colonnes nécessaires ('sinistre', 'Nature_reg', 'Journal') ne sont pas présentes dans les données.")       
+                                      
                                         
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
