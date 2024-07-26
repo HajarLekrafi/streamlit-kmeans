@@ -53,6 +53,7 @@ options = {
     "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
     "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
+    "Valeurs des Montants par Cluster en Diagramme en heatmap": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en heatmap"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
     "Montants par Ville la Plus Fréquente de Chaque Cluster": st.sidebar.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
@@ -176,6 +177,31 @@ if uploaded_file is not None:
                                                         labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
+                                        
+                                    elif option == "Valeurs des Montants par Cluster en Heatmap ":
+                                        st.subheader("Heatmap des Montants par Cluster")
+                                        
+                                        # Grouper les données par 'Cluster' et 'Ville' et sommer les montants
+                                        heatmap_data = data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
+
+                                        # Créer un tableau croisé dynamique
+                                        heatmap_pivot = heatmap_data.pivot(index='Cluster', columns='Ville_Nom', values='Mnt').fillna(0)
+                                        
+                                        # Afficher le tableau croisé dynamique pour vérification
+                                        st.write("<div class='data-table'>Tableau des Montants par Cluster et Ville :</div>", unsafe_allow_html=True)
+                                        st.write(heatmap_pivot)
+                                            # Créer la heatmap
+                                        fig_heatmap = px.imshow(heatmap_pivot.values,
+                                                            x=heatmap_pivot.columns,
+                                                            y=heatmap_pivot.index,
+                                                            color_continuous_scale='Viridis',
+                                                            labels={'color': 'Montant'},
+                                                            title='Heatmap des Montants par Cluster')
+
+                                        # Afficher la heatmap
+                                        st.plotly_chart(fig_heatmap)
+
+
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
