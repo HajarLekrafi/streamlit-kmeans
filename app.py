@@ -48,21 +48,41 @@ st.markdown(loader_html, unsafe_allow_html=True)
 
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
+# Création des sous-sections
+with st.sidebar.expander("Analyse des Clusters", expanded=True):
+    accueil = st.checkbox("Accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters")
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+
+with st.sidebar.expander("Montants", expanded=True):
+    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
+    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
+    pareto_montants = st.checkbox("Diagramme de Pareto pour Montants")
+    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
+    somme_journal = st.checkbox("Somme des Montants par Journal")
+    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
+    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
+    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+
+# Options sélectionnées
 options = {
-    "Accueil": st.sidebar.checkbox("Accueil"),
-    "Répartition des Clusters": st.sidebar.checkbox("Répartition des Clusters"),
-    "Valeurs des Montants par Cluster en BoxPlot": st.sidebar.checkbox("Valeurs des Montants par Cluster en BoxPlot"),
-    "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
-    "Diagramme de Pareto pour Montants": st.sidebar.checkbox("Diagramme de Pareto pour Montants"),
-    "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
-    "Montants par Ville la Plus Fréquente de Chaque Cluster": st.sidebar.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster"),
-    "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
-    "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster"),
-    "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
-    "Répartition des Types de Proposition par Cluster": st.sidebar.checkbox("Répartition des Types de Proposition par Cluster"),
-    "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.sidebar.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions"),
-    "Analyse des Tendances des Montants par Année": st.sidebar.checkbox("Analyse des Tendances des Montants par Année"),
-    "BoxPlot des Montants par Type de Proposition": st.sidebar.checkbox("BoxPlot des Montants par Type de Proposition")
+    "Accueil": accueil,
+    "Répartition des Clusters": repartition_clusters,
+    "Répartition des Villes par Cluster": repartition_villes,
+    "Répartition des Propositions par Cluster": repartition_propositions,
+    "Répartition des Types de Proposition par Cluster": types_propositions,
+    "Valeurs des Montants par Cluster en BoxPlot": valeurs_boxplot,
+    "Valeurs des Montants par Cluster en Diagramme en Violin": valeurs_violin,
+    "Diagramme de Pareto pour Montants": pareto_montants,
+    "Montants par Ville la Plus Fréquente de Chaque Cluster": montants_ville_frequent,
+    "Somme des Montants par Journal": somme_journal,
+    "Moyenne des Montants par Cluster": moyenne_montants,
+    "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": nuage_points,
+    "Analyse des Tendances des Montants par Année": tendances_annuelles,
+    "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
 }
 
 
