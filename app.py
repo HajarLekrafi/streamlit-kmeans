@@ -55,9 +55,15 @@ options = {
     "Valeurs des Montants par Cluster en Diagramme en Violin": st.sidebar.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin"),
     "Répartition des Villes par Cluster": st.sidebar.checkbox("Répartition des Villes par Cluster"),
     "Somme des Montants par Journal": st.sidebar.checkbox("Somme des Montants par Journal"),
-    "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster")
+    "Répartition des Propositions par Cluster": st.sidebar.checkbox("Répartition des Propositions par Cluster"),
+    "Distribution des Montants": st.sidebar.checkbox("Distribution des Montants"),
+    "Moyenne des Montants par Cluster": st.sidebar.checkbox("Moyenne des Montants par Cluster"),
+    "Répartition des Types de Proposition par Cluster": st.sidebar.checkbox("Répartition des Types de Proposition par Cluster"),
+    "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.sidebar.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions"),
+    "BoxPlot des Montants par Ville": st.sidebar.checkbox("BoxPlot des Montants par Ville")
+}
 
-    }
+
 
 
 # Uploader le fichier CSV
@@ -168,16 +174,15 @@ if uploaded_file is not None:
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
                                         st.subheader("BoxPlot")
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
-                                                         labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                        title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
-                                        
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.subheader("Diagramme en Violin")
                                         fig_violin = px.violin(data, y='Mnt', color='Cluster',
-                                                              labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                              title='Diagramme en Violin des Valeurs du Montant par Cluster')
+                                                            labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                            title='Diagramme en Violin des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_violin)
                                         
                                     elif option == "Répartition des Villes par Cluster":
@@ -227,9 +232,6 @@ if uploaded_file is not None:
                                         # Afficher le graphique
                                         st.plotly_chart(fig_ville_cluster)
 
-                                            
-            
-                                            
                                     elif option == "Somme des Montants par Journal":
                                         st.subheader("Somme des Montants par Journal")
                                         if 'Mnt' in data.columns and 'Jnl' in data.columns:
@@ -242,22 +244,65 @@ if uploaded_file is not None:
                                             
                                             # Créer le graphique
                                             fig = px.bar(somme_montants, x='Jnl', y='Mnt',
-                                                         title='Somme des Montants par Journal',
-                                                         labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
-                                                         color='Mnt')
+                                                        title='Somme des Montants par Journal',
+                                                        labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
+                                                        color='Mnt')
                                             st.plotly_chart(fig)
                                         else:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
-                                    else:
-                                        st.write("Option non disponible.")
-                                        
+                                    
+                                    # Nouveaux graphes ajoutés
+                                    elif option == "Distribution des Montants":
+                                        st.subheader("Distribution des Montants")
+                                        fig_dist_montants = px.histogram(data, x='Mnt',
+                                                                        labels={'Mnt': 'Valeur du Montant'},
+                                                                        title='Distribution des Valeurs du Montant')
+                                        st.plotly_chart(fig_dist_montants)
+                                    
+                                    elif option == "Moyenne des Montants par Cluster":
+                                        st.subheader("Moyenne des Montants par Cluster")
+                                        moyenne_montants = data.groupby('Cluster')['Mnt'].mean().reset_index()
+                                        fig_moyenne_montants = px.bar(moyenne_montants, x='Cluster', y='Mnt',
+                                                                    labels={'Cluster': 'Cluster', 'Mnt': 'Moyenne des Montants'},
+                                                                    title='Moyenne des Montants par Cluster')
+                                        st.plotly_chart(fig_moyenne_montants)
+                                    
                                     elif option == "Répartition des Propositions par Cluster":
                                         st.subheader("Répartition des Propositions par Cluster")
-                                        repartition_propositions = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
-                                        fig_bar_propositions = px.bar(repartition_propositions, x='Cluster', y='Nb_propositions',
-                                                                        labels={'Cluster': 'Cluster', 'Nb_propositions': 'Total des Propositions'},
+                                        propositions_cluster = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
+                                        fig_propositions_cluster = px.bar(propositions_cluster, x='Cluster', y='Nb_propositions',
+                                                                        labels={'Cluster': 'Cluster', 'Nb_propositions': 'Répartition des Propositions'},
                                                                         title='Répartition des Propositions par Cluster')
-                                        st.plotly_chart(fig_bar_propositions)
+                                        st.plotly_chart(fig_propositions_cluster)
+                                    
+                                    elif option == "Répartition des Types de Proposition par Cluster":
+                                        st.subheader("Répartition des Types de Proposition par Cluster")
+                                        type_pro_cluster = data.groupby(['Cluster', 'Type_pro']).size().reset_index(name='Count')
+                                        fig_type_pro_cluster = px.bar(type_pro_cluster, x='Cluster', y='Count', color='Type_pro',
+                                                                    labels={'Cluster': 'Cluster', 'Count': 'Nombre de Propositions', 'Type_pro': 'Type de Proposition'},
+                                                                    title='Répartition des Types de Proposition par Cluster')
+                                        st.plotly_chart(fig_type_pro_cluster)
+                                    
+                                    elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
+                                        st.subheader("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+                                        fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster',
+                                                                labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'},
+                                                                title='Diagramme de Nuage de Points pour Montants et Nombre de Propositions')
+                                        st.plotly_chart(fig_scatter)
+                                    
+                                    elif option == "BoxPlot des Montants par Ville":
+                                        st.subheader("BoxPlot des Montants par Ville")
+                                        fig_box_ville = px.box(data, x='Ville_Nom', y='Mnt',
+                                                            labels={'Ville_Nom': 'Ville', 'Mnt': 'Valeur du Montant'},
+                                                            title='Diagramme en Boîte des Valeurs du Montant par Ville')
+                                        st.plotly_chart(fig_box_ville)
+                                    
+                                    else:
+                                        st.write("Option non disponible.")
+
+
+                                        
+                                    
 
                                        
                                     
