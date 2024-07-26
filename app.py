@@ -237,6 +237,44 @@ if uploaded_file is not None:
                                                                    title='Distribution des Valeurs du journal par Cluster')
                                             st.plotly_chart(fig_jnl)
                                             
+                                    elif option == "Nombre de Sinistres par Année":
+                                            st.subheader("Nombre de Sinistres par Année")
+
+                                            # Vérifier si la colonne 'Date_sin' est présente dans les données
+                                            if 'Date_sin' in data.columns:
+                                                # Extraire l'année de la colonne 'Date_sin'
+                                                data['Année'] = pd.to_datetime(data['Date_sin']).dt.year
+                                                
+                                                # Grouper par 'Année' et compter les occurrences de sinistres
+                                                sinistres_par_annee = data.groupby('Année').size().reset_index(name='Count')
+                                                
+                                                # Afficher le DataFrame
+                                                st.write("<div class='data-table'>Nombre de Sinistres par Année :</div>", unsafe_allow_html=True)
+                                                st.write(sinistres_par_annee)
+                                                
+                                                # Créer et afficher le graphique
+                                                fig_sinistres_annee = go.Figure()
+
+                                                fig_sinistres_annee.add_trace(go.Bar(
+                                                    x=sinistres_par_annee['Année'],
+                                                    y=sinistres_par_annee['Count'],
+                                                    marker=dict(color='rgba(55, 83, 109, 0.7)'),
+                                                    name='Nombre de Sinistres'
+                                                ))
+
+                                                # Configurer le layout du graphique
+                                                fig_sinistres_annee.update_layout(
+                                                    title='Nombre de Sinistres par Année',
+                                                    xaxis_title='Année',
+                                                    yaxis_title='Nombre de Sinistres',
+                                                    barmode='group'
+                                                )
+
+                                                # Afficher le graphique
+                                                st.plotly_chart(fig_sinistres_annee)
+                                            else:
+                                                st.write("La colonne 'Date_sin' n'est pas présente dans les données.")
+
 
                                         
                                         
