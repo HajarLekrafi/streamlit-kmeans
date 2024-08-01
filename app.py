@@ -392,11 +392,25 @@ if uploaded_file is not None:
                                     
                                     elif option == "Répartition des Propositions par Cluster":
                                         st.subheader("Répartition des Propositions par Cluster")
+                                        
+                                        # Calculer la répartition des propositions par cluster
                                         propositions_cluster = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
+                                        
+                                        # Créer le graphique
                                         fig_propositions_cluster = px.bar(propositions_cluster, x='Cluster', y='Nb_propositions',
                                                                         labels={'Cluster': 'Cluster', 'Nb_propositions': 'Répartition des Propositions'},
                                                                         title='Répartition des Propositions par Cluster')
+                                        
+                                        # Afficher le graphique
                                         st.plotly_chart(fig_propositions_cluster)
+                                        
+                                        # Analyse
+                                        total_propositions = propositions_cluster['Nb_propositions'].sum()
+                                        cluster_max_propositions = propositions_cluster.loc[propositions_cluster['Nb_propositions'].idxmax()]
+                                        
+                                        st.write(f"**Analyse :** La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. "
+                                                f"Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.")
+
                                     
                                     elif option == "Répartition des Types de Proposition par Cluster":
                                         st.subheader("Répartition des Types de Proposition par Cluster")
