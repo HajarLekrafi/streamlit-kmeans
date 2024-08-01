@@ -414,11 +414,26 @@ if uploaded_file is not None:
                                     
                                     elif option == "Répartition des Types de Proposition par Cluster":
                                         st.subheader("Répartition des Types de Proposition par Cluster")
+                                        
+                                        # Calculer la répartition des types de proposition par cluster
                                         type_pro_cluster = data.groupby(['Cluster', 'Type_pro']).size().reset_index(name='Count')
+                                        
+                                        # Créer le graphique
                                         fig_type_pro_cluster = px.bar(type_pro_cluster, x='Cluster', y='Count', color='Type_pro',
                                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Propositions', 'Type_pro': 'Type de Proposition'},
                                                                     title='Répartition des Types de Proposition par Cluster')
+                                        
+                                        # Afficher le graphique
                                         st.plotly_chart(fig_type_pro_cluster)
+                                        
+                                        # Analyse
+                                        for cluster in type_pro_cluster['Cluster'].unique():
+                                            cluster_data = type_pro_cluster[type_pro_cluster['Cluster'] == cluster]
+                                            type_counts = cluster_data.groupby('Type_pro')['Count'].sum()
+                                            most_common_type = type_counts.idxmax()
+                                            st.write(f"**Cluster {cluster} :** Le type de proposition le plus fréquent est '{most_common_type}' avec un total de {type_counts.max()} propositions. "
+                                                    f"Ce type représente {type_counts.max() / type_counts.sum():.1%} du total des propositions dans ce cluster.")
+
                                     
                                     elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
                                         st.subheader("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
