@@ -194,12 +194,12 @@ if uploaded_file is not None:
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
 
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
-                                        st.subheader("Diagramme en Violin")
+                                        st.subheader("Diagramme en Violin des Valeurs du Montant par Cluster")
 
                                          # Créer le graphique
                                         fig_violin = px.violin(data, y='Mnt', color='Cluster',
-                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                        title='Diagramme en Violin des Valeurs du Montant par Cluster')
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'}
+                                                        )
                                         st.plotly_chart(fig_violin)
 
                                         # Dictionnaire pour les labels des clusters
@@ -238,8 +238,7 @@ if uploaded_file is not None:
                                         st.subheader("BoxPlot des Montants par Type de Proposition")
                                         if 'Mnt' in data.columns and 'Type_pro' in data.columns:
                                             fig_box = px.box(data, x='Type_pro', y='Mnt',
-                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'},
-                                                            title='BoxPlot des Montants par Type de Proposition')
+                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'})
                                             fig_box.update_layout(
                                                 xaxis_title='Type de Proposition',
                                                 yaxis_title='Montant',
@@ -268,12 +267,12 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
-                                        st.subheader("BoxPlot")
+                                        st.subheader("BoxPlot des Valeurs du Montant par Cluster")
 
                                         # Créer le graphique
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
-                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                        title='Diagramme en Boîte des Valeurs du Montant par Cluster')
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'}
+                                                        )
                                         st.plotly_chart(fig_box)
 
                                         # Dictionnaire pour les labels des clusters
@@ -332,7 +331,6 @@ if uploaded_file is not None:
                                         
                                         # Configurer le layout du graphique
                                         fig_trend.update_layout(
-                                            title='Tendances des Montants par Année',
                                             xaxis_title='Année',
                                             yaxis_title='Montant Total',
                                             xaxis=dict(
@@ -419,7 +417,6 @@ if uploaded_file is not None:
                                                 
                                                 # Créer le graphique
                                                 fig = px.bar(somme_montants, x='Jnl', y='Mnt',
-                                                            title='Somme des Montants par Journal',
                                                             labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
                                                             color='Mnt')
                                                 st.plotly_chart(fig)
@@ -469,7 +466,6 @@ if uploaded_file is not None:
 
                                             # Créer l'histogramme
                                             fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
-                                                                            title='Distribution des Montants par Ville la Plus Fréquente de Chaque Cluster',
                                                                             labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
                                                                             histfunc='count')
 
@@ -498,7 +494,7 @@ if uploaded_file is not None:
                                         # Créer le graphique
                                         fig_moyenne_montants = px.bar(moyenne_montants, x='Cluster', y='Mnt',
                                                                     labels={'Cluster': 'Cluster', 'Mnt': 'Moyenne des Montants'},
-                                                                    title='Moyenne des Montants par Cluster')
+                                                                    )
                                         st.plotly_chart(fig_moyenne_montants)
                                         
                                         # Analyse basée sur les données
@@ -572,8 +568,7 @@ if uploaded_file is not None:
                                         
                                         # Créer le graphique de nuage de points
                                         fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster',
-                                                                labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'},
-                                                                title='Diagramme de Nuage de Points pour Montants et Nombre de Propositions')
+                                                                labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'})
                                         st.plotly_chart(fig_scatter)
                                         
                                         # Analyse basée sur les données
