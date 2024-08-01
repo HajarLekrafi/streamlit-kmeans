@@ -183,7 +183,7 @@ if uploaded_file is not None:
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
-                                                    title='Répartition des Clusters')
+                                                    )
                                         st.plotly_chart(fig)
 
                                         # Analyse
@@ -399,7 +399,7 @@ if uploaded_file is not None:
                                         # Créer le graphique
                                         fig_propositions_cluster = px.bar(propositions_cluster, x='Cluster', y='Nb_propositions',
                                                                         labels={'Cluster': 'Cluster', 'Nb_propositions': 'Répartition des Propositions'},
-                                                                        title='Répartition des Propositions par Cluster')
+                                                                        )
                                         
                                         # Afficher le graphique
                                         st.plotly_chart(fig_propositions_cluster)
@@ -420,7 +420,7 @@ if uploaded_file is not None:
                                         # Créer le graphique
                                         fig_type_pro_cluster = px.bar(type_pro_cluster, x='Cluster', y='Count', color='Type_pro',
                                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Propositions', 'Type_pro': 'Type de Proposition'},
-                                                                    title='Répartition des Types de Proposition par Cluster')
+                                                                    )
                                         
                                         # Afficher le graphique
                                         st.plotly_chart(fig_type_pro_cluster)
