@@ -179,7 +179,7 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Clusters":
                                         st.subheader("Répartition des Clusters")
-                                        cluster_distribution = data['Sinistre'].value_counts().reset_index()
+                                        cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
