@@ -321,8 +321,6 @@ if uploaded_file is not None:
                                         
                                         # Créer le graphique linéaire
                                         fig_trend = go.Figure()
-
-                                        # Ajouter la ligne des tendances
                                         fig_trend.add_trace(go.Scatter(
                                             x=trend_data['annee'],
                                             y=trend_data['Mnt'],
@@ -331,7 +329,7 @@ if uploaded_file is not None:
                                             line=dict(color='rgba(55, 83, 109, 0.8)'),
                                             marker=dict(color='rgba(55, 83, 109, 0.7)')
                                         ))
-
+                                        
                                         # Configurer le layout du graphique
                                         fig_trend.update_layout(
                                             title='Tendances des Montants par Année',
@@ -346,9 +344,23 @@ if uploaded_file is not None:
                                             ),
                                             plot_bgcolor='rgba(240, 240, 240, 0.5)'
                                         )
-
+                                        
                                         # Afficher le graphique
                                         st.plotly_chart(fig_trend)
+                                        
+                                        # Analyse basée sur les données
+                                        st.write("**Analyse des Tendances des Montants par Année :**")
+                                        
+                                        # Trouver les années avec les montants les plus élevés et les plus bas
+                                        max_year = trend_data.loc[trend_data['Mnt'].idxmax()]
+                                        min_year = trend_data.loc[trend_data['Mnt'].idxmin()]
+                                        
+                                        st.write(f"- **Année avec le Montant Total le Plus Élevé** : {max_year['annee']} avec un montant total de {max_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus élevé, ce qui pourrait indiquer une augmentation des propositions ou des sinistres.")
+                                        st.write(f"- **Année avec le Montant Total le Plus Bas** : {min_year['annee']} avec un montant total de {min_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus bas, ce qui pourrait indiquer une diminution des propositions ou des sinistres.")
+                                        st.write(f"- **Tendances Générales** : Le graphique linéaire montre comment les montants totaux évoluent d'année en année. Observez les augmentations ou les diminutions significatives. Par exemple, une tendance croissante pourrait indiquer des changements dans les politiques ou une augmentation des demandes.")
+                                        st.write(f"- **Observations Particulières** : Notez les années avec des pics ou des creux marqués. Cela pourrait être dû à des événements spécifiques ou des changements dans les conditions économiques ou les pratiques de l'entreprise.")
+    
+
 
                                         
                                     elif option == "Répartition des Villes par Cluster":
@@ -580,8 +592,6 @@ if uploaded_file is not None:
                                                 st.write(f"  - Nombre moyen de propositions : {avg_nb_propositions:.2f}")
                                                 st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")
                                         
-                                        st.write("- **Observations Particulières :** Recherchez des regroupements ou des tendances spécifiques dans les points. Par exemple, des clusters avec des montants élevés et un grand nombre de propositions peuvent indiquer des catégories de propositions plus importantes ou plus coûteuses.")
-                                        st.write("- **Analyse des Outliers :** Identifiez s'il y a des points qui se trouvent loin des autres. Cela pourrait indiquer des anomalies ou des propositions avec des caractéristiques uniques.")
     
 
                                     
