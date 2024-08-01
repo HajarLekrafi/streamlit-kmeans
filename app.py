@@ -451,16 +451,16 @@ if uploaded_file is not None:
                                             # Afficher le graphique
                                             st.plotly_chart(fig_histogramme)
 
+                                            st.write(f"- L'histogramme montre la répartition des montants pour ces villes. Les hauteurs des barres indiquent combien de propositions ont des montants dans les différentes plages de valeurs pour chaque ville.")
+                                            st.write(f"- Une ville avec de nombreuses propositions à des montants élevés peut indiquer une concentration de propositions coûteuses dans cette ville.")
+                                            st.write(f"- En comparant les villes entre les clusters, on peut voir quelles villes ont des montants plus élevés ou plus faibles et comment cela se compare aux autres clusters.")
                                             # Analyse basée sur les données
                                             for cluster in villes_finales['Cluster'].unique():
                                                 villes_cluster = villes_finales[villes_finales['Cluster'] == cluster]['Ville'].values
                                                 st.write(f"**Cluster {cluster} :**")
-                                                st.write(f"- Les villes les plus fréquentes dans ce cluster sont : {', '.join(villes_cluster)}.")
-                                                st.write(f"- L'histogramme montre la répartition des montants pour ces villes. Les hauteurs des barres indiquent combien de propositions ont des montants dans les différentes plages de valeurs pour chaque ville.")
-                                                st.write(f"- Une ville avec de nombreuses propositions à des montants élevés peut indiquer une concentration de propositions coûteuses dans cette ville.")
-                                                st.write(f"- En comparant les villes entre les clusters, on peut voir quelles villes ont des montants plus élevés ou plus faibles et comment cela se compare aux autres clusters.")
+                                                st.write(f"- La ville la plus fréquente dans ce cluster est : {', '.join(villes_cluster)}.")
+                                               
 
-                                            st.write("En résumé, cet histogramme illustre comment les montants varient pour les villes les plus fréquentes de chaque cluster. Les différences dans les montants entre les villes peuvent aider à comprendre les caractéristiques spécifiques des propositions dans chaque cluster et identifier les villes avec des tendances de montant distinctes.")
 
 
                                     
