@@ -197,7 +197,8 @@ if uploaded_file is not None:
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
 
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
-                                        st.subheader("Diagramme en Violin des Valeurs du Montant par Cluster")
+                                        st.markdown("<h2 style='color: #197d9f;'>Diagramme en Violin des Valeurs du Montant par Cluster</h2>", unsafe_allow_html=True)
+
 
                                          # Créer le graphique
                                         fig_violin = px.violin(data, y='Mnt', color='Cluster',
@@ -238,7 +239,8 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
-                                        st.subheader("BoxPlot des Montants par Type de Proposition")
+                                        st.markdown("<h2 style='color: #197d9f;'>BoxPlot des Montants par Type de Proposition</h2>", unsafe_allow_html=True)
+
                                         if 'Mnt' in data.columns and 'Type_pro' in data.columns:
                                             fig_box = px.box(data, x='Type_pro', y='Mnt',
                                                             labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'})
@@ -270,7 +272,8 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
-                                        st.subheader("BoxPlot des Valeurs du Montant par Cluster")
+                                        st.markdown("<h2 style='color: #197d9f;'>BoxPlot des Valeurs du Montant par Cluster</h2>", unsafe_allow_html=True)
+
 
                                         # Créer le graphique
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
@@ -309,7 +312,9 @@ if uploaded_file is not None:
                                         
                                     
                                     elif option == "Analyse des Tendances des Montants par Année":
-                                        st.subheader("Analyse des Tendances des Montants par Année")
+                                        st.markdown("<h2 style='color: #197d9f;'>Analyse des Tendances des Montants par Année</h2>", unsafe_allow_html=True)
+
+                                        
                                         
                                         # Nettoyer la colonne 'Mnt' et 'annee'
                                         data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
@@ -365,6 +370,7 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "Répartition des Villes par Cluster":
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
                                         st.subheader("Répartition des Villes par Cluster")
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
@@ -409,7 +415,8 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_ville_cluster)
 
                                     elif option == "Somme des Montants par Journal":
-                                            st.subheader("Somme des Montants par Journal")
+                                            st.markdown("<h2 style='color: #197d9f;'>Somme des Montants par Journal</h2>", unsafe_allow_html=True)
+
                                             if 'Mnt' in data.columns and 'Jnl' in data.columns:
                                                 # Nettoyer la colonne 'Mnt'
                                                 data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
@@ -440,7 +447,7 @@ if uploaded_file is not None:
 
                                     
                                     elif option == "Montants par Ville la Plus Fréquente de Chaque Cluster":
-                                            st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
+                                            st.markdown("<h2 style='color: #197d9f;'>Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster</h2>", unsafe_allow_html=True)
 
                                             # Grouper par 'Cluster' et 'Ville' et compter les occurrences
                                             ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
@@ -489,8 +496,8 @@ if uploaded_file is not None:
 
                                     
                                     elif option == "Moyenne des Montants par Cluster":
-                                        st.subheader("Moyenne des Montants par Cluster")
-                                        
+                                        st.markdown("<h2 style='color: #197d9f;'>Moyenne des Montants par Cluster</h2>", unsafe_allow_html=True)
+                                    
                                         # Calculer la moyenne des montants par cluster
                                         moyenne_montants = data.groupby('Cluster')['Mnt'].mean().reset_index()
                                         
@@ -514,8 +521,8 @@ if uploaded_file is not None:
 
                                     
                                     elif option == "Répartition des Propositions par Cluster":
-                                        st.subheader("Répartition des Propositions par Cluster")
-                                        
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Propositions par Cluster</h2>", unsafe_allow_html=True)
+                                       
                                         # Calculer la répartition des propositions par cluster
                                         propositions_cluster = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
                                         
@@ -535,8 +542,8 @@ if uploaded_file is not None:
                                                 f"Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.")
 
                                     elif option == "Répartition des Types de Proposition par Cluster":
-                                        st.subheader("Répartition des Types de Proposition par Cluster")
-                                        
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Types de Proposition par Cluster</h2>", unsafe_allow_html=True)
+                          
                                         # Calculer la répartition des types de proposition par cluster
                                         type_pro_cluster = data.groupby(['Cluster', 'Type_pro']).size().reset_index(name='Count')
                                         
@@ -567,8 +574,8 @@ if uploaded_file is not None:
 
                                     
                                     elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
-                                        st.subheader("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
-                                        
+                                        st.markdown("<h2 style='color: #197d9f;'>Diagramme de Nuage de Points pour Montants et Nombre de Propositions</h2>", unsafe_allow_html=True)
+
                                         # Créer le graphique de nuage de points
                                         fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster',
                                                                 labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'})
