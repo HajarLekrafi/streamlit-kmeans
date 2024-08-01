@@ -371,7 +371,6 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Villes par Cluster":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
-                                        st.subheader("Répartition des Villes par Cluster")
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
                                         villes_utilisees = set()
