@@ -301,12 +301,7 @@ if uploaded_file is not None:
                                             city_count = villes_finales[villes_finales['Cluster'] == cluster]
                                             most_common_city = city_count.loc[city_count['Count'].idxmax()]
                                             st.write(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres. "
-                                                    f"Cela peut indiquer que ce cluster est fortement associé à cette ville en particulier.")
-
-                                        
-                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
-                                        st.write(villes_finales)
+                            )
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
