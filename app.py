@@ -213,7 +213,7 @@ if uploaded_file is not None:
                                                 subset = data[data['Type_pro'] == type_pro]
                                                 median_mnt = subset['Mnt'].median()
                                                 st.write(f"**Analyse pour {type_pro} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
-                                                st.write(f"Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
+                                        st.write(f"Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
                                                         f"ce qui pourrait suggérer une diversité dans les cas traités.")
 
 
