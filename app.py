@@ -499,7 +499,6 @@ if uploaded_file is not None:
                                         st.write(f"- **Cluster avec la Moyenne des Montants la Plus Élevée** : Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.")
                                         st.write(f"- **Cluster avec la Moyenne des Montants la Plus Basse** : Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.")
                                         st.write(f"- **Distribution des Moyennes** : L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.")
-                                        st.write(f"- **Observations Générales** : Comparez les moyennes entre les clusters pour identifier les différences significatives. Les clusters avec des moyennes plus élevées ou plus basses peuvent révéler des caractéristiques particulières des propositions dans ces groupes.")
 
 
                                     
@@ -558,10 +557,33 @@ if uploaded_file is not None:
                                     
                                     elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
                                         st.subheader("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+                                        
+                                        # Créer le graphique de nuage de points
                                         fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster',
                                                                 labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'},
                                                                 title='Diagramme de Nuage de Points pour Montants et Nombre de Propositions')
                                         st.plotly_chart(fig_scatter)
+                                        
+                                        # Analyse basée sur les données
+                                        st.write("**Analyse du Diagramme de Nuage de Points :**")
+                                        
+                                        # Trouver les tendances générales
+                                        st.write("- **Tendances Générales :** Examinez la distribution des points pour comprendre la relation entre le nombre de propositions et la valeur du montant. Les points sont colorés par cluster, ce qui permet de voir comment chaque cluster se distribue en termes de montant et de nombre de propositions.")
+                                        
+                                        # Identifier les clusters avec des montants élevés et un grand nombre de propositions
+                                        for cluster in data['Cluster'].unique():
+                                            cluster_data = data[data['Cluster'] == cluster]
+                                            if not cluster_data.empty:
+                                                avg_nb_propositions = cluster_data['Nb_propositions'].mean()
+                                                avg_montant = cluster_data['Mnt'].mean()
+                                                st.write(f"- **Cluster {cluster} :**")
+                                                st.write(f"  - Nombre moyen de propositions : {avg_nb_propositions:.2f}")
+                                                st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")
+                                        
+                                        st.write("- **Observations Particulières :** Recherchez des regroupements ou des tendances spécifiques dans les points. Par exemple, des clusters avec des montants élevés et un grand nombre de propositions peuvent indiquer des catégories de propositions plus importantes ou plus coûteuses.")
+                                        st.write("- **Analyse des Outliers :** Identifiez s'il y a des points qui se trouvent loin des autres. Cela pourrait indiquer des anomalies ou des propositions avec des caractéristiques uniques.")
+    
+
                                     
                                    
 
