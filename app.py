@@ -411,7 +411,6 @@ if uploaded_file is not None:
                                         st.write(f"**Analyse :** La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. "
                                                 f"Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.")
 
-                                    
                                     elif option == "Répartition des Types de Proposition par Cluster":
                                         st.subheader("Répartition des Types de Proposition par Cluster")
                                         
@@ -426,13 +425,22 @@ if uploaded_file is not None:
                                         # Afficher le graphique
                                         st.plotly_chart(fig_type_pro_cluster)
                                         
+                                        # Dictionnaire pour les labels des types de proposition
+                                        type_pro_labels = {
+                                            'BJ': 'Procédure judiciaire',
+                                            'TJ': 'Transaction suite jugement au fond',
+                                            'TD': 'Transaction directe à l\'amiable'
+                                        }
+                                        
                                         # Analyse
                                         for cluster in type_pro_cluster['Cluster'].unique():
                                             cluster_data = type_pro_cluster[type_pro_cluster['Cluster'] == cluster]
                                             type_counts = cluster_data.groupby('Type_pro')['Count'].sum()
                                             most_common_type = type_counts.idxmax()
-                                            st.write(f"**Cluster {cluster} :** Le type de proposition le plus fréquent est '{most_common_type}' avec un total de {type_counts.max()} propositions. "
+                                            most_common_type_label = type_pro_labels.get(most_common_type, 'Type inconnu')
+                                            st.write(f"**Cluster {cluster} :** Le type de proposition le plus fréquent est '{most_common_type_label}' avec un total de {type_counts.max()} propositions. "
                                                     f"Ce type représente {type_counts.max() / type_counts.sum():.1%} du total des propositions dans ce cluster.")
+
 
                                     
                                     elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
