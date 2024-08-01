@@ -179,7 +179,7 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Clusters":
                                         st.subheader("Répartition des Clusters")
-                                        cluster_distribution = data['Cluster'].value_counts().reset_index()
+                                        cluster_distribution = data['Sinistre'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
@@ -188,9 +188,11 @@ if uploaded_file is not None:
 
                                         # Analyse
                                         total_sinistres = cluster_distribution['Count'].sum()
+                                        cluster_max = cluster_distribution.loc[cluster_distribution['Count'].idxmax()]
                                         st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
-                                                f"Le Cluster {cluster_distribution['Cluster'].idxmax()} a le plus grand nombre de sinistres, représentant "
-                                                f"{cluster_distribution['Count'].max() / total_sinistres:.1%} du total des sinistres.")
+                                                f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
+                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
+
 
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
