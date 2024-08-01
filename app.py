@@ -221,13 +221,15 @@ if uploaded_file is not None:
                                             max_mnt = subset['Mnt'].max()
                                             label = cluster_labels.get(cluster, f'Cluster {cluster}')
                                             
+                                            
+                                            st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
+                                            st.write(f"- **Comparaison entre les Clusters** :Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
+
                                             # Interprétation globale des données du cluster
                                             st.write(f"**Analyse pour {label} :**")
-                                            st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
                                             st.write(f"- **Médiane** : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.")
                                             st.write(f"- **Écart Interquartile (IQR)** : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.")
                                             st.write(f"- **Montants Extrêmes** : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies.")
-                                            st.write(f"- **Comparaison entre les Clusters** : Comparez les formes des violons entre les clusters. Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
 
                                         st.write("En résumé, le diagramme en violon vous permet de visualiser non seulement la répartition des montants dans chaque cluster, mais aussi les tendances globales et les variations entre les groupes. Les différences dans la forme des violons révèlent comment les montants se répartissent et peuvent aider à identifier des groupes avec des caractéristiques de montant distinctes.")
 
