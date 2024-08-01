@@ -92,7 +92,7 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     # Charger les données
     data = pd.read_csv(uploaded_file)
-    st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
+    st.write("Données chargées :", unsafe_allow_html=True)
     st.write(data.head())
     
     # Vérifier les colonnes et les types de données
@@ -375,7 +375,7 @@ if uploaded_file is not None:
                                                     villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
+                                        st.write("Villes les plus fréquentes par Cluster :", unsafe_allow_html=True)
                                         st.write(villes_finales)
                                         
                                         # Analyse
@@ -619,10 +619,10 @@ if uploaded_file is not None:
                                 sinistre_col = 'sinistre'
                             
                             if sinistre_col:
-                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
+                                st.write("Toutes les prédictions avec labels :", unsafe_allow_html=True)
                                 st.write(data[[sinistre_col, 'Cluster']])
                             else:
-                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
+                                st.write("Toutes les prédictions avec labels :", unsafe_allow_html=True)
                                 st.write(data[['Cluster']])
 
                         except Exception as e:
