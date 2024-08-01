@@ -193,7 +193,12 @@ if uploaded_file is not None:
                                                 f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
 
-
+                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
+                                        st.subheader("Diagramme en Violin")
+                                        fig_violin = px.violin(data, y='Mnt', color='Cluster',
+                                                            labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
+                                                            title='Diagramme en Violin des Valeurs du Montant par Cluster')
+                                        st.plotly_chart(fig_violin)
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
                                         st.subheader("BoxPlot des Montants par Type de Proposition")
@@ -239,10 +244,10 @@ if uploaded_file is not None:
 
                                         # Dictionnaire pour les labels des clusters
                                         cluster_labels = {
-                                            0: 'Cluster 0 - Label descriptif',
-                                            1: 'Cluster 1 - Label descriptif',
-                                            2: 'Cluster 2 - Label descriptif',
-                                            3: 'Cluster 3 - Label descriptif'
+                                            0: 'Cluster 0 ',
+                                            1: 'Cluster 1 ',
+                                            2: 'Cluster 2 ',
+                                            3: 'Cluster 3 '
                                             # Ajoutez d'autres clusters et labels si nécessaire
                                         }
                                         
