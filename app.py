@@ -418,14 +418,14 @@ if uploaded_file is not None:
                                 st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
                                 st.write(data[['Cluster']])
 
-                                    except Exception as e:
-                                        st.error(f"Erreur lors de la prédiction des clusters: {e}")
-                                
-                            except Exception as e:
-                                st.error(f"Erreur lors du prétraitement des données: {e}")
-                    except Exception as e:
-                        st.error(f"Erreur lors de la conversion des colonnes: {e}")
-                else:
-                    st.error("Le fichier CSV ne contient pas les colonnes attendues.")
+                except Exception as e:
+                        st.error(f"Erreur lors de la prédiction des clusters: {e}")
+                            
+                except Exception as e:
+                        st.error(f"Erreur lors du prétraitement des données: {e}")
+                except Exception as e:
+                    st.error(f"Erreur lors de la conversion des colonnes: {e}")
             else:
-                st.write("Veuillez télécharger un fichier CSV pour commencer.")
+                st.error("Le fichier CSV ne contient pas les colonnes attendues.")
+    else:
+            st.write("Veuillez télécharger un fichier CSV pour commencer.")
