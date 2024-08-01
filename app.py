@@ -180,7 +180,7 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Clusters":
 
-                                        st.markdown("<h2 style='color: blue;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
 
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
