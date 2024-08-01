@@ -204,10 +204,10 @@ if uploaded_file is not None:
 
                                         # Dictionnaire pour les labels des clusters
                                         cluster_labels = {
-                                            0: 'Cluster 0 - Label descriptif',
-                                            1: 'Cluster 1 - Label descriptif',
-                                            2: 'Cluster 2 - Label descriptif',
-                                            3: 'Cluster 3 - Label descriptif'
+                                            0: 'Cluster 0 ',
+                                            1: 'Cluster 1 ',
+                                            2: 'Cluster 2 ',
+                                            3: 'Cluster 3 '
                                             # Ajoutez d'autres clusters et labels si nécessaire
                                         }
                                         
@@ -232,8 +232,6 @@ if uploaded_file is not None:
                                             st.write(f"- **Médiane** : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.")
                                             st.write(f"- **Écart Interquartile (IQR)** : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.")
                                             st.write(f"- **Montants Extrêmes** : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies.")
-
-                                        st.write("En résumé, le diagramme en violon vous permet de visualiser non seulement la répartition des montants dans chaque cluster, mais aussi les tendances globales et les variations entre les groupes. Les différences dans la forme des violons révèlent comment les montants se répartissent et peuvent aider à identifier des groupes avec des caractéristiques de montant distinctes.")
 
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
@@ -417,41 +415,53 @@ if uploaded_file is not None:
                                             st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
                                     
                                     elif option == "Montants par Ville la Plus Fréquente de Chaque Cluster":
-                                        st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
-                                        
-                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        
-                                        # Initialiser un DataFrame pour stocker les résultats finaux
-                                        villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
-                                        villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
-                                        
-                                        # Boucle pour chaque cluster
-                                        for cluster in ville_cluster['Cluster'].unique():
-                                            cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
-                                            
-                                            # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
-                                            for idx, row in cluster_data.iterrows():
-                                                if row['Ville_Nom'] not in villes_utilisees:
-                                                    villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
-                                                    villes_utilisees.add(row['Ville_Nom'])
-                                                    break
+                                            st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
 
-                                        # Filtrer les montants pour les villes les plus fréquentes
-                                        villes_finales = villes_finales.rename(columns={'Ville_Nom': 'Ville'})
-                                        filtered_data = data[data['Ville_Nom'].isin(villes_finales['Ville'])]
+                                            # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                            ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
 
-                                        # Créer un DataFrame pour les montants par ville et cluster
-                                        montants_villes = filtered_data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
-                                        
-                                        # Créer l'histogramme
-                                        fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
-                                                                    title='Distribution des Montants par Ville la Plus Fréquente de Chaque Cluster',
-                                                                    labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
-                                                                    histfunc='count')
+                                            # Initialiser un DataFrame pour stocker les résultats finaux
+                                            villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                            villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
 
-                                        # Afficher le graphique
-                                        st.plotly_chart(fig_histogramme)
+                                            # Boucle pour chaque cluster
+                                            for cluster in ville_cluster['Cluster'].unique():
+                                                cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
+                                                
+                                                # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
+                                                for idx, row in cluster_data.iterrows():
+                                                    if row['Ville_Nom'] not in villes_utilisees:
+                                                        villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
+                                                        villes_utilisees.add(row['Ville_Nom'])
+                                                        break
+
+                                            # Filtrer les montants pour les villes les plus fréquentes
+                                            villes_finales = villes_finales.rename(columns={'Ville_Nom': 'Ville'})
+                                            filtered_data = data[data['Ville_Nom'].isin(villes_finales['Ville'])]
+
+                                            # Créer un DataFrame pour les montants par ville et cluster
+                                            montants_villes = filtered_data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
+
+                                            # Créer l'histogramme
+                                            fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
+                                                                            title='Distribution des Montants par Ville la Plus Fréquente de Chaque Cluster',
+                                                                            labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
+                                                                            histfunc='count')
+
+                                            # Afficher le graphique
+                                            st.plotly_chart(fig_histogramme)
+
+                                            # Analyse basée sur les données
+                                            for cluster in villes_finales['Cluster'].unique():
+                                                villes_cluster = villes_finales[villes_finales['Cluster'] == cluster]['Ville'].values
+                                                st.write(f"**Cluster {cluster} :**")
+                                                st.write(f"- Les villes les plus fréquentes dans ce cluster sont : {', '.join(villes_cluster)}.")
+                                                st.write(f"- L'histogramme montre la répartition des montants pour ces villes. Les hauteurs des barres indiquent combien de propositions ont des montants dans les différentes plages de valeurs pour chaque ville.")
+                                                st.write(f"- Une ville avec de nombreuses propositions à des montants élevés peut indiquer une concentration de propositions coûteuses dans cette ville.")
+                                                st.write(f"- En comparant les villes entre les clusters, on peut voir quelles villes ont des montants plus élevés ou plus faibles et comment cela se compare aux autres clusters.")
+
+                                            st.write("En résumé, cet histogramme illustre comment les montants varient pour les villes les plus fréquentes de chaque cluster. Les différences dans les montants entre les villes peuvent aider à comprendre les caractéristiques spécifiques des propositions dans chaque cluster et identifier les villes avec des tendances de montant distinctes.")
+
 
                                     
                                     elif option == "Moyenne des Montants par Cluster":
