@@ -208,13 +208,23 @@ if uploaded_file is not None:
                                             )
                                             st.plotly_chart(fig_box)
                                             
+                                            # Dictionnaire pour les labels des types de proposition
+                                            type_pro_labels = {
+                                                'BJ': 'Procédure judiciaire',
+                                                'TJ': 'Transaction suite jugement au fond',
+                                                'TD': 'Transaction directe à l\'amiable'
+                                            }
+
                                             # Analyse
                                             for type_pro in data['Type_pro'].unique():
                                                 subset = data[data['Type_pro'] == type_pro]
                                                 median_mnt = subset['Mnt'].median()
-                                                st.write(f"**Analyse pour {type_pro} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
-                                        st.write(f"Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
-                                                        f"ce qui pourrait suggérer une diversité dans les cas traités.")
+                                                label = type_pro_labels.get(type_pro, 'Type inconnu')
+                                                st.write(f"**Analyse pour {label} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
+                                            
+                                            st.write("Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
+                                                    "ce qui pourrait suggérer une diversité dans les cas traités.")
+
 
 
                                         
