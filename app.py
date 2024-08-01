@@ -173,7 +173,6 @@ if uploaded_file is not None:
                             
                             data['Ville_Nom'] = data['Ville'].map(ville_mapping)
                             
-                            
                             # Afficher la section sélectionnée dans la barre latérale
                             for option, selected in options.items():
                                 if selected:
@@ -325,8 +324,6 @@ if uploaded_file is not None:
 
                                         # Afficher le graphique
                                         st.plotly_chart(fig_trend)
-                                        
-                                
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
@@ -472,7 +469,22 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_scatter)
                                     
                                    
-                            # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
+
+
+                                        
+                                    
+
+                                       
+                                    
+                                    
+
+                                    
+
+
+                                        
+                                        
+                                        
+                                # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
                             if 'Sinistre' in data.columns:
                                 sinistre_col = 'Sinistre'
