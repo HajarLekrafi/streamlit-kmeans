@@ -59,7 +59,6 @@ with st.sidebar.expander("Analyse des Clusters", expanded=True):
 with st.sidebar.expander("Montants", expanded=True):
     valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
     valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
-    pareto_montants = st.checkbox("Diagramme de Pareto pour Montants")
     montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
     somme_journal = st.checkbox("Somme des Montants par Journal")
     moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
@@ -76,7 +75,6 @@ options = {
     "Répartition des Types de Proposition par Cluster": types_propositions,
     "Valeurs des Montants par Cluster en BoxPlot": valeurs_boxplot,
     "Valeurs des Montants par Cluster en Diagramme en Violin": valeurs_violin,
-    "Diagramme de Pareto pour Montants": pareto_montants,
     "Montants par Ville la Plus Fréquente de Chaque Cluster": montants_ville_frequent,
     "Somme des Montants par Journal": somme_journal,
     "Moyenne des Montants par Cluster": moyenne_montants,
@@ -223,64 +221,7 @@ if uploaded_file is not None:
                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
                                         
-                                    elif option == "Diagramme de Pareto pour Montants":
-                                        st.subheader("Diagramme de Pareto pour Montants")
-                                        
-                                        # Nettoyer la colonne 'Mnt'
-                                        data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
-                                        data['Mnt'].fillna(0, inplace=True)
-                                        
-                                        # Grouper les données par montant et compter les occurrences
-                                        montant_counts = data['Mnt'].value_counts().reset_index()
-                                        montant_counts.columns = ['Montant', 'Count']
-                                        
-                                        # Ordonner les montants par fréquence décroissante
-                                        montant_counts = montant_counts.sort_values(by='Montant', ascending=False).reset_index(drop=True)
-                                        
-                                        # Calculer la somme cumulative des montants et des fréquences
-                                        montant_counts['Cumulative Count'] = montant_counts['Count'].cumsum()
-                                        montant_counts['Cumulative Percentage'] = 100 * montant_counts['Cumulative Count'] / montant_counts['Count'].sum()
-                                        
-                                        # Créer le diagramme de Pareto
-                                        fig_pareto = go.Figure()
-
-                                        # Ajouter les barres pour les montants
-                                        fig_pareto.add_trace(go.Bar(
-                                            x=montant_counts['Montant'],
-                                            y=montant_counts['Count'],
-                                            name='Fréquence',
-                                            marker=dict(color='rgba(55, 83, 109, 0.7)')
-                                        ))
-
-                                        # Ajouter la ligne cumulative
-                                        fig_pareto.add_trace(go.Scatter(
-                                            x=montant_counts['Montant'],
-                                            y=montant_counts['Cumulative Percentage'],
-                                            mode='lines+markers',
-                                            name='Cumulative Percentage',
-                                            yaxis='y2',
-                                            line=dict(color='rgba(219, 64, 82, 0.8)')
-                                        ))
-
-                                        # Configurer le layout du graphique
-                                        fig_pareto.update_layout(
-                                            title='Diagramme de Pareto pour Montants',
-                                            xaxis_title='Montant',
-                                            yaxis_title='Fréquence',
-                                            yaxis2=dict(
-                                                title='Pourcentage Cumulatif',
-                                                titlefont=dict(color='rgba(219, 64, 82, 0.8)'),
-                                                tickfont=dict(color='rgba(219, 64, 82, 0.8)'),
-                                                overlaying='y',
-                                                side='right'
-                                            ),
-                                            barmode='group'
-                                        )
-
-                                        # Afficher le graphique
-                                        st.plotly_chart(fig_pareto)
-
-                                        
+                                    
                                     elif option == "Analyse des Tendances des Montants par Année":
                                         st.subheader("Analyse des Tendances des Montants par Année")
                                         
