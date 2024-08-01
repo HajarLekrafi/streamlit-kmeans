@@ -185,11 +185,13 @@ if uploaded_file is not None:
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
                                                     title='Répartition des Clusters')
                                         st.plotly_chart(fig)
-                                        
-                                        # Afficher la répartition des clusters avec labels
-                                        st.write("Répartition des clusters avec labels :")
-                                        cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
-                                        st.write(cluster_distribution_labels)
+
+                                        # Analyse
+                                        total_sinistres = cluster_distribution['Count'].sum()
+                                        st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
+                                                f"Le Cluster {cluster_distribution['Cluster'].idxmax()} a le plus grand nombre de sinistres, représentant "
+                                                f"{cluster_distribution['Count'].max() / total_sinistres:.1%} du total des sinistres.")
+
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
                                         st.subheader("BoxPlot des Montants par Type de Proposition")
