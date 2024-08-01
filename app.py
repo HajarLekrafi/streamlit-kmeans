@@ -281,15 +281,8 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_trend)
 
                                         
-                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
-                                        st.subheader("Diagramme en Violin")
-                                        fig_violin = px.violin(data, y='Mnt', color='Cluster',
-                                                            labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                            title='Diagramme en Violin des Valeurs du Montant par Cluster')
-                                        st.plotly_chart(fig_violin)
-                                        
                                     elif option == "Répartition des Villes par Cluster":
-                                        st.subheader("Histogramme des Villes par Cluster")
+                                        st.subheader("Répartition des Villes par Cluster")
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
                                         villes_utilisees = set()
@@ -310,6 +303,32 @@ if uploaded_file is not None:
                                             st.write(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres. "
                                                     f"Cela peut indiquer que ce cluster est fortement associé à cette ville en particulier.")
 
+                                        
+                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
+                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
+                                        st.write(villes_finales)
+                                        
+                                        # Créer et afficher le graphique
+                                        fig_ville_cluster = go.Figure()
+
+                                        # Ajouter les barres pour les villes les plus fréquentes
+                                        fig_ville_cluster.add_trace(go.Bar(
+                                            x=villes_finales['Cluster'],
+                                            y=villes_finales['Count'],
+                                            marker=dict(color='rgba(55, 83, 109, 0.7)'),
+                                            name='Ville la plus fréquente'
+                                        ))
+
+                                        # Configurer le layout du graphique
+                                        fig_ville_cluster.update_layout(
+                                            title='Histogramme des Villes les Plus Fréquentes par Cluster',
+                                            xaxis_title='Cluster',
+                                            yaxis_title='Nombre de villes',
+                                            barmode='group'
+                                        )
+
+                                        # Afficher le graphique
+                                        st.plotly_chart(fig_ville_cluster)
 
                                     elif option == "Somme des Montants par Journal":
                                         st.subheader("Somme des Montants par Journal")
