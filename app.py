@@ -210,6 +210,9 @@ if uploaded_file is not None:
                                             3: 'Cluster 3 - Label descriptif'
                                             # Ajoutez d'autres clusters et labels si nécessaire
                                         }
+                                        
+                                        st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
+                                        st.write(f"- **Comparaison entre les Clusters** :Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
 
                                         # Analyse basée sur les données
                                         for cluster in data['Cluster'].unique():
@@ -222,8 +225,7 @@ if uploaded_file is not None:
                                             label = cluster_labels.get(cluster, f'Cluster {cluster}')
                                             
                                             
-                                            st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
-                                            st.write(f"- **Comparaison entre les Clusters** :Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
+            
 
                                             # Interprétation globale des données du cluster
                                             st.write(f"**Analyse pour {label} :**")
