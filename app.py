@@ -396,23 +396,38 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_ville_cluster)
 
                                     elif option == "Somme des Montants par Journal":
-                                        st.subheader("Somme des Montants par Journal")
-                                        if 'Mnt' in data.columns and 'Jnl' in data.columns:
-                                            # Nettoyer la colonne 'Mnt'
-                                            data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
-                                            data['Mnt'].fillna(0, inplace=True)
-                                            
-                                            # Préparer les données pour le graphique
-                                            somme_montants = data.groupby('Jnl')['Mnt'].sum().reset_index()
-                                            
-                                            # Créer le graphique
-                                            fig = px.bar(somme_montants, x='Jnl', y='Mnt',
-                                                        title='Somme des Montants par Journal',
-                                                        labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
-                                                        color='Mnt')
-                                            st.plotly_chart(fig)
-                                        else:
-                                            st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
+                                            st.subheader("Somme des Montants par Journal")
+                                            if 'Mnt' in data.columns and 'Jnl' in data.columns:
+                                                # Nettoyer la colonne 'Mnt'
+                                                data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
+                                                data['Mnt'].fillna(0, inplace=True)
+                                                
+                                                # Préparer les données pour le graphique
+                                                somme_montants = data.groupby('Jnl')['Mnt'].sum().reset_index()
+                                                
+                                                # Créer le graphique
+                                                fig = px.bar(somme_montants, x='Jnl', y='Mnt',
+                                                            title='Somme des Montants par Journal',
+                                                            labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
+                                                            color='Mnt')
+                                                st.plotly_chart(fig)
+                                                
+                                                # Analyse basée sur les données
+                                                st.write("**Analyse des Sommes des Montants par Journal :**")
+                                                
+                                                # Trouver le journal avec le montant total le plus élevé et le plus bas
+                                                max_journal = somme_montants.loc[somme_montants['Mnt'].idxmax()]
+                                                min_journal = somme_montants.loc[somme_montants['Mnt'].idxmin()]
+                                                
+                                                st.write(f"- **Journal avec le Montant Total le Plus Élevé** : {max_journal['Jnl']} avec une somme de {max_journal['Mnt']:.2f}. Cela indique que ce journal a enregistré le montant total le plus élevé parmi tous les journaux.")
+                                                st.write(f"- **Journal avec le Montant Total le Plus Bas** : {min_journal['Jnl']} avec une somme de {min_journal['Mnt']:.2f}. Ce journal a enregistré le montant total le plus bas.")
+                                                st.write(f"- **Distribution des Montants** : L'histogramme montre comment les montants totaux sont répartis entre les différents journaux. Les journaux avec des barres plus longues indiquent une somme totale plus élevée, tandis que les barres plus courtes indiquent des montants totaux plus faibles.")
+                                                st.write(f"- **Observations Générales** : Comparez les montants totaux entre les journaux. Les différences importantes peuvent révéler des tendances ou des anomalies dans les données de chaque journal.")
+
+                                                st.write("En résumé, cet histogramme montre comment les montants totaux se répartissent parmi les différents journaux. Il est utile pour identifier les journaux avec des montants totaux plus élevés ou plus faibles, ce qui peut fournir des indications sur les variations dans les données de chaque journal.")
+                                            else:
+                                                st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
+
                                     
                                     elif option == "Montants par Ville la Plus Fréquente de Chaque Cluster":
                                             st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
