@@ -230,10 +230,41 @@ if uploaded_file is not None:
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
                                         st.subheader("BoxPlot")
+
+                                        # Créer le graphique
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
                                                         labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
                                                         title='Diagramme en Boîte des Valeurs du Montant par Cluster')
                                         st.plotly_chart(fig_box)
+
+                                        # Dictionnaire pour les labels des clusters
+                                        cluster_labels = {
+                                            0: 'Cluster 0 - Label descriptif',
+                                            1: 'Cluster 1 - Label descriptif',
+                                            2: 'Cluster 2 - Label descriptif',
+                                            3: 'Cluster 3 - Label descriptif'
+                                            # Ajoutez d'autres clusters et labels si nécessaire
+                                        }
+                                        
+                                        # Analyse simplifiée
+                                        for cluster in data['Cluster'].unique():
+                                            subset = data[data['Cluster'] == cluster]
+                                            median_mnt = subset['Mnt'].median()
+                                            q1 = subset['Mnt'].quantile(0.25)
+                                            q3 = subset['Mnt'].quantile(0.75)
+                                            iqr = q3 - q1
+                                            min_mnt = subset['Mnt'].min()
+                                            max_mnt = subset['Mnt'].max()
+                                            label = cluster_labels.get(cluster, f'Cluster {cluster}')
+                                            
+                                            st.write(f"**Analyse pour {label} :**")
+                                            st.write(f"- **Médiane** : La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
+                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
+                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
+                                            
+                                        st.write("En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
+                                                "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
+
                                         
                                     
                                     elif option == "Analyse des Tendances des Montants par Année":
