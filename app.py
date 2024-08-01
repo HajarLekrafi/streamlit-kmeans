@@ -123,6 +123,7 @@ if uploaded_file is not None:
                 data['sinistre'].fillna(0, inplace=True)
                 data['sinistre'] = data['sinistre'].astype(int)
              
+             
 
             # Prétraitement
             if hasattr(preprocessor, 'transform'):
@@ -178,7 +179,9 @@ if uploaded_file is not None:
                                         st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
                                         
                                     elif option == "Répartition des Clusters":
-                                        st.subheader("Répartition des Clusters")
+
+                                        st.markdown("<h2 style='color: blue;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
+
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
@@ -585,26 +588,7 @@ if uploaded_file is not None:
                                                 avg_montant = cluster_data['Mnt'].mean()
                                                 st.write(f"- **Cluster {cluster} :**")
                                                 st.write(f"  - Nombre moyen de propositions : {avg_nb_propositions:.2f}")
-                                                st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")
-                                        
-    
-
-                                    
-                                   
-
-
-                                        
-                                    
-
-                                       
-                                    
-                                    
-
-                                    
-
-
-                                        
-                                        
+                                                st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")                        
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
