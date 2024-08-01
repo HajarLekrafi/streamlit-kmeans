@@ -324,6 +324,16 @@ if uploaded_file is not None:
 
                                         # Afficher le graphique
                                         st.plotly_chart(fig_trend)
+                                        
+                                        def analyse_violin_montants_par_cluster(df):
+                                            analyses = []
+                                            for cluster in df['Cluster'].unique():
+                                                montant_data = df[df['Cluster'] == cluster]['Mnt']
+                                                quantiles = montant_data.quantile([0.25, 0.5, 0.75])
+                                                analyses.append(f"Pour le Cluster {cluster}, les quantiles des montants sont : 25ème percentile = {quantiles[0.25]:.2f}, "
+                                                                f"médiane = {quantiles[0.5]:.2f}, et 75ème percentile = {quantiles[0.75]:.2f}.")
+                                            
+                                            return "\n".join(analyses)
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
