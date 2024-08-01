@@ -197,25 +197,25 @@ if uploaded_file is not None:
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
                                         st.subheader("BoxPlot des Montants par Type de Proposition")
-
-                                        # Vérifier que les colonnes nécessaires sont présentes
                                         if 'Mnt' in data.columns and 'Type_pro' in data.columns:
-                                            # Créer le BoxPlot
                                             fig_box = px.box(data, x='Type_pro', y='Mnt',
                                                             labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'},
                                                             title='BoxPlot des Montants par Type de Proposition')
-                                            
-                                            # Configurer le layout du graphique
                                             fig_box.update_layout(
                                                 xaxis_title='Type de Proposition',
                                                 yaxis_title='Montant',
                                                 plot_bgcolor='rgba(240, 240, 240, 0.5)'
                                             )
-
-                                            # Afficher le graphique
                                             st.plotly_chart(fig_box)
-                                        else:
-                                            st.error("Les colonnes nécessaires ('Mnt', 'Type_pro') ne sont pas présentes dans les données.")
+                                            
+                                            # Analyse
+                                            for type_pro in data['Type_pro'].unique():
+                                                subset = data[data['Type_pro'] == type_pro]
+                                                median_mnt = subset['Mnt'].median()
+                                                st.write(f"**Analyse pour {type_pro} :** Le montant médian des sinistres est de {median_mnt:.2f}. "
+                                                        f"Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
+                                                        f"ce qui pourrait suggérer une diversité dans les cas traités.")
+
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
