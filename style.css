@@ -38,28 +38,6 @@
     background-color: #1558d6;
 }
 
-
-   
-    62.5% {
-     left: 32px;
-   
-    }
-   
-    87.5% {
-     left: 0;
-     top: 32px;
-    }
-   
-    98% {
-     left: 0;
-     top: 32px;
-    }
-   
-    100% {
-     left: 0;
-     top: 0;
-    }
-   }
    
    /* Sidebar Styles */
 .sidebar {
