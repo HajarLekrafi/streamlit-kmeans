@@ -45,13 +45,55 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
+
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 
 def add_styled_checkbox(label, key):
-    checked = st.sidebar.checkbox(label, key=key)
+    # Using Streamlit's default checkbox to handle state
+    checked = st.sidebar.checkbox(label, key=key, value=False, help="Custom Checkbox")
+    
+    # Custom HTML for styling
     checkbox_html = f"""
-    <div class="checkbox-wrapper" style="display: inline-block;">
+    <style>
+    .checkbox-wrapper {{
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+    }}
+    .checkbox-wrapper input[type="checkbox"] {{
+        opacity: 0;
+        position: absolute;
+        cursor: pointer;
+    }}
+    .checkbox-wrapper input[type="checkbox"] + label {{
+        position: relative;
+        padding-left: 30px;
+        display: inline-block;
+    }}
+    .checkbox-wrapper input[type="checkbox"] + label .tick_mark {{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #333;
+        background: #fff;
+    }}
+    .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark {{
+        background: #007bff;
+        border: 2px solid #007bff;
+    }}
+    .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark::after {{
+        content: "\\2713";
+        color: white;
+        position: absolute;
+        left: 4px;
+        top: 0;
+        font-size: 16px;
+    }}
+    </style>
+    <div class="checkbox-wrapper">
       <input id="{key}" type="checkbox" {'checked' if checked else ''}>
       <label for="{key}">
         <div class="tick_mark"></div>
@@ -61,7 +103,7 @@ def add_styled_checkbox(label, key):
     st.sidebar.markdown(checkbox_html, unsafe_allow_html=True)
     return checked
 
-# Création des sous-sections avec des checkboxes stylisées
+# Create sections with custom-styled checkboxes
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
     accueil = add_styled_checkbox("Accueil", "accueil")
     repartition_clusters = add_styled_checkbox("Répartition des Clusters", "repartition_clusters")
@@ -79,7 +121,7 @@ with st.sidebar.expander("Montants", expanded=True):
     tendances_annuelles = add_styled_checkbox("Analyse des Tendances des Montants par Année", "tendances_annuelles")
     boxplot_types_proposition = add_styled_checkbox("BoxPlot des Montants par Type de Proposition", "boxplot_types_proposition")
 
-# Utiliser les options sélectionnées
+# Use selected options
 options = {
     "Accueil": accueil,
     "Répartition des Clusters": repartition_clusters,
