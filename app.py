@@ -16,6 +16,29 @@ with open('preprocessor.pkl', 'rb') as file:
 # Lire le CSS depuis le fichier
 with open('style.css', 'r') as file:
     css = file.read()
+    
+# Function to add custom CSS
+def add_custom_css():
+    st.markdown(
+        """
+        <style>
+        .title {
+            color: #197d9f;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .subtitle {
+            color: #555;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Call the function to add custom CSS
+add_custom_css()
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
