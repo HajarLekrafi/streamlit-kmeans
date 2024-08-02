@@ -55,3 +55,33 @@ body {
     width: 100px;
     height: 100px;
 }
+/* Style pour la barre latérale */
+.sidebar .sidebar-content {
+    background-color: #f0f2f6; /* Couleur de fond */
+    padding: 1rem; /* Espacement interne */
+    border-right: 1px solid #e1e4e8; /* Bordure droite */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Ombre */
+}
+
+.sidebar .sidebar-header {
+    font-size: 1.5rem; /* Taille du texte */
+    color: #197d9f; /* Couleur du texte */
+    margin-bottom: 1rem; /* Marge inférieure */
+}
+
+.sidebar .expander {
+    border: 1px solid #e1e4e8; /* Bordure des expandeurs */
+    border-radius: 4px; /* Coins arrondis */
+}
+
+.sidebar .expander:hover {
+    background-color: #e1e4e8; /* Couleur de fond au survol */
+}
+
+.sidebar .checkbox {
+    margin: 0.5rem 0; /* Marge des cases à cocher */
+}
+
+.sidebar .checkbox input[type="checkbox"] {
+    margin-right: 0.5rem; /* Espacement à droite des cases à cocher */
+}
