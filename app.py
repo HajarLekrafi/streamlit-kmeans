@@ -189,7 +189,7 @@ if uploaded_file is not None:
                                     if option == "Accueil":
                                         st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
                                         
-                                    elif option == "Répartition des Clusters":
+                                    elif option == "repartition_clusters":
 
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
 
