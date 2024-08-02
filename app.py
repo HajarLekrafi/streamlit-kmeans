@@ -16,8 +16,6 @@ with open('preprocessor.pkl', 'rb') as file:
 # Lire le CSS depuis le fichier
 with open('style.css', 'r') as file:
     css = file.read()
-    
-
 
 # Inclure le CSS dans la page
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
@@ -41,22 +39,22 @@ loader_html = """
 <div class="loader-square"></div>
 <div class="loader-square"></div>
 <div class="loader-square"></div>
-<div class="loader-square"></div>
 </div>
 """
-
-
 
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
-# Création des sous-sections
+
+# Création des sous-sections avec st.checkbox pour définir les variables
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-1" type="checkbox"><label for="_checkbox-1"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
-    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-2" type="checkbox"><label for="_checkbox-2"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
-    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-3" type="checkbox"><label for="_checkbox-3"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
+    accueil = st.checkbox("Accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters")
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
 
 with st.sidebar.expander("Montants", expanded=True):
     valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
@@ -67,10 +65,39 @@ with st.sidebar.expander("Montants", expanded=True):
     nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
     tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
     boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
-    
 
+# HTML pour les checkboxes stylisées
+styled_checkboxes_html = """
+<div class="checkbox-wrapper">
+  <input id="_checkbox-1" type="checkbox">
+  <label for="_checkbox-1"><div class="tick_mark"></div></label>
+</div>
+<div class="checkbox-wrapper">
+  <input id="_checkbox-2" type="checkbox">
+  <label for="_checkbox-2"><div class="tick_mark"></div></label>
+</div>
+<div class="checkbox-wrapper">
+  <input id="_checkbox-3" type="checkbox">
+  <label for="_checkbox-3"><div class="tick_mark"></div></label>
+</div>
+<div class="checkbox-wrapper">
+  <input id="_checkbox-4" type="checkbox">
+  <label for="_checkbox-4"><div class="tick_mark"></div></label>
+</div>
+<div class="checkbox-wrapper">
+  <input id="_checkbox-5" type="checkbox">
+  <label for="_checkbox-5"><div class="tick_mark"></div></label>
+</div>
+<div class="checkbox-wrapper">
+  <input id="_checkbox-6" type="checkbox">
+  <label for="_checkbox-6"><div class="tick_mark"></div></label>
+</div>
+"""
 
-# Options sélectionnées
+# Inclure les checkboxes stylisées dans la page
+st.markdown(styled_checkboxes_html, unsafe_allow_html=True)
+
+# Utiliser les options sélectionnées
 options = {
     "Accueil": accueil,
     "Répartition des Clusters": repartition_clusters,
@@ -86,6 +113,8 @@ options = {
     "Analyse des Tendances des Montants par Année": tendances_annuelles,
     "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
 }
+
+# Reste de votre code utilisant les options
 
 
 # Uploader le fichier CSV
