@@ -48,54 +48,36 @@ st.markdown(loader_html, unsafe_allow_html=True)
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 
-# Création des sous-sections avec st.checkbox pour définir les variables
+def add_styled_checkbox(label, key):
+    checked = st.sidebar.checkbox(label, key=key)
+    checkbox_html = f"""
+    <div class="checkbox-wrapper" style="display: inline-block;">
+      <input id="{key}" type="checkbox" {'checked' if checked else ''}>
+      <label for="{key}">
+        <div class="tick_mark"></div>
+      </label>
+    </div>
+    """
+    st.sidebar.markdown(checkbox_html, unsafe_allow_html=True)
+    return checked
+
+# Création des sous-sections avec des checkboxes stylisées
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
-    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+    accueil = add_styled_checkbox("Accueil", "accueil")
+    repartition_clusters = add_styled_checkbox("Répartition des Clusters", "repartition_clusters")
+    repartition_villes = add_styled_checkbox("Répartition des Villes par Cluster", "repartition_villes")
+    repartition_propositions = add_styled_checkbox("Répartition des Propositions par Cluster", "repartition_propositions")
+    types_propositions = add_styled_checkbox("Répartition des Types de Proposition par Cluster", "types_propositions")
 
 with st.sidebar.expander("Montants", expanded=True):
-    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
-    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
-    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
-    somme_journal = st.checkbox("Somme des Montants par Journal")
-    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
-    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
-    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
-    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
-
-# HTML pour les checkboxes stylisées
-styled_checkboxes_html = """
-<div class="checkbox-wrapper">
-  <input id="_checkbox-1" type="checkbox">
-  <label for="_checkbox-1"><div class="tick_mark"></div></label>
-</div>
-<div class="checkbox-wrapper">
-  <input id="_checkbox-2" type="checkbox">
-  <label for="_checkbox-2"><div class="tick_mark"></div></label>
-</div>
-<div class="checkbox-wrapper">
-  <input id="_checkbox-3" type="checkbox">
-  <label for="_checkbox-3"><div class="tick_mark"></div></label>
-</div>
-<div class="checkbox-wrapper">
-  <input id="_checkbox-4" type="checkbox">
-  <label for="_checkbox-4"><div class="tick_mark"></div></label>
-</div>
-<div class="checkbox-wrapper">
-  <input id="_checkbox-5" type="checkbox">
-  <label for="_checkbox-5"><div class="tick_mark"></div></label>
-</div>
-<div class="checkbox-wrapper">
-  <input id="_checkbox-6" type="checkbox">
-  <label for="_checkbox-6"><div class="tick_mark"></div></label>
-</div>
-"""
-
-# Inclure les checkboxes stylisées dans la sidebar
-st.sidebar.markdown(styled_checkboxes_html, unsafe_allow_html=True)
+    valeurs_boxplot = add_styled_checkbox("Valeurs des Montants par Cluster en BoxPlot", "valeurs_boxplot")
+    valeurs_violin = add_styled_checkbox("Valeurs des Montants par Cluster en Diagramme en Violin", "valeurs_violin")
+    montants_ville_frequent = add_styled_checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster", "montants_ville_frequent")
+    somme_journal = add_styled_checkbox("Somme des Montants par Journal", "somme_journal")
+    moyenne_montants = add_styled_checkbox("Moyenne des Montants par Cluster", "moyenne_montants")
+    nuage_points = add_styled_checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions", "nuage_points")
+    tendances_annuelles = add_styled_checkbox("Analyse des Tendances des Montants par Année", "tendances_annuelles")
+    boxplot_types_proposition = add_styled_checkbox("BoxPlot des Montants par Type de Proposition", "boxplot_types_proposition")
 
 # Utiliser les options sélectionnées
 options = {
@@ -113,7 +95,6 @@ options = {
     "Analyse des Tendances des Montants par Année": tendances_annuelles,
     "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
 }
-
 
 
 # Uploader le fichier CSV
