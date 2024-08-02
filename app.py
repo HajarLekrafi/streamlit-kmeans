@@ -48,6 +48,7 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
+import streamlit as st
 
 # Ajouter le CSS personnalisé
 st.markdown("""
@@ -124,77 +125,36 @@ st.sidebar.header("Navigation")
 
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    st.markdown("""
-        <label class="container">
-            <input type="checkbox" id="accueil">
-            <div class="checkmark"></div>
-            Accueil
-        </label>
-        <label class="container">
-            <input type="checkbox" id="repartition_clusters">
-            <div class="checkmark"></div>
-            Répartition des Clusters
-        </label>
-        <label class="container">
-            <input type="checkbox" id="repartition_villes">
-            <div class="checkmark"></div>
-            Répartition des Villes par Cluster
-        </label>
-        <label class="container">
-            <input type="checkbox" id="repartition_propositions">
-            <div class="checkmark"></div>
-            Répartition des Propositions par Cluster
-        </label>
-        <label class="container">
-            <input type="checkbox" id="types_propositions">
-            <div class="checkmark"></div>
-            Répartition des Types de Proposition par Cluster
-        </label>
-    """, unsafe_allow_html=True)
+    accueil = st.checkbox("Accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters")
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
 
 with st.sidebar.expander("Montants", expanded=True):
-    st.markdown("""
-        <label class="container">
-            <input type="checkbox" id="valeurs_boxplot">
-            <div class="checkmark"></div>
-            Valeurs des Montants par Cluster en BoxPlot
-        </label>
-        <label class="container">
-            <input type="checkbox" id="valeurs_violin">
-            <div class="checkmark"></div>
-            Valeurs des Montants par Cluster en Diagramme en Violin
-        </label>
-        <label class="container">
-            <input type="checkbox" id="montants_ville_frequent">
-            <div class="checkmark"></div>
-            Montants par Ville la Plus Fréquente de Chaque Cluster
-        </label>
-        <label class="container">
-            <input type="checkbox" id="somme_journal">
-            <div class="checkmark"></div>
-            Somme des Montants par Journal
-        </label>
-        <label class="container">
-            <input type="checkbox" id="moyenne_montants">
-            <div class="checkmark"></div>
-            Moyenne des Montants par Cluster
-        </label>
-        <label class="container">
-            <input type="checkbox" id="nuage_points">
-            <div class="checkmark"></div>
-            Diagramme de Nuage de Points pour Montants et Nombre de Propositions
-        </label>
-        <label class="container">
-            <input type="checkbox" id="tendances_annuelles">
-            <div class="checkmark"></div>
-            Analyse des Tendances des Montants par Année
-        </label>
-        <label class="container">
-            <input type="checkbox" id="boxplot_types_proposition">
-            <div class="checkmark"></div>
-            BoxPlot des Montants par Type de Proposition
-        </label>
-    """, unsafe_allow_html=True)
+    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
+    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
+    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
+    somme_journal = st.checkbox("Somme des Montants par Journal")
+    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
+    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
+    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+
+# Utiliser les variables définies pour afficher du contenu
+st.write("Accueil:", accueil)
+st.write("Répartition des Clusters:", repartition_clusters)
+st.write("Répartition des Villes par Cluster:", repartition_villes)
+st.write("Répartition des Propositions par Cluster:", repartition_propositions)
+st.write("Répartition des Types de Proposition par Cluster:", types_propositions)
+st.write("Valeurs des Montants par Cluster en BoxPlot:", valeurs_boxplot)
+st.write("Valeurs des Montants par Cluster en Diagramme en Violin:", valeurs_violin)
+st.write("Montants par Ville la Plus Fréquente de Chaque Cluster:", montants_ville_frequent)
+st.write("Somme des Montants par Journal:", somme_journal)
+st.write("Moyenne des Montants par Cluster:", moyenne_montants)
+st.write("Diagramme de Nuage de Points pour Montants et Nombre de Propositions:", nuage_points)
+st.write("Analyse des Tendances des Montants par Année:", tendances_annuelles)
+st.write("BoxPlot des Montants par Type de Proposition:", boxplot_types_proposition)
 
 
 
