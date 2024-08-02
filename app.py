@@ -45,6 +45,8 @@ loader_html = """
 </div>
 """
 
+
+
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
@@ -52,11 +54,9 @@ st.markdown(loader_html, unsafe_allow_html=True)
 st.sidebar.header("Navigation")
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
-    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-1" type="checkbox"><label for="_checkbox-1"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-2" type="checkbox"><label for="_checkbox-2"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-wrapper"><input id="_checkbox-3" type="checkbox"><label for="_checkbox-3"><div class="tick_mark"></div></label></div>', unsafe_allow_html=True)
 
 with st.sidebar.expander("Montants", expanded=True):
     valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
