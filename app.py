@@ -48,81 +48,8 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
-import streamlit as st
-
-# Ajouter le CSS personnalisé
-st.markdown("""
-    <style>
-    /* Hide the default checkbox */
-    .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
-
-    .container {
-        display: block;
-        position: relative;
-        cursor: pointer;
-        font-size: 25px;
-        user-select: none;
-    }
-
-    /* Create a custom checkbox */
-    .checkmark {
-        position: relative;
-        top: 0;
-        left: 0;
-        height: 1.3em;
-        width: 1.3em;
-        background: black;
-        border-radius: 50px;
-        transition: all 0.7s;
-        --spread: 20px;
-    }
-
-    /* When the checkbox is checked, add a blue background */
-    .container input:checked ~ .checkmark {
-        background: black;
-        box-shadow: -10px -10px var(--spread) 0px #5B51D8, 
-                    0 -10px var(--spread) 0px #833AB4, 
-                    10px -10px var(--spread) 0px #E1306C, 
-                    10px 0 var(--spread) 0px #FD1D1D, 
-                    10px 10px var(--spread) 0px #F77737, 
-                    0 10px var(--spread) 0px #FCAF45, 
-                    -10px 10px var(--spread) 0px #FFDC80;
-    }
-
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    /* Show the checkmark when checked */
-    .container input:checked ~ .checkmark:after {
-        display: block;
-    }
-
-    /* Style the checkmark/indicator */
-    .container .checkmark:after {
-        left: 0.45em;
-        top: 0.25em;
-        width: 0.25em;
-        height: 0.5em;
-        border: solid #f0f0f0;
-        border-width: 0 0.15em 0.15em 0;
-        transform: rotate(45deg);
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Ajouter des checkboxes avec le style personnalisé
+# Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
-
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
     accueil = st.checkbox("Accueil")
@@ -140,23 +67,7 @@ with st.sidebar.expander("Montants", expanded=True):
     nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
     tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
     boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
-
-# Utiliser les variables définies pour afficher du contenu
-st.write("Accueil:", accueil)
-st.write("Répartition des Clusters:", repartition_clusters)
-st.write("Répartition des Villes par Cluster:", repartition_villes)
-st.write("Répartition des Propositions par Cluster:", repartition_propositions)
-st.write("Répartition des Types de Proposition par Cluster:", types_propositions)
-st.write("Valeurs des Montants par Cluster en BoxPlot:", valeurs_boxplot)
-st.write("Valeurs des Montants par Cluster en Diagramme en Violin:", valeurs_violin)
-st.write("Montants par Ville la Plus Fréquente de Chaque Cluster:", montants_ville_frequent)
-st.write("Somme des Montants par Journal:", somme_journal)
-st.write("Moyenne des Montants par Cluster:", moyenne_montants)
-st.write("Diagramme de Nuage de Points pour Montants et Nombre de Propositions:", nuage_points)
-st.write("Analyse des Tendances des Montants par Année:", tendances_annuelles)
-st.write("BoxPlot des Montants par Type de Proposition:", boxplot_types_proposition)
-
-
+    
 
 
 # Options sélectionnées
