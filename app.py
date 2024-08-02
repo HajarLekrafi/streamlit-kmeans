@@ -48,6 +48,28 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
+# Ajout de CSS personnalisé
+st.markdown("""
+    <style>
+    .sidebar .sidebar-content {
+        background-color: #f0f0f0;
+        padding: 10px;
+    }
+    .sidebar .sidebar-content .stCheckbox > div {
+        margin: 10px 0;
+    }
+    .sidebar .sidebar-content .stCheckbox > div > label {
+        font-size: 16px;
+        color: #333;
+    }
+    .sidebar .sidebar-content .stExpanderHeader {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1f77b4;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 # Création des sous-sections
@@ -67,7 +89,7 @@ with st.sidebar.expander("Montants", expanded=True):
     nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
     tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
     boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
-    
+
 
 
 # Options sélectionnées
