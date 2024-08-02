@@ -51,7 +51,7 @@ st.markdown(loader_html, unsafe_allow_html=True)
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 # Création des sous-sections
-with st.sidebar.expander("Analyse des Clusters", expanded=True):
+with st.sidebar.expander("<span style='color: #FF5733;'>Analyse des Clusters", expanded=True):
     accueil = st.checkbox("Accueil")
     repartition_clusters = st.checkbox("Répartition des Clusters")
     repartition_villes = st.checkbox("Répartition des Villes par Cluster")
