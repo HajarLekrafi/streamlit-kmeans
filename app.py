@@ -85,14 +85,13 @@ options = {
 
 
 
-
 # Uploader le fichier CSV
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 
 if uploaded_file is not None:
     # Charger les données
     data = pd.read_csv(uploaded_file)
-    st.write("<div class='data-table'>Données chargées :</div>", unsafe_allow_html=True)
+    st.write("Données chargées :", unsafe_allow_html=True)
     st.write(data.head())
     
     # Vérifier les colonnes et les types de données
@@ -122,6 +121,7 @@ if uploaded_file is not None:
                 data['sinistre'] = pd.to_numeric(data['sinistre'], errors='coerce')
                 data['sinistre'].fillna(0, inplace=True)
                 data['sinistre'] = data['sinistre'].astype(int)
+             
              
 
             # Prétraitement
@@ -178,52 +178,142 @@ if uploaded_file is not None:
                                         st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
                                         
                                     elif option == "Répartition des Clusters":
-                                        st.subheader("Répartition des Clusters")
+
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
+
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
-                                                    title='Répartition des Clusters')
+                                                    )
                                         st.plotly_chart(fig)
+
+                                        # Analyse
+                                        total_sinistres = cluster_distribution['Count'].sum()
+                                        cluster_max = cluster_distribution.loc[cluster_distribution['Count'].idxmax()]
+                                        st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
+                                                f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
+                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
+
+                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
+                                        st.markdown("<h2 style='color: #197d9f;'>Diagramme en Violin des Valeurs du Montant par Cluster</h2>", unsafe_allow_html=True)
+
+
+                                         # Créer le graphique
+                                        fig_violin = px.violin(data, y='Mnt', color='Cluster',
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'}
+                                                        )
+                                        st.plotly_chart(fig_violin)
+
+                                        # Dictionnaire pour les labels des clusters
+                                        cluster_labels = {
+                                            0: 'Cluster 0 ',
+                                            1: 'Cluster 1 ',
+                                            2: 'Cluster 2 ',
+                                            3: 'Cluster 3 '
+                                            # Ajoutez d'autres clusters et labels si nécessaire
+                                        }
                                         
-                                        # Afficher la répartition des clusters avec labels
-                                        st.write("Répartition des clusters avec labels :")
-                                        cluster_distribution_labels = data.groupby('Cluster_Label').size().reset_index(name='Count')
-                                        st.write(cluster_distribution_labels)
+                                        st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
+                                        st.write(f"- **Comparaison entre les Clusters** :Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
+
+                                        # Analyse basée sur les données
+                                        for cluster in data['Cluster'].unique():
+                                            subset = data[data['Cluster'] == cluster]
+                                            median_mnt = subset['Mnt'].median()
+                                            q1 = subset['Mnt'].quantile(0.25)
+                                            q3 = subset['Mnt'].quantile(0.75)
+                                            min_mnt = subset['Mnt'].min()
+                                            max_mnt = subset['Mnt'].max()
+                                            label = cluster_labels.get(cluster, f'Cluster {cluster}')
+                                            
+                                            
+            
+
+                                            # Interprétation globale des données du cluster
+                                            st.write(f"**Analyse pour {label} :**")
+                                            st.write(f"- **Médiane** : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.")
+                                            st.write(f"- **Écart Interquartile (IQR)** : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.")
+                                            st.write(f"- **Montants Extrêmes** : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies.")
+
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
-                                        st.subheader("BoxPlot des Montants par Type de Proposition")
+                                        st.markdown("<h2 style='color: #197d9f;'>BoxPlot des Montants par Type de Proposition</h2>", unsafe_allow_html=True)
 
-                                        # Vérifier que les colonnes nécessaires sont présentes
                                         if 'Mnt' in data.columns and 'Type_pro' in data.columns:
-                                            # Créer le BoxPlot
                                             fig_box = px.box(data, x='Type_pro', y='Mnt',
-                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'},
-                                                            title='BoxPlot des Montants par Type de Proposition')
-                                            
-                                            # Configurer le layout du graphique
+                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'})
                                             fig_box.update_layout(
                                                 xaxis_title='Type de Proposition',
                                                 yaxis_title='Montant',
                                                 plot_bgcolor='rgba(240, 240, 240, 0.5)'
                                             )
-
-                                            # Afficher le graphique
                                             st.plotly_chart(fig_box)
-                                        else:
-                                            st.error("Les colonnes nécessaires ('Mnt', 'Type_pro') ne sont pas présentes dans les données.")
+                                            
+                                            # Dictionnaire pour les labels des types de proposition
+                                            type_pro_labels = {
+                                                'BJ': 'Procédure judiciaire',
+                                                'TJ': 'Transaction suite jugement au fond',
+                                                'TD': 'Transaction directe à l\'amiable'
+                                            }
+
+                                            # Analyse
+                                            for type_pro in data['Type_pro'].unique():
+                                                subset = data[data['Type_pro'] == type_pro]
+                                                median_mnt = subset['Mnt'].median()
+                                                label = type_pro_labels.get(type_pro, 'Type inconnu')
+                                                st.write(f"**Analyse pour {label} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
+                                            
+                                            st.write("Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
+                                                    "ce qui pourrait suggérer une diversité dans les cas traités.")
+
+
 
                                         
                                     elif option == "Valeurs des Montants par Cluster en BoxPlot":
-                                        st.subheader("BoxPlot")
+                                        st.markdown("<h2 style='color: #197d9f;'>BoxPlot des Valeurs du Montant par Cluster</h2>", unsafe_allow_html=True)
+
+
+                                        # Créer le graphique
                                         fig_box = px.box(data, y='Mnt', color='Cluster',
-                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                        title='Diagramme en Boîte des Valeurs du Montant par Cluster')
+                                                        labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'}
+                                                        )
                                         st.plotly_chart(fig_box)
+
+                                        # Dictionnaire pour les labels des clusters
+                                        cluster_labels = {
+                                            0: 'Cluster 0 ',
+                                            1: 'Cluster 1 ',
+                                            2: 'Cluster 2 ',
+                                            3: 'Cluster 3 '
+                                            # Ajoutez d'autres clusters et labels si nécessaire
+                                        }
+                                        
+                                        # Analyse simplifiée
+                                        for cluster in data['Cluster'].unique():
+                                            subset = data[data['Cluster'] == cluster]
+                                            median_mnt = subset['Mnt'].median()
+                                            q1 = subset['Mnt'].quantile(0.25)
+                                            q3 = subset['Mnt'].quantile(0.75)
+                                            iqr = q3 - q1
+                                            min_mnt = subset['Mnt'].min()
+                                            max_mnt = subset['Mnt'].max()
+                                            label = cluster_labels.get(cluster, f'Cluster {cluster}')
+                                            
+                                            st.write(f"**Analyse pour {label} :**")
+                                            st.write(f"- **Médiane** : La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
+                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
+                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
+                                            
+                                        st.write("En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
+                                                "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
+
                                         
                                     
                                     elif option == "Analyse des Tendances des Montants par Année":
-                                        st.subheader("Analyse des Tendances des Montants par Année")
+                                        st.markdown("<h2 style='color: #197d9f;'>Analyse des Tendances des Montants par Année</h2>", unsafe_allow_html=True)
+
+                                        
                                         
                                         # Nettoyer la colonne 'Mnt' et 'annee'
                                         data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
@@ -237,8 +327,6 @@ if uploaded_file is not None:
                                         
                                         # Créer le graphique linéaire
                                         fig_trend = go.Figure()
-
-                                        # Ajouter la ligne des tendances
                                         fig_trend.add_trace(go.Scatter(
                                             x=trend_data['annee'],
                                             y=trend_data['Mnt'],
@@ -247,10 +335,9 @@ if uploaded_file is not None:
                                             line=dict(color='rgba(55, 83, 109, 0.8)'),
                                             marker=dict(color='rgba(55, 83, 109, 0.7)')
                                         ))
-
+                                        
                                         # Configurer le layout du graphique
                                         fig_trend.update_layout(
-                                            title='Tendances des Montants par Année',
                                             xaxis_title='Année',
                                             yaxis_title='Montant Total',
                                             xaxis=dict(
@@ -262,42 +349,46 @@ if uploaded_file is not None:
                                             ),
                                             plot_bgcolor='rgba(240, 240, 240, 0.5)'
                                         )
-
+                                        
                                         # Afficher le graphique
                                         st.plotly_chart(fig_trend)
+                                        
+                                        # Analyse basée sur les données
+                                        st.write("**Analyse des Tendances des Montants par Année :**")
+                                        
+                                        # Trouver les années avec les montants les plus élevés et les plus bas
+                                        max_year = trend_data.loc[trend_data['Mnt'].idxmax()]
+                                        min_year = trend_data.loc[trend_data['Mnt'].idxmin()]
+                                        
+                                        st.write(f"- **Année avec le Montant Total le Plus Élevé** : {max_year['annee']} avec un montant total de {max_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus élevé, ce qui pourrait indiquer une augmentation des propositions ou des sinistres.")
+                                        st.write(f"- **Année avec le Montant Total le Plus Bas** : {min_year['annee']} avec un montant total de {min_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus bas, ce qui pourrait indiquer une diminution des propositions ou des sinistres.")
+                                        st.write(f"- **Tendances Générales** : Le graphique linéaire montre comment les montants totaux évoluent d'année en année. Observez les augmentations ou les diminutions significatives. Par exemple, une tendance croissante pourrait indiquer des changements dans les politiques ou une augmentation des demandes.")
+                                        st.write(f"- **Observations Particulières** : Notez les années avec des pics ou des creux marqués. Cela pourrait être dû à des événements spécifiques ou des changements dans les conditions économiques ou les pratiques de l'entreprise.")
+    
+
 
                                         
-                                    elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
-                                        st.subheader("Diagramme en Violin")
-                                        fig_violin = px.violin(data, y='Mnt', color='Cluster',
-                                                            labels={'Mnt': 'Valeur du Montant', 'Cluster': 'Cluster'},
-                                                            title='Diagramme en Violin des Valeurs du Montant par Cluster')
-                                        st.plotly_chart(fig_violin)
-                                        
                                     elif option == "Répartition des Villes par Cluster":
-                                        st.subheader("Histogramme des Villes par Cluster")
-                                        
-                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        
-                                        # Initialiser un DataFrame pour stocker les résultats finaux
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
-                                        villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
-                                        
-                                        # Boucle pour chaque cluster
+                                        villes_utilisees = set()
                                         for cluster in ville_cluster['Cluster'].unique():
                                             cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
-                                            
-                                            # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
                                             for idx, row in cluster_data.iterrows():
                                                 if row['Ville_Nom'] not in villes_utilisees:
                                                     villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
-                                        
-                                        # Afficher le DataFrame des villes les plus fréquentes par cluster
-                                        st.write("<div class='data-table'>Villes les plus fréquentes par Cluster :</div>", unsafe_allow_html=True)
+                                        st.write("Villes les plus fréquentes par Cluster :", unsafe_allow_html=True)
                                         st.write(villes_finales)
+                                        
+                                        # Analyse
+                                        for cluster in villes_finales['Cluster'].unique():
+                                            city_count = villes_finales[villes_finales['Cluster'] == cluster]
+                                            most_common_city = city_count.loc[city_count['Count'].idxmax()]
+                                            st.write(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres. "
+                            )
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
@@ -322,108 +413,187 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_ville_cluster)
 
                                     elif option == "Somme des Montants par Journal":
-                                        st.subheader("Somme des Montants par Journal")
-                                        if 'Mnt' in data.columns and 'Jnl' in data.columns:
-                                            # Nettoyer la colonne 'Mnt'
-                                            data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
-                                            data['Mnt'].fillna(0, inplace=True)
-                                            
-                                            # Préparer les données pour le graphique
-                                            somme_montants = data.groupby('Jnl')['Mnt'].sum().reset_index()
-                                            
-                                            # Créer le graphique
-                                            fig = px.bar(somme_montants, x='Jnl', y='Mnt',
-                                                        title='Somme des Montants par Journal',
-                                                        labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
-                                                        color='Mnt')
-                                            st.plotly_chart(fig)
-                                        else:
-                                            st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
+                                            st.markdown("<h2 style='color: #197d9f;'>Somme des Montants par Journal</h2>", unsafe_allow_html=True)
+
+                                            if 'Mnt' in data.columns and 'Jnl' in data.columns:
+                                                # Nettoyer la colonne 'Mnt'
+                                                data['Mnt'] = pd.to_numeric(data['Mnt'], errors='coerce')
+                                                data['Mnt'].fillna(0, inplace=True)
+                                                
+                                                # Préparer les données pour le graphique
+                                                somme_montants = data.groupby('Jnl')['Mnt'].sum().reset_index()
+                                                
+                                                # Créer le graphique
+                                                fig = px.bar(somme_montants, x='Jnl', y='Mnt',
+                                                            labels={'Jnl': 'Journal', 'Mnt': 'Somme des Montants'},
+                                                            color='Mnt')
+                                                st.plotly_chart(fig)
+                                                
+                                                # Analyse basée sur les données
+                                                st.write("**Analyse des Sommes des Montants par Journal :**")
+                                                
+                                                # Trouver le journal avec le montant total le plus élevé et le plus bas
+                                                max_journal = somme_montants.loc[somme_montants['Mnt'].idxmax()]
+                                                min_journal = somme_montants.loc[somme_montants['Mnt'].idxmin()]
+                                                
+                                                st.write(f"- **Journal avec le Montant Total le Plus Élevé** : {max_journal['Jnl']} avec une somme de {max_journal['Mnt']:.2f}. Cela indique que ce journal a enregistré le montant total le plus élevé parmi tous les journaux.")
+                                                st.write(f"- **Journal avec le Montant Total le Plus Bas** : {min_journal['Jnl']} avec une somme de {min_journal['Mnt']:.2f}. Ce journal a enregistré le montant total le plus bas.")
+                                                st.write(f"- **Distribution des Montants** : L'histogramme montre comment les montants totaux sont répartis entre les différents journaux. Les journaux avec des barres plus longues indiquent une somme totale plus élevée, tandis que les barres plus courtes indiquent des montants totaux plus faibles.")
+
+                                            else:
+                                                st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
+
                                     
                                     elif option == "Montants par Ville la Plus Fréquente de Chaque Cluster":
-                                        st.subheader("Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster")
-                                        
-                                        # Grouper par 'Cluster' et 'Ville' et compter les occurrences
-                                        ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
-                                        
-                                        # Initialiser un DataFrame pour stocker les résultats finaux
-                                        villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
-                                        villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
-                                        
-                                        # Boucle pour chaque cluster
-                                        for cluster in ville_cluster['Cluster'].unique():
-                                            cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
-                                            
-                                            # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
-                                            for idx, row in cluster_data.iterrows():
-                                                if row['Ville_Nom'] not in villes_utilisees:
-                                                    villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
-                                                    villes_utilisees.add(row['Ville_Nom'])
-                                                    break
+                                            st.markdown("<h2 style='color: #197d9f;'>Histogramme des Montants par Ville la Plus Fréquente de Chaque Cluster</h2>", unsafe_allow_html=True)
 
-                                        # Filtrer les montants pour les villes les plus fréquentes
-                                        villes_finales = villes_finales.rename(columns={'Ville_Nom': 'Ville'})
-                                        filtered_data = data[data['Ville_Nom'].isin(villes_finales['Ville'])]
+                                            # Grouper par 'Cluster' et 'Ville' et compter les occurrences
+                                            ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
 
-                                        # Créer un DataFrame pour les montants par ville et cluster
-                                        montants_villes = filtered_data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
-                                        
-                                        # Créer l'histogramme
-                                        fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
-                                                                    title='Distribution des Montants par Ville la Plus Fréquente de Chaque Cluster',
-                                                                    labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
-                                                                    histfunc='count')
+                                            # Initialiser un DataFrame pour stocker les résultats finaux
+                                            villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
+                                            villes_utilisees = set()  # Pour garder une trace des villes déjà utilisées
 
-                                        # Afficher le graphique
-                                        st.plotly_chart(fig_histogramme)
+                                            # Boucle pour chaque cluster
+                                            for cluster in ville_cluster['Cluster'].unique():
+                                                cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
+                                                
+                                                # Trouver la ville la plus fréquente qui n'a pas été utilisée dans les clusters précédents
+                                                for idx, row in cluster_data.iterrows():
+                                                    if row['Ville_Nom'] not in villes_utilisees:
+                                                        villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
+                                                        villes_utilisees.add(row['Ville_Nom'])
+                                                        break
+
+                                            # Filtrer les montants pour les villes les plus fréquentes
+                                            villes_finales = villes_finales.rename(columns={'Ville_Nom': 'Ville'})
+                                            filtered_data = data[data['Ville_Nom'].isin(villes_finales['Ville'])]
+
+                                            # Créer un DataFrame pour les montants par ville et cluster
+                                            montants_villes = filtered_data.groupby(['Cluster', 'Ville_Nom'])['Mnt'].sum().reset_index()
+
+                                            # Créer l'histogramme
+                                            fig_histogramme = px.histogram(filtered_data, x='Mnt', color='Ville_Nom',
+                                                                            labels={'Mnt': 'Montant', 'Ville_Nom': 'Ville'},
+                                                                            histfunc='count')
+
+                                            # Afficher le graphique
+                                            st.plotly_chart(fig_histogramme)
+
+                                            st.write(f"- L'histogramme montre la répartition des montants pour ces villes. Les hauteurs des barres indiquent combien de propositions ont des montants dans les différentes plages de valeurs pour chaque ville.")
+                                            st.write(f"- Une ville avec de nombreuses propositions à des montants élevés peut indiquer une concentration de propositions coûteuses dans cette ville.")
+                                            st.write(f"- En comparant les villes entre les clusters, on peut voir quelles villes ont des montants plus élevés ou plus faibles et comment cela se compare aux autres clusters.")
+                                            # Analyse basée sur les données
+                                            for cluster in villes_finales['Cluster'].unique():
+                                                villes_cluster = villes_finales[villes_finales['Cluster'] == cluster]['Ville'].values
+                                                st.write(f"**Cluster {cluster} :**")
+                                                st.write(f"- La ville la plus fréquente dans ce cluster est : {', '.join(villes_cluster)}.")
+                                               
+
+
 
                                     
                                     elif option == "Moyenne des Montants par Cluster":
-                                        st.subheader("Moyenne des Montants par Cluster")
+                                        st.markdown("<h2 style='color: #197d9f;'>Moyenne des Montants par Cluster</h2>", unsafe_allow_html=True)
+                                    
+                                        # Calculer la moyenne des montants par cluster
                                         moyenne_montants = data.groupby('Cluster')['Mnt'].mean().reset_index()
+                                        
+                                        # Créer le graphique
                                         fig_moyenne_montants = px.bar(moyenne_montants, x='Cluster', y='Mnt',
                                                                     labels={'Cluster': 'Cluster', 'Mnt': 'Moyenne des Montants'},
-                                                                    title='Moyenne des Montants par Cluster')
+                                                                    )
                                         st.plotly_chart(fig_moyenne_montants)
+                                        
+                                        # Analyse basée sur les données
+                                        st.write("**Analyse de la Moyenne des Montants par Cluster :**")
+                                        
+                                        # Trouver les clusters avec les moyennes les plus élevées et les plus basses
+                                        max_cluster = moyenne_montants.loc[moyenne_montants['Mnt'].idxmax()]
+                                        min_cluster = moyenne_montants.loc[moyenne_montants['Mnt'].idxmin()]
+                                        
+                                        st.write(f"- **Cluster avec la Moyenne des Montants la Plus Élevée** : Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.")
+                                        st.write(f"- **Cluster avec la Moyenne des Montants la Plus Basse** : Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.")
+                                        st.write(f"- **Distribution des Moyennes** : L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.")
+
+
                                     
                                     elif option == "Répartition des Propositions par Cluster":
-                                        st.subheader("Répartition des Propositions par Cluster")
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Propositions par Cluster</h2>", unsafe_allow_html=True)
+                                       
+                                        # Calculer la répartition des propositions par cluster
                                         propositions_cluster = data.groupby('Cluster')['Nb_propositions'].sum().reset_index()
+                                        
+                                        # Créer le graphique
                                         fig_propositions_cluster = px.bar(propositions_cluster, x='Cluster', y='Nb_propositions',
                                                                         labels={'Cluster': 'Cluster', 'Nb_propositions': 'Répartition des Propositions'},
-                                                                        title='Répartition des Propositions par Cluster')
+                                                                        )
+                                        
+                                        # Afficher le graphique
                                         st.plotly_chart(fig_propositions_cluster)
-                                    
+                                        
+                                        # Analyse
+                                        total_propositions = propositions_cluster['Nb_propositions'].sum()
+                                        cluster_max_propositions = propositions_cluster.loc[propositions_cluster['Nb_propositions'].idxmax()]
+                                        
+                                        st.write(f"**Analyse :** La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. "
+                                                f"Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.")
+
                                     elif option == "Répartition des Types de Proposition par Cluster":
-                                        st.subheader("Répartition des Types de Proposition par Cluster")
+                                        st.markdown("<h2 style='color: #197d9f;'>Répartition des Types de Proposition par Cluster</h2>", unsafe_allow_html=True)
+                          
+                                        # Calculer la répartition des types de proposition par cluster
                                         type_pro_cluster = data.groupby(['Cluster', 'Type_pro']).size().reset_index(name='Count')
+                                        
+                                        # Créer le graphique
                                         fig_type_pro_cluster = px.bar(type_pro_cluster, x='Cluster', y='Count', color='Type_pro',
                                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Propositions', 'Type_pro': 'Type de Proposition'},
-                                                                    title='Répartition des Types de Proposition par Cluster')
+                                                                    )
+                                        
+                                        # Afficher le graphique
                                         st.plotly_chart(fig_type_pro_cluster)
+                                        
+                                        # Dictionnaire pour les labels des types de proposition
+                                        type_pro_labels = {
+                                            'BJ': 'Procédure judiciaire',
+                                            'TJ': 'Transaction suite jugement au fond',
+                                            'TD': 'Transaction directe à l\'amiable'
+                                        }
+                                        
+                                        # Analyse
+                                        for cluster in type_pro_cluster['Cluster'].unique():
+                                            cluster_data = type_pro_cluster[type_pro_cluster['Cluster'] == cluster]
+                                            type_counts = cluster_data.groupby('Type_pro')['Count'].sum()
+                                            most_common_type = type_counts.idxmax()
+                                            most_common_type_label = type_pro_labels.get(most_common_type, 'Type inconnu')
+                                            st.write(f"**Cluster {cluster} :** Le type de proposition le plus fréquent est '{most_common_type_label}' avec un total de {type_counts.max()} propositions. "
+                                                    f"Ce type représente {type_counts.max() / type_counts.sum():.1%} du total des propositions dans ce cluster.")
+
+
                                     
                                     elif option == "Diagramme de Nuage de Points pour Montants et Nombre de Propositions":
-                                        st.subheader("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+                                        st.markdown("<h2 style='color: #197d9f;'>Diagramme de Nuage de Points pour Montants et Nombre de Propositions</h2>", unsafe_allow_html=True)
+
+                                        # Créer le graphique de nuage de points
                                         fig_scatter = px.scatter(data, x='Nb_propositions', y='Mnt', color='Cluster',
-                                                                labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'},
-                                                                title='Diagramme de Nuage de Points pour Montants et Nombre de Propositions')
+                                                                labels={'Nb_propositions': 'Nombre de Propositions', 'Mnt': 'Valeur du Montant'})
                                         st.plotly_chart(fig_scatter)
-                                    
-                                   
-
-
                                         
-                                    
-
-                                       
-                                    
-                                    
-
-                                    
-
-
+                                        # Analyse basée sur les données
+                                        st.write("**Analyse du Diagramme de Nuage de Points :**")
                                         
+                                        # Trouver les tendances générales
+                                        st.write("- **Tendances Générales :** Examinez la distribution des points pour comprendre la relation entre le nombre de propositions et la valeur du montant. Les points sont colorés par cluster, ce qui permet de voir comment chaque cluster se distribue en termes de montant et de nombre de propositions.")
                                         
+                                        # Identifier les clusters avec des montants élevés et un grand nombre de propositions
+                                        for cluster in data['Cluster'].unique():
+                                            cluster_data = data[data['Cluster'] == cluster]
+                                            if not cluster_data.empty:
+                                                avg_nb_propositions = cluster_data['Nb_propositions'].mean()
+                                                avg_montant = cluster_data['Mnt'].mean()
+                                                st.write(f"- **Cluster {cluster} :**")
+                                                st.write(f"  - Nombre moyen de propositions : {avg_nb_propositions:.2f}")
+                                                st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")                        
                                         
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
@@ -433,10 +603,10 @@ if uploaded_file is not None:
                                 sinistre_col = 'sinistre'
                             
                             if sinistre_col:
-                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
+                                st.write("Toutes les prédictions avec labels :", unsafe_allow_html=True)
                                 st.write(data[[sinistre_col, 'Cluster']])
                             else:
-                                st.write("<div class='data-table'>Toutes les prédictions avec labels :</div>", unsafe_allow_html=True)
+                                st.write("Toutes les prédictions avec labels :", unsafe_allow_html=True)
                                 st.write(data[['Cluster']])
 
                         except Exception as e:
