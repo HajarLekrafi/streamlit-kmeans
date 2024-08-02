@@ -94,8 +94,8 @@ styled_checkboxes_html = """
 </div>
 """
 
-# Inclure les checkboxes stylisées dans la page
-st.markdown(styled_checkboxes_html, unsafe_allow_html=True)
+# Inclure les checkboxes stylisées dans la sidebar
+st.sidebar.markdown(styled_checkboxes_html, unsafe_allow_html=True)
 
 # Utiliser les options sélectionnées
 options = {
@@ -114,7 +114,6 @@ options = {
     "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
 }
 
-# Reste de votre code utilisant les options
 
 
 # Uploader le fichier CSV
