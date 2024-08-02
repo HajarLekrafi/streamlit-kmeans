@@ -48,47 +48,154 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
-# Ajout de CSS personnalisé
+
+# Ajouter le CSS personnalisé
 st.markdown("""
     <style>
-    .sidebar .sidebar-content {
-        background-color: #f0f0f0;
-        padding: 10px;
+    /* Hide the default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
     }
-    .sidebar .sidebar-content .stCheckbox > div {
-        margin: 10px 0;
+
+    .container {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        font-size: 25px;
+        user-select: none;
     }
-    .sidebar .sidebar-content .stCheckbox > div > label {
-        font-size: 16px;
-        color: #333;
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 1.3em;
+        width: 1.3em;
+        background: black;
+        border-radius: 50px;
+        transition: all 0.7s;
+        --spread: 20px;
     }
-    .sidebar .sidebar-content .stExpanderHeader {
-        font-size: 18px;
-        font-weight: bold;
-        color: #1f77b4;
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background: black;
+        box-shadow: -10px -10px var(--spread) 0px #5B51D8, 
+                    0 -10px var(--spread) 0px #833AB4, 
+                    10px -10px var(--spread) 0px #E1306C, 
+                    10px 0 var(--spread) 0px #FD1D1D, 
+                    10px 10px var(--spread) 0px #F77737, 
+                    0 10px var(--spread) 0px #FCAF45, 
+                    -10px 10px var(--spread) 0px #FFDC80;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 0.45em;
+        top: 0.25em;
+        width: 0.25em;
+        height: 0.5em;
+        border: solid #f0f0f0;
+        border-width: 0 0.15em 0.15em 0;
+        transform: rotate(45deg);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar for navigation with custom checkboxes
+# Ajouter des checkboxes avec le style personnalisé
 st.sidebar.header("Navigation")
+
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
-    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+    st.markdown("""
+        <label class="container">
+            <input type="checkbox" id="accueil">
+            <div class="checkmark"></div>
+            Accueil
+        </label>
+        <label class="container">
+            <input type="checkbox" id="repartition_clusters">
+            <div class="checkmark"></div>
+            Répartition des Clusters
+        </label>
+        <label class="container">
+            <input type="checkbox" id="repartition_villes">
+            <div class="checkmark"></div>
+            Répartition des Villes par Cluster
+        </label>
+        <label class="container">
+            <input type="checkbox" id="repartition_propositions">
+            <div class="checkmark"></div>
+            Répartition des Propositions par Cluster
+        </label>
+        <label class="container">
+            <input type="checkbox" id="types_propositions">
+            <div class="checkmark"></div>
+            Répartition des Types de Proposition par Cluster
+        </label>
+    """, unsafe_allow_html=True)
 
 with st.sidebar.expander("Montants", expanded=True):
-    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
-    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
-    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
-    somme_journal = st.checkbox("Somme des Montants par Journal")
-    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
-    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
-    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
-    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+    st.markdown("""
+        <label class="container">
+            <input type="checkbox" id="valeurs_boxplot">
+            <div class="checkmark"></div>
+            Valeurs des Montants par Cluster en BoxPlot
+        </label>
+        <label class="container">
+            <input type="checkbox" id="valeurs_violin">
+            <div class="checkmark"></div>
+            Valeurs des Montants par Cluster en Diagramme en Violin
+        </label>
+        <label class="container">
+            <input type="checkbox" id="montants_ville_frequent">
+            <div class="checkmark"></div>
+            Montants par Ville la Plus Fréquente de Chaque Cluster
+        </label>
+        <label class="container">
+            <input type="checkbox" id="somme_journal">
+            <div class="checkmark"></div>
+            Somme des Montants par Journal
+        </label>
+        <label class="container">
+            <input type="checkbox" id="moyenne_montants">
+            <div class="checkmark"></div>
+            Moyenne des Montants par Cluster
+        </label>
+        <label class="container">
+            <input type="checkbox" id="nuage_points">
+            <div class="checkmark"></div>
+            Diagramme de Nuage de Points pour Montants et Nombre de Propositions
+        </label>
+        <label class="container">
+            <input type="checkbox" id="tendances_annuelles">
+            <div class="checkmark"></div>
+            Analyse des Tendances des Montants par Année
+        </label>
+        <label class="container">
+            <input type="checkbox" id="boxplot_types_proposition">
+            <div class="checkmark"></div>
+            BoxPlot des Montants par Type de Proposition
+        </label>
+    """, unsafe_allow_html=True)
+
 
 
 
