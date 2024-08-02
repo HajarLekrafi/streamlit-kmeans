@@ -46,41 +46,134 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
+# Inject CSS
+st.markdown(
+    """
+    <style>
+    .checkbox-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    .checkbox-container input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .checkbox-container label {
+        position: relative;
+        padding-left: 30px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        line-height: 24px;
+        user-select: none;
+    }
+    .checkbox-container label:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid #197d9f;
+        border-radius: 4px;
+        background-color: #fff;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+    .checkbox-container input[type="checkbox"]:checked + label:before {
+        background-color: #197d9f;
+        border-color: #197d9f;
+    }
+    .checkbox-container input[type="checkbox"]:checked + label:after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 12px;
+        width: 8px;
+        height: 4px;
+        border: solid #fff;
+        border-width: 0 0 2px 2px;
+        transform: rotate(-45deg);
+        transition: opacity 0.2s;
+    }
+    .checkbox-container input[type="checkbox"]:checked + label:after {
+        opacity: 1;
+    }
+    .checkbox-container label:hover:before {
+        border-color: #1e6f8f;
+    }
+    .checkbox-container input[type="checkbox"]:focus + label:before {
+        border-color: #1e6f8f;
+        outline: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
-    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="accueil" class="custom-checkbox">'
+                '<label for="accueil">Accueil</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="repartition_clusters" class="custom-checkbox">'
+                '<label for="repartition_clusters">Répartition des Clusters</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="repartition_villes" class="custom-checkbox">'
+                '<label for="repartition_villes">Répartition des Villes par Cluster</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="repartition_propositions" class="custom-checkbox">'
+                '<label for="repartition_propositions">Répartition des Propositions par Cluster</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="types_propositions" class="custom-checkbox">'
+                '<label for="types_propositions">Répartition des Types de Proposition par Cluster</label></div>', unsafe_allow_html=True)
 
 with st.sidebar.expander("Montants", expanded=True):
-    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
-    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
-    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
-    somme_journal = st.checkbox("Somme des Montants par Journal")
-    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
-    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
-    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
-    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="valeurs_boxplot" class="custom-checkbox">'
+                '<label for="valeurs_boxplot">Valeurs des Montants par Cluster en BoxPlot</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="valeurs_violin" class="custom-checkbox">'
+                '<label for="valeurs_violin">Valeurs des Montants par Cluster en Diagramme en Violin</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="montants_ville_frequent" class="custom-checkbox">'
+                '<label for="montants_ville_frequent">Montants par Ville la Plus Fréquente de Chaque Cluster</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="somme_journal" class="custom-checkbox">'
+                '<label for="somme_journal">Somme des Montants par Journal</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="moyenne_montants" class="custom-checkbox">'
+                '<label for="moyenne_montants">Moyenne des Montants par Cluster</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="nuage_points" class="custom-checkbox">'
+                '<label for="nuage_points">Diagramme de Nuage de Points pour Montants et Nombre de Propositions</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="tendances_annuelles" class="custom-checkbox">'
+                '<label for="tendances_annuelles">Analyse des Tendances des Montants par Année</label></div>', unsafe_allow_html=True)
+    st.markdown('<div class="checkbox-container">'
+                '<input type="checkbox" id="boxplot_types_proposition" class="custom-checkbox">'
+                '<label for="boxplot_types_proposition">BoxPlot des Montants par Type de Proposition</label></div>', unsafe_allow_html=True)
 
 # Options sélectionnées
 options = {
-    "Accueil": accueil,
-    "Répartition des Clusters": repartition_clusters,
-    "Répartition des Villes par Cluster": repartition_villes,
-    "Répartition des Propositions par Cluster": repartition_propositions,
-    "Répartition des Types de Proposition par Cluster": types_propositions,
-    "Valeurs des Montants par Cluster en BoxPlot": valeurs_boxplot,
-    "Valeurs des Montants par Cluster en Diagramme en Violin": valeurs_violin,
-    "Montants par Ville la Plus Fréquente de Chaque Cluster": montants_ville_frequent,
-    "Somme des Montants par Journal": somme_journal,
-    "Moyenne des Montants par Cluster": moyenne_montants,
-    "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": nuage_points,
-    "Analyse des Tendances des Montants par Année": tendances_annuelles,
-    "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
+    "Accueil": st.session_state.get("accueil", False),
+    "Répartition des Clusters": st.session_state.get("repartition_clusters", False),
+    "Répartition des Villes par Cluster": st.session_state.get("repartition_villes", False),
+    "Répartition des Propositions par Cluster": st.session_state.get("repartition_propositions", False),
+    "Répartition des Types de Proposition par Cluster": st.session_state.get("types_propositions", False),
+    "Valeurs des Montants par Cluster en BoxPlot": st.session_state.get("valeurs_boxplot", False),
+    "Valeurs des Montants par Cluster en Diagramme en Violin": st.session_state.get("valeurs_violin", False),
+    "Montants par Ville la Plus Fréquente de Chaque Cluster": st.session_state.get("montants_ville_frequent", False),
+    "Somme des Montants par Journal": st.session_state.get("somme_journal", False),
+    "Moyenne des Montants par Cluster": st.session_state.get("moyenne_montants", False),
+    "Diagramme de Nuage de Points pour Montants et Nombre de Propositions": st.session_state.get("nuage_points", False),
+    "Analyse des Tendances des Montants par Année": st.session_state.get("tendances_annuelles", False),
+    "BoxPlot des Montants par Type de Proposition": st.session_state.get("boxplot_types_proposition", False)
 }
 
 
