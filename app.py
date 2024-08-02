@@ -25,7 +25,7 @@ logo_path = 'logo.png'
 st.image(logo_path, width=500, use_column_width=False, output_format='PNG')
 
 # Titre de l'application
-st.markdown('<h1 class="title">K-means Clustering Prediction</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="title">Application</h1>', unsafe_allow_html=True)
 
 # Description
 st.markdown('<p class="description">Téléchargez un fichier CSV pour prédire les clusters à l\'aide du modèle KMeans.</p>', unsafe_allow_html=True)
@@ -49,9 +49,9 @@ st.markdown(loader_html, unsafe_allow_html=True)
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
 # Création des sous-sections
-with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
+with st.sidebar.expander("Analyse des Clusters", expanded=True, anchor="expander"):
+    accueil = st.checkbox("Accueil", key="accueil", help="Retour à la page d'accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters", key="repartition_clusters", help="Voir la répartition des clusters")
     repartition_villes = st.checkbox("Répartition des Villes par Cluster")
     repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
     types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
