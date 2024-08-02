@@ -50,6 +50,24 @@ st.markdown(loader_html, unsafe_allow_html=True)
 st.sidebar.header("Navigation")
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
+    accueil = st.checkbox("Accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters")
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+
+with st.sidebar.expander("Montants", expanded=True):
+    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
+    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
+    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
+    somme_journal = st.checkbox("Somme des Montants par Journal")
+    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
+    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
+    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+    
+# Add custom HTML checkboxes in the sidebar
+with st.sidebar.expander("Analyse des Clusters", expanded=True):
     st.markdown("""
         <label class="container">
             <input type="checkbox" id="accueil">
@@ -121,6 +139,7 @@ with st.sidebar.expander("Montants", expanded=True):
             BoxPlot des Montants par Type de Proposition
         </label>
     """, unsafe_allow_html=True)
+
 
 # Options sélectionnées
 options = {
