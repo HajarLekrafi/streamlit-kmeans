@@ -401,13 +401,10 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "Répartition des Villes par Cluster":
-                                        
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
-
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
                                         villes_utilisees = set()
-
                                         for cluster in ville_cluster['Cluster'].unique():
                                             cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
                                             for idx, row in cluster_data.iterrows():
@@ -415,45 +412,21 @@ if uploaded_file is not None:
                                                     villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
-
-                                        # Création de la table HTML
-                                        table_html = """
-                                        <table style="width:100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
-                                            <thead>
-                                                <tr style="background-color: #f4f4f4;">
-                                                    <th style="border: 1px solid #ddd; padding: 8px;">Cluster</th>
-                                                    <th style="border: 1px solid #ddd; padding: 8px;">Ville</th>
-                                                    <th style="border: 1px solid #ddd; padding: 8px;">Count</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                        """
-
-                                        for _, row in villes_finales.iterrows():
-                                            table_html += f"""
-                                            <tr>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Cluster']}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Ville_Nom']}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Count']}</td>
-                                            </tr>
-                                            """
-
-                                        table_html += "</tbody></table>"
-
-                                        st.markdown(table_html, unsafe_allow_html=True)
-
-                                        # Analyse pour chaque cluster
+                                        
+                                        st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <p>"Villes les plus fréquentes par Cluster :"{villes_finales}</p>
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                        
+                                        # Analyse
                                         for cluster in villes_finales['Cluster'].unique():
                                             city_count = villes_finales[villes_finales['Cluster'] == cluster]
                                             most_common_city = city_count.loc[city_count['Count'].idxmax()]
-                                            analysis_text = f"""
-                                            <div style="margin: 20px 0;">
-                                                <h3 style='color: #197d9f;'>Analyse pour le Cluster {cluster} :</h3>
-                                                <p>La ville la plus fréquente est <strong>{most_common_city['Ville_Nom']}</strong> avec <strong>{most_common_city['Count']}</strong> sinistres.</p>
-                                            </div>
-                                            """
-                                            st.markdown(analysis_text, unsafe_allow_html=True)
-
+                                            st.write(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres. "
+                            )
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
