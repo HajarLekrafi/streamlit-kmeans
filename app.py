@@ -673,7 +673,7 @@ if uploaded_file is not None:
                                             if not cluster_data.empty:
                                                 avg_nb_propositions = cluster_data['Nb_propositions'].mean()
                                                 avg_montant = cluster_data['Mnt'].mean()                       
-                                                st.markdown(f"""
+                                                st.markdown("""
                                                 <div class="features">
                                                     <div class="feature">
                                                     <p><strong>Cluster {cluster} :</strong></Br>
