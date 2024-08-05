@@ -654,7 +654,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     footer {
-        background: #333;
+        background: #197d9f;
         color: #fff;
         text-align: center;
         padding: 1rem 0;
