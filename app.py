@@ -412,8 +412,15 @@ if uploaded_file is not None:
                                                     villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
-                                        st.write("Villes les plus fréquentes par Cluster :", unsafe_allow_html=True)
-                                        st.write(villes_finales)
+                                       
+                                        # Utilisez st.markdown pour inclure le texte dynamique dans le HTML
+                                        st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <p>"Villes les plus fréquentes par Cluster :"{villes_finales}</p>
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
                                         
                                         # Analyse
                                         for cluster in villes_finales['Cluster'].unique():
