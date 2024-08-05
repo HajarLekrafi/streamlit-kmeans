@@ -205,16 +205,15 @@ if uploaded_file is not None:
                                         st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
                                                 f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
-                                        st.markdown("""
-                                        <div class="features">
-                                            <div class="feature">
-                                                <h2>Pourquoi Clustering ? </h2>
-                                                <p>f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
-                                                f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
-                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres."</p>
+                                        st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <h2>Analyse</h2>
+                                                    <p>Le clustering est crucial dans notre projet d'analyse des sinistres corporels, car il permet de regrouper les données en ensembles homogènes, facilitant l'identification de schémas et de tendances. En optimisant les processus, le clustering réduit les coûts et augmente l'efficacité opérationnelle, renforçant ainsi la satisfaction des clients.</p>
+                                                    <p><strong>Analyse :</strong> La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. {cluster_max_text}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        """, unsafe_allow_html=True)
+                                            """, unsafe_allow_html=True)
 
 
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
