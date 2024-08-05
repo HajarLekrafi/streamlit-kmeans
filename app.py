@@ -177,20 +177,24 @@ if uploaded_file is not None:
                                     if option == "Accueil":
                                         st.write("Sélectionnez une option dans la barre de navigation pour afficher les résultats.")
                                         
-                                    elif option == "Répartition des Clusters":
+                                
 
+                                    elif option == "Répartition des Clusters":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
 
-                                        # Afficher le tableau des labels
-                                        st.markdown("<h3 style='color: #197d9f;'>Détails des Clusters</h3>", unsafe_allow_html=True)
-                                        st.table(cluster_distribution[['Cluster', 'Label', 'Count']])
-    
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
+                                        cluster_distribution['Label'] = cluster_distribution['Cluster'].map(labels)
+
+                                        # Afficher le graphique
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
                                                     labels={'Cluster': 'Cluster', 'Count': 'Nombre de Sinistres'},
                                                     )
                                         st.plotly_chart(fig)
+
+                                        # Afficher le tableau des labels
+                                        st.markdown("<h3 style='color: #197d9f;'>Détails des Clusters</h3>", unsafe_allow_html=True)
+                                        st.table(cluster_distribution[['Cluster', 'Label', 'Count']])
 
                                         # Analyse
                                         total_sinistres = cluster_distribution['Count'].sum()
@@ -198,6 +202,7 @@ if uploaded_file is not None:
                                         st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
                                                 f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
+
 
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
                                         st.markdown("<h2 style='color: #197d9f;'>Diagramme en Violin des Valeurs du Montant par Cluster</h2>", unsafe_allow_html=True)
