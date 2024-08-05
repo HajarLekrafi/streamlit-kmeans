@@ -476,7 +476,6 @@ if uploaded_file is not None:
                                                 st.markdown(f"""
                                                 <div class="features">
                                                     <div class="feature">
-                                                    <h2>Analyse des Sommes des Montants par Journal :</h2>
                                                     <p><strong>Journal avec le Montant Total le Plus Élevé:</strong> {max_journal['Jnl']} avec une somme de {max_journal['Mnt']:.2f}. Cela indique que ce journal a enregistré le montant total le plus élevé parmi tous les journaux.</Br>
                                                     <strong>Journal avec le Montant Total le Plus Bas :</strong> {min_journal['Jnl']} avec une somme de {min_journal['Mnt']:.2f}. Ce journal a enregistré le montant total le plus bas.</Br>
                                                     <strong>Distribution des Montants :</strong> L'histogramme montre comment les montants totaux sont répartis entre les différents journaux. Les journaux avec des barres plus longues indiquent une somme totale plus élevée, tandis que les barres plus courtes indiquent des montants totaux plus faibles.</Br>
@@ -562,18 +561,24 @@ if uploaded_file is not None:
                                                                     )
                                         st.plotly_chart(fig_moyenne_montants)
                                         
-                                        # Analyse basée sur les données
-                                        st.write("**Analyse de la Moyenne des Montants par Cluster :**")
+                                        
                                         
                                         # Trouver les clusters avec les moyennes les plus élevées et les plus basses
                                         max_cluster = moyenne_montants.loc[moyenne_montants['Mnt'].idxmax()]
                                         min_cluster = moyenne_montants.loc[moyenne_montants['Mnt'].idxmin()]
                                         
-                                        st.write(f"- **Cluster avec la Moyenne des Montants la Plus Élevée** : Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.")
-                                        st.write(f"- **Cluster avec la Moyenne des Montants la Plus Basse** : Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.")
-                                        st.write(f"- **Distribution des Moyennes** : L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.")
+                                    
 
-
+                                        st.markdown(f"""
+                                                <div class="features">
+                                                    <div class="feature">
+                                                    <p><strong>Cluster avec la Moyenne des Montants la Plus Élevée** : Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.</Br>
+                                                    <strong>Cluster avec la Moyenne des Montants la Plus Basse** : Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.</Br>
+                                                    <strong>Distribution des Moyennes** : L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.</Br>
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
                                     
                                     elif option == "Répartition des Propositions par Cluster":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Propositions par Cluster</h2>", unsafe_allow_html=True)
