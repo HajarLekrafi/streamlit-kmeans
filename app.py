@@ -579,7 +579,8 @@ if uploaded_file is not None:
                                             <div class="features">
                                                 <div class="feature">
                                                     <h2>Analyse des propositions par cluster </h2>
-                                                    <p><La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. 
+                                                    <p>La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} 
+                                                    possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. 
                                                 Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions. </p>
                                                 </div>
                                             </div>
