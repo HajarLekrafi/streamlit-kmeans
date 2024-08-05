@@ -671,21 +671,13 @@ st.markdown("""
         <h2>Feature 1</h2>
         <p>Description of feature 1.</p>
     </div>
-    <div class="feature">
-        <h2>Feature 2</h2>
-        <p>Description of feature 2.</p>
-    </div>
-    <div class="feature">
-        <h2>Feature 3</h2>
-        <p>Description of feature 3.</p>
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # Footer
 st.markdown("""
 <footer>
-    <p>&copy; 2024 Your Company. All rights reserved.</p>
+    <p>&copy; 2024 Cat Assurance et reassurance</p>
 </footer>
 """, unsafe_allow_html=True)
 
