@@ -265,7 +265,35 @@ if uploaded_file is not None:
 
 
                                         
-                                    
+                                    elif option == "BoxPlot des Montants par Type de Proposition":
+                                        st.markdown("<h2 style='color: #197d9f;'>BoxPlot des Montants par Type de Proposition</h2>", unsafe_allow_html=True)
+
+                                        if 'Mnt' in data.columns and 'Type_pro' in data.columns:
+                                            fig_box = px.box(data, x='Type_pro', y='Mnt',
+                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'})
+                                            fig_box.update_layout(
+                                                xaxis_title='Type de Proposition',
+                                                yaxis_title='Montant',
+                                                plot_bgcolor='rgba(240, 240, 240, 0.5)'
+                                            )
+                                            st.plotly_chart(fig_box)
+                                            
+                                            # Dictionnaire pour les labels des types de proposition
+                                            type_pro_labels = {
+                                                'BJ': 'Procédure judiciaire',
+                                                'TJ': 'Transaction suite jugement au fond',
+                                                'TD': 'Transaction directe à l\'amiable'
+                                            }
+
+                                            # Analyse
+                                            for type_pro in data['Type_pro'].unique():
+                                                subset = data[data['Type_pro'] == type_pro]
+                                                median_mnt = subset['Mnt'].median()
+                                                label = type_pro_labels.get(type_pro, 'Type inconnu')
+                                                st.write(f"**Analyse pour {label} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
+                                            
+                                            st.write("Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
+                                                    "ce qui pourrait suggérer une diversité dans les cas traités.")
 
 
                                         
