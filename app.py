@@ -181,6 +181,10 @@ if uploaded_file is not None:
 
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Clusters</h2>", unsafe_allow_html=True)
 
+                                        # Afficher le tableau des labels
+                                        st.markdown("<h3 style='color: #197d9f;'>Détails des Clusters</h3>", unsafe_allow_html=True)
+                                        st.table(cluster_distribution[['Cluster', 'Label', 'Count']])
+    
                                         cluster_distribution = data['Cluster'].value_counts().reset_index()
                                         cluster_distribution.columns = ['Cluster', 'Count']
                                         fig = px.bar(cluster_distribution, x='Cluster', y='Count',
