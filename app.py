@@ -290,10 +290,23 @@ if uploaded_file is not None:
                                                 subset = data[data['Type_pro'] == type_pro]
                                                 median_mnt = subset['Mnt'].median()
                                                 label = type_pro_labels.get(type_pro, 'Type inconnu')
-                                                st.write(f"**Analyse pour {label} :** Le montant médian des sinistres est de {median_mnt:.2f}. ")
-                                            
-                                            st.write("Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
-                                                    "ce qui pourrait suggérer une diversité dans les cas traités.")
+                                                st.write(f"**")
+                                                st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <p> <strong>Analyse pour {label} :</strong>Le montant médian des sinistres est de {median_mnt:.2f}.</p>
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                        st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <p> Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, 
+                                                    ce qui pourrait suggérer une diversité dans les cas traités.").</p>
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)        
+                                        
 
 
                                         
