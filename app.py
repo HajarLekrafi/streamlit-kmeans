@@ -401,6 +401,7 @@ if uploaded_file is not None:
 
                                         
                                     elif option == "Répartition des Villes par Cluster":
+                                        
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
 
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
@@ -415,14 +416,44 @@ if uploaded_file is not None:
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
 
-                                        st.markdown("<h3>Villes les plus fréquentes par Cluster :</h3>", unsafe_allow_html=True)
-                                        st.markdown(villes_finales.to_html(index=False), unsafe_allow_html=True)
+                                        # Création de la table HTML
+                                        table_html = """
+                                        <table style="width:100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+                                            <thead>
+                                                <tr style="background-color: #f4f4f4;">
+                                                    <th style="border: 1px solid #ddd; padding: 8px;">Cluster</th>
+                                                    <th style="border: 1px solid #ddd; padding: 8px;">Ville</th>
+                                                    <th style="border: 1px solid #ddd; padding: 8px;">Count</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        """
 
-                                        # Analyse
+                                        for _, row in villes_finales.iterrows():
+                                            table_html += f"""
+                                            <tr>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Cluster']}</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Ville_Nom']}</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">{row['Count']}</td>
+                                            </tr>
+                                            """
+
+                                        table_html += "</tbody></table>"
+
+                                        st.markdown(table_html, unsafe_allow_html=True)
+
+                                        # Analyse pour chaque cluster
                                         for cluster in villes_finales['Cluster'].unique():
                                             city_count = villes_finales[villes_finales['Cluster'] == cluster]
                                             most_common_city = city_count.loc[city_count['Count'].idxmax()]
-                                            st.markdown(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres.")
+                                            analysis_text = f"""
+                                            <div style="margin: 20px 0;">
+                                                <h3 style='color: #197d9f;'>Analyse pour le Cluster {cluster} :</h3>
+                                                <p>La ville la plus fréquente est <strong>{most_common_city['Ville_Nom']}</strong> avec <strong>{most_common_city['Count']}</strong> sinistres.</p>
+                                            </div>
+                                            """
+                                            st.markdown(analysis_text, unsafe_allow_html=True)
+
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
