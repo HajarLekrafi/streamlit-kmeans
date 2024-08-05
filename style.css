@@ -55,33 +55,151 @@ body {
     width: 100px;
     height: 100px;
 }
-/* Style pour la barre latérale */
-.sidebar .sidebar-content {
-    background-color: #f0f2f6; /* Couleur de fond */
-    padding: 1rem; /* Espacement interne */
-    border-right: 1px solid #e1e4e8; /* Bordure droite */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Ombre */
+
+.loader {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    transform: rotate(45deg);
+   }
+   
+   .loader-square {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    margin: 2px;
+    border-radius: 0px;
+    background: #197d9f;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: square-animation 10s ease-in-out infinite both;
+   }
+   @keyframes square-animation {
+    0% {
+        left: 0;
+        top: 0;
+    }
+    10.5% {
+        left: 0;
+        top: 0;
+    }
+    12.5% {
+        left: 32px;
+        top: 0;
+    }
+    23% {
+        left: 32px;
+        top: 0;
+    }
+    25% {
+        left: 64px;
+        top: 0;
+    }
+    35.5% {
+        left: 64px;
+        top: 0;
+    }
+    37.5% {
+        left: 64px;
+        top: 32px;
+    }
+    48% {
+        left: 64px;
+        top: 32px;
+    }
+    50% {
+        left: 32px;
+        top: 32px;
+    }
+    60.5% {
+        left: 32px;
+        top: 32px;
+    }
+    62.5% {
+        left: 32px;
+        top: 64px;
+    }
+    73% {
+        left: 32px;
+        top: 64px;
+    }
+    75% {
+        left: 0;
+        top: 64px;
+    }
+    85.5% {
+        left: 0;
+        top: 64px;
+    }
+    87.5% {
+        left: 0;
+        top: 32px;
+    }
+    98% {
+        left: 0;
+        top: 32px;
+    }
+    100% {
+        left: 0;
+        top: 0;
+    }
 }
 
-.sidebar .sidebar-header {
-    font-size: 1.5rem; /* Taille du texte */
-    color: #197d9f; /* Couleur du texte */
-    margin-bottom: 1rem; /* Marge inférieure */
+.loader {
+    position: fixed; /* Change to fixed for consistent positioning */
+    top: 70px; /* Adjust as needed */
+    right: 70px; /* Adjust as needed */
+    width: 96px;
+    height: 96px;
+    transform: rotate(45deg);
 }
 
-.sidebar .expander {
-    border: 1px solid #e1e4e8; /* Bordure des expandeurs */
-    border-radius: 4px; /* Coins arrondis */
+.loader-square {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    margin: 2px;
+    border-radius: 0px;
+    background: #197d9f;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: square-animation 10s ease-in-out infinite both;
 }
 
-.sidebar .expander:hover {
-    background-color: #e1e4e8; /* Couleur de fond au survol */
+.loader-square:nth-of-type(1) {
+    animation-delay: 0s;
 }
 
-.sidebar .checkbox {
-    margin: 0.5rem 0; /* Marge des cases à cocher */
+.loader-square:nth-of-type(2) {
+    animation-delay: -1.4285714286s;
 }
 
-.sidebar .checkbox input[type="checkbox"] {
-    margin-right: 0.5rem; /* Espacement à droite des cases à cocher */
+.loader-square:nth-of-type(3) {
+    animation-delay: -2.8571428571s;
+}
+
+.loader-square:nth-of-type(4) {
+    animation-delay: -4.2857142857s;
+}
+
+.loader-square:nth-of-type(5) {
+    animation-delay: -5.7142857143s;
+}
+
+.loader-square:nth-of-type(6) {
+    animation-delay: -7.1428571429s;
+}
+
+.loader-square:nth-of-type(7) {
+    animation-delay: -8.5714285714s;
+}
+
+.loader-square:nth-of-type(8) {
+    animation-delay: -10s;
 }
