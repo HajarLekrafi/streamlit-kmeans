@@ -341,20 +341,13 @@ if uploaded_file is not None:
                                             max_mnt = subset['Mnt'].max()
                                             label = cluster_labels.get(cluster, f'Cluster {cluster}')
                                             
-                                            st.write(f"**Analyse pour {label} :**")
-                                            st.write(f"- **Médiane** : La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
-                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
-                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
                                             
-                                        st.write("En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
-                                                "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
-
                                         st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
                                                     <p> Médiane: La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
-                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
-                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
+                                           Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
+                                          Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
                                             
                                         "En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
                                                 "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
