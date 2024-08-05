@@ -422,8 +422,8 @@ if uploaded_file is not None:
                                             st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
-                                                    <p>""**Analyse pour le Cluster {cluster} :
-                                                    La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres."</p>
+                                                    <p>"<strong>Pour le Cluster {cluster} :</strong>
+                                                    La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres.</p>
                                                 </div>
                                             </div>
                                             """, unsafe_allow_html=True)
