@@ -572,9 +572,9 @@ if uploaded_file is not None:
                                         st.markdown(f"""
                                                 <div class="features">
                                                     <div class="feature">
-                                                    <p><strong>Cluster avec la Moyenne des Montants la Plus Élevée** : Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.</Br>
-                                                    <strong>Cluster avec la Moyenne des Montants la Plus Basse** : Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.</Br>
-                                                    <strong>Distribution des Moyennes** : L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.</Br>
+                                                    <p><strong>Cluster avec la Moyenne des Montants la Plus Élevée : </strong>Cluster {max_cluster['Cluster']} avec une moyenne de {max_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus élevés, ce qui peut indiquer que les propositions dans ce cluster sont généralement plus coûteuses.</Br>
+                                                    <strong>Cluster avec la Moyenne des Montants la Plus Basse : </strong>Cluster {min_cluster['Cluster']} avec une moyenne de {min_cluster['Mnt']:.2f}. Ce cluster a les montants moyens les plus bas, ce qui peut suggérer que les propositions sont généralement moins coûteuses.</Br>
+                                                    <strong>Distribution des Moyennes : </strong>L'histogramme montre la moyenne des montants pour chaque cluster. Les hauteurs des barres indiquent les montants moyens dans chaque cluster, permettant de comparer directement les coûts moyens entre les clusters.</Br>
                                                     </p>
                                                     </div>
                                                 </div>
