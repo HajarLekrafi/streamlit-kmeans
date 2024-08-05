@@ -6,6 +6,139 @@ from sklearn.impute import SimpleImputer
 import plotly.express as px
 import plotly.graph_objects as go
 
+
+# Custom CSS
+st.markdown("""
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    header {
+        background: #333;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+    }
+    header nav ul {
+        list-style: none;
+        padding: 0;
+    }
+    header nav ul li {
+        display: inline;
+        margin: 0 1rem;
+    }
+    header nav ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+    .hero {
+        background: url('https://your-image-url.jpg') no-repeat center center/cover;
+        color: #fff;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .hero-content {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 2rem;
+        border-radius: 10px;
+    }
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    .hero-content p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .hero-content button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background: #ff5733;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .features {
+        display: flex;
+        justify-content: space-around;
+        padding: 2rem 0;
+        background: #f4f4f4;
+    }
+    .feature {
+        background: #fff;
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .feature h2 {
+        margin-bottom: 1rem;
+    }
+    footer {
+        background: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Header
+st.markdown("""
+<header>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+""", unsafe_allow_html=True)
+
+# Hero Section
+st.markdown("""
+<div class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Our Website</h1>
+        <p>Your subtitle or tagline goes here.</p>
+        <button onclick="alert('Button Clicked!')">Get Started</button>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Features Section
+st.markdown("""
+<div class="features">
+    <div class="feature">
+        <h2>Feature 1</h2>
+        <p>Description of feature 1.</p>
+    </div>
+    <div class="feature">
+        <h2>Feature 2</h2>
+        <p>Description of feature 2.</p>
+    </div>
+    <div class="feature">
+        <h2>Feature 3</h2>
+        <p>Description of feature 3.</p>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Footer
+st.markdown("""
+<footer>
+    <p>&copy; 2024 Your Company. All rights reserved.</p>
+</footer>
+""", unsafe_allow_html=True)
+
+
 # Charger le modèle KMeans et le préprocesseur
 with open('kmeans_model.pkl', 'rb') as file:
     kmeans_model = pickle.load(file)
@@ -629,3 +762,4 @@ if uploaded_file is not None:
         st.error("Le fichier CSV ne contient pas les colonnes attendues.")
 else:
     st.write("Veuillez télécharger un fichier CSV pour commencer.")
+    
