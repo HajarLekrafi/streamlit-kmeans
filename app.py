@@ -202,14 +202,12 @@ if uploaded_file is not None:
                                         # Analyse
                                         total_sinistres = cluster_distribution['Count'].sum()
                                         cluster_max = cluster_distribution.loc[cluster_distribution['Count'].idxmax()]
-                                        st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
-                                                f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
-                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
+                                
                                         st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
                                                     <h2>Analyse</h2>
-                                                    <p><strong>Analyse :</strong> La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant 
+                                                    <p>La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant 
                                                 {cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.</p>
                                                 </div>
                                             </div>
@@ -238,7 +236,7 @@ if uploaded_file is not None:
                                         st.write(f"- **Distribution Globale** : Le diagramme en violon montre la distribution des montants dans ce cluster. Un violon plus large indique une concentration élevée des montants à certaines valeurs, tandis qu'un violon plus étroit montre une concentration plus faible.")
                                         st.write(f"- **Comparaison entre les Clusters** :Un cluster avec un violon plus large à une hauteur spécifique peut avoir des montants plus courants à cette valeur, tandis que des violons plus étroits peuvent indiquer des montants moins fréquents.")
 
-                                        # Analyse basée sur les données
+                                        # Préparez les données pour chaque cluster
                                         for cluster in data['Cluster'].unique():
                                             subset = data[data['Cluster'] == cluster]
                                             median_mnt = subset['Mnt'].median()
@@ -248,14 +246,24 @@ if uploaded_file is not None:
                                             max_mnt = subset['Mnt'].max()
                                             label = cluster_labels.get(cluster, f'Cluster {cluster}')
                                             
+                                            # Préparez le texte dynamique
+                                            analyse_text = (
+                                                f"**Analyse pour {label} :**<br>"
+                                                f"- **Médiane** : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.<br>"
+                                                f"- **Écart Interquartile (IQR)** : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.<br>"
+                                                f"- **Montants Extrêmes** : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies."
+                                            )
                                             
-            
+                                            # Utilisez st.markdown pour inclure le texte dynamique dans le HTML
+                                            st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <h2>Analyse des Données du Cluster</h2>
+                                                    <p>{analyse_text}</p>
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
 
-                                            # Interprétation globale des données du cluster
-                                            st.write(f"**Analyse pour {label} :**")
-                                            st.write(f"- **Médiane** : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.")
-                                            st.write(f"- **Écart Interquartile (IQR)** : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.")
-                                            st.write(f"- **Montants Extrêmes** : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies.")
 
                                         
                                     elif option == "BoxPlot des Montants par Type de Proposition":
