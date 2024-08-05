@@ -656,21 +656,33 @@ if uploaded_file is not None:
                                         st.plotly_chart(fig_scatter)
                                         
                                         # Analyse basée sur les données
-                                        st.write("**Analyse du Diagramme de Nuage de Points :**")
                                         
                                         # Trouver les tendances générales
-                                        st.write("- **Tendances Générales :** Examinez la distribution des points pour comprendre la relation entre le nombre de propositions et la valeur du montant. Les points sont colorés par cluster, ce qui permet de voir comment chaque cluster se distribue en termes de montant et de nombre de propositions.")
+                                        st.markdown(f"""
+                                                <div class="features">
+                                                    <div class="feature">
+                                                    <p><strong>Tendances Générales :</strong>Examinez la distribution des points pour comprendre la relation entre le nombre de propositions et la valeur du montant. Les points sont colorés par cluster, ce qui permet de voir comment chaque cluster se distribue en termes de montant et de nombre de propositions.
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
                                         
                                         # Identifier les clusters avec des montants élevés et un grand nombre de propositions
                                         for cluster in data['Cluster'].unique():
                                             cluster_data = data[data['Cluster'] == cluster]
                                             if not cluster_data.empty:
                                                 avg_nb_propositions = cluster_data['Nb_propositions'].mean()
-                                                avg_montant = cluster_data['Mnt'].mean()
-                                                st.write(f"- **Cluster {cluster} :**")
-                                                st.write(f"  - Nombre moyen de propositions : {avg_nb_propositions:.2f}")
-                                                st.write(f"  - Valeur moyenne du montant : {avg_montant:.2f}")                        
-                                        
+                                                avg_montant = cluster_data['Mnt'].mean()                       
+                                                st.markdown(f"""
+                                                <div class="features">
+                                                    <div class="feature">
+                                                    <p><strong>Cluster {cluster} :</strong></Br>
+                                                    <strong>- Nombre moyen de propositions :</strong> {avg_nb_propositions:.2f}</Br>
+                                                    <strong>- Valeur moyenne du montant :</strong> {avg_montant:.2f}
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
                                 # Déterminer si 'Sinistre' ou 'sinistre' est présent et afficher les prédictions
                             sinistre_col = None
                             if 'Sinistre' in data.columns:
