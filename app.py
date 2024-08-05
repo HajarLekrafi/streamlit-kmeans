@@ -249,16 +249,15 @@ if uploaded_file is not None:
                                             # Préparez le texte dynamique
                                             analyse_text = (
                                                 f"<strong>Analyse pour {label} :</strong><br>"
-                                                f"- Médiane : La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.<br>"
-                                                f"- Écart Interquartile (IQR) : La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.<br>"
-                                                f"- Montants Extrêmes : Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies."
+                                                f"<strong>- Médiane : </strong>La médiane est de {median_mnt:.2f}. Cette valeur sépare les montants en deux groupes égaux, avec la moitié des montants au-dessus et l'autre moitié en dessous.<br>"
+                                                f"<strong>- Écart Interquartile (IQR) : </strong>La largeur entre Q1 ({q1:.2f}) et Q3 ({q3:.2f}) montre où se situe la majorité des montants. Un large écart indique une grande variation des montants, tandis qu'un écart étroit suggère une plus grande homogénéité.<br>"
+                                                f"<strong>- Montants Extrêmes : </strong>Les valeurs minimales ({min_mnt:.2f}) et maximales ({max_mnt:.2f}) montrent l'étendue des montants dans ce cluster. Les valeurs extrêmes peuvent indiquer des cas atypiques ou des anomalies."
                                             )
                                             
                                             # Utilisez st.markdown pour inclure le texte dynamique dans le HTML
                                             st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
-                                                    <h2>Analyse des Données du Cluster</h2>
                                                     <p>{analyse_text}</p>
                                                 </div>
                                             </div>
