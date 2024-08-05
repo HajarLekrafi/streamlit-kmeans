@@ -777,4 +777,41 @@ st.markdown("""
 </footer>
 """, unsafe_allow_html=True)
 
+
+# Définir le lien de la page officielle de l'entreprise
+entreprise_url = "https://www.cat.co.ma/fr/accueil"
+
+
+# Contenu principal de votre application
+st.write("Ici, vous pouvez ajouter le contenu de votre application.")
+
+# Ajout de la barre fixe en bas de la page
+st.markdown(
+    f"""
+    <style>
+    .footer {{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f1f1f1;
+        text-align: center;
+        padding: 10px;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }}
+    .footer a {{
+        color: #007bff;
+        text-decoration: none;
+    }}
+    .footer a:hover {{
+        text-decoration: underline;
+    }}
+    </style>
+    <div class="footer">
+        <a href="{entreprise_url}" target="_blank">Visitez notre site officiel</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
     
