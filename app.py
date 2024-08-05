@@ -335,8 +335,7 @@ if uploaded_file is not None:
                                            Intervalle Interquartile (IQR) : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.</Br>
                                           Montants Minimum et Maximum : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.</Br>
                                             
-                                    En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). 
-                                        Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.
+                                   
 </p>
                                                 </div>
                                             </div>
