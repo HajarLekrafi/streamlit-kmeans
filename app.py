@@ -640,7 +640,7 @@ st.markdown("""
         display: flex;
         justify-content: space-around;
         padding: 2rem 0;
-        background: #f4f4f4;
+        background: #fff;
     }
     .feature {
         background: #fff;
@@ -681,7 +681,7 @@ st.markdown("""
 # Footer
 st.markdown("""
 <footer>
-    <p>&copy; 2024 Cat Assurance et reassurance</p>
+    <p>&copy; 2024 Cat Assurance et Réassurance</p>
 </footer>
 """, unsafe_allow_html=True)
 
