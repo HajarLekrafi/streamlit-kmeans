@@ -782,16 +782,12 @@ st.markdown("""
 entreprise_url = "https://www.votre-entreprise.com"
 
 
-
-# Contenu principal de votre application
-st.write("Ici, vous pouvez ajouter le contenu de votre application.")
-
 # Ajout de la barre fixe en bas de la page
 st.markdown(
     f"""
     <style>
     .footer {{
-        position: fixed;
+        position: center;
         bottom: 0;
         width: 100%;
         background-color: #f1f1f1;
