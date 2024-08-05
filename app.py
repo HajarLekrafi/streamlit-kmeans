@@ -402,9 +402,11 @@ if uploaded_file is not None:
                                         
                                     elif option == "Répartition des Villes par Cluster":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
+
                                         ville_cluster = data.groupby(['Cluster', 'Ville_Nom']).size().reset_index(name='Count')
                                         villes_finales = pd.DataFrame(columns=['Cluster', 'Ville_Nom', 'Count'])
                                         villes_utilisees = set()
+
                                         for cluster in ville_cluster['Cluster'].unique():
                                             cluster_data = ville_cluster[ville_cluster['Cluster'] == cluster].sort_values(by='Count', ascending=False).reset_index(drop=True)
                                             for idx, row in cluster_data.iterrows():
@@ -412,22 +414,15 @@ if uploaded_file is not None:
                                                     villes_finales = pd.concat([villes_finales, pd.DataFrame([row])], ignore_index=True)
                                                     villes_utilisees.add(row['Ville_Nom'])
                                                     break
-                                       
-                                        # Utilisez st.markdown pour inclure le texte dynamique dans le HTML
-                                        st.markdown(f"""
-                                            <div class="features">
-                                                <div class="feature">
-                                                    <p>"Villes les plus fréquentes par Cluster :"{villes_finales}</p>
-                                                </div>
-                                            </div>
-                                            """, unsafe_allow_html=True)
-                                        
+
+                                        st.markdown("<h3>Villes les plus fréquentes par Cluster :</h3>", unsafe_allow_html=True)
+                                        st.markdown(villes_finales.to_html(index=False), unsafe_allow_html=True)
+
                                         # Analyse
                                         for cluster in villes_finales['Cluster'].unique():
                                             city_count = villes_finales[villes_finales['Cluster'] == cluster]
                                             most_common_city = city_count.loc[city_count['Count'].idxmax()]
-                                            st.write(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres. "
-                            )
+                                            st.markdown(f"**Analyse pour le Cluster {cluster} :** La ville la plus fréquente est {most_common_city['Ville_Nom']} avec {most_common_city['Count']} sinistres.")
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
