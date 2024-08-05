@@ -575,8 +575,15 @@ if uploaded_file is not None:
                                         total_propositions = propositions_cluster['Nb_propositions'].sum()
                                         cluster_max_propositions = propositions_cluster.loc[propositions_cluster['Nb_propositions'].idxmax()]
                                         
-                                        st.write(f"**Analyse :** La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. "
-                                                f"Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.")
+                                        st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <h2>Analyse des propositions par cluster </h2>
+                                                    <p><La répartition des propositions parmi les clusters montre que le Cluster {cluster_max_propositions['Cluster']} possède le plus grand nombre de propositions, avec un total de {cluster_max_propositions['Nb_propositions']}. 
+                                                Cela représente {cluster_max_propositions['Nb_propositions'] / total_propositions:.1%} du total des propositions.
+                                                </div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
 
                                     elif option == "Répartition des Types de Proposition par Cluster":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Types de Proposition par Cluster</h2>", unsafe_allow_html=True)
