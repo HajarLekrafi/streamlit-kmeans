@@ -330,48 +330,38 @@ if uploaded_file is not None:
                                             # Ajoutez d'autres clusters et labels si nécessaire
                                         }
                                         
-                                        # Vérifiez si les colonnes nécessaires sont présentes
-                                        if 'Mnt' in data.columns and 'Type_pro' in data.columns:
-                                            # Création du boxplot
-                                            fig_box = px.box(data, x='Type_pro', y='Mnt',
-                                                            labels={'Type_pro': 'Type de Proposition', 'Mnt': 'Montant'})
-                                            fig_box.update_layout(
-                                                xaxis_title='Type de Proposition',
-                                                yaxis_title='Montant',
-                                                plot_bgcolor='rgba(240, 240, 240, 0.5)'
-                                            )
-                                            st.plotly_chart(fig_box)
+                                        # Analyse simplifiée
+                                        for cluster in data['Cluster'].unique():
+                                            subset = data[data['Cluster'] == cluster]
+                                            median_mnt = subset['Mnt'].median()
+                                            q1 = subset['Mnt'].quantile(0.25)
+                                            q3 = subset['Mnt'].quantile(0.75)
+                                            iqr = q3 - q1
+                                            min_mnt = subset['Mnt'].min()
+                                            max_mnt = subset['Mnt'].max()
+                                            label = cluster_labels.get(cluster, f'Cluster {cluster}')
                                             
-                                            # Dictionnaire pour les labels des types de proposition
-                                            type_pro_labels = {
-                                                'BJ': 'Procédure judiciaire',
-                                                'TJ': 'Transaction suite jugement au fond',
-                                                'TD': 'Transaction directe à l\'amiable'
-                                            }
+                                            st.write(f"**Analyse pour {label} :**")
+                                            st.write(f"- **Médiane** : La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
+                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
+                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
+                                            
+                                        st.write("En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
+                                                "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
 
-                                            # Préparation de l'analyse
-                                            analyses = []
-                                            for type_pro in data['Type_pro'].unique():
-                                                subset = data[data['Type_pro'] == type_pro]
-                                                median_mnt = subset['Mnt'].median()
-                                                label = type_pro_labels.get(type_pro, 'Type inconnu')
-                                                analyses.append(f"<strong>Analyse pour {label} :</strong> Le montant médian des sinistres est de {median_mnt:.2f}.<br>")
-
-                                            # Texte d'analyse générale
-                                            analyses.append("Les variations indiquent que les sinistres de ce type peuvent varier considérablement en montant, "
-                                                            "ce qui pourrait suggérer une diversité dans les cas traités.")
-
-                                            # Affichage de l'analyse avec st.markdown
-                                            st.markdown(f"""
+                                        st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
-                                                    <h2>Analyse des Montants par Type de Proposition</h2>
-                                                    <p>{"<br>".join(analyses)}</p>
+                                                    <p> Médiane: La médiane du montant est de {median_mnt:.2f}. Cela signifie que la moitié des propositions ont des montants inférieurs ou égaux à cette valeur.")
+                                            st.write(f"- **Intervalle Interquartile (IQR)** : {iqr:.2f}. C'est la différence entre le premier et le troisième quartile, montrant combien les montants sont dispersés autour de la médiane.")
+                                            st.write(f"- **Montants Minimum et Maximum** : Les montants varient de {min_mnt:.2f} à {max_mnt:.2f}, indiquant les valeurs les plus basses et les plus élevées dans ce groupe.")
+                                            
+                                        "En résumé, les boxplots montrent comment les montants des propositions sont distribués dans chaque groupe (cluster). "
+                                                "Les différences entre les groupes peuvent indiquer des variations importantes dans les montants, ce qui peut nous aider à comprendre les caractéristiques des propositions dans chaque groupe et à repérer les valeurs extrêmes.")
+</p>
                                                 </div>
                                             </div>
                                             """, unsafe_allow_html=True)
-
-                                        
                                     
                                     elif option == "Analyse des Tendances des Montants par Année":
                                         st.markdown("<h2 style='color: #197d9f;'>Analyse des Tendances des Montants par Année</h2>", unsafe_allow_html=True)
