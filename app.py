@@ -205,6 +205,16 @@ if uploaded_file is not None:
                                         st.write(f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
                                                 f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
                                                 f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.")
+                                        st.markdown("""
+                                        <div class="features">
+                                            <div class="feature">
+                                                <h2>Pourquoi Clustering ? </h2>
+                                                <p>f"**Analyse :** La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. "
+                                                f"Le Cluster {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
+                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres."</p>
+                                            </div>
+                                        </div>
+                                        """, unsafe_allow_html=True)
 
 
                                     elif option == "Valeurs des Montants par Cluster en Diagramme en Violin":
