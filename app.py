@@ -755,7 +755,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Ajoutez le CSS pour Newton's Cradle et la mise en forme
+# Ajoutez le CSS pour le spinner et la mise en forme
 st.markdown("""
 <style>
 /* Style général pour les features */
@@ -767,52 +767,33 @@ st.markdown("""
     margin-bottom: 20px;
 }
 
-/* Style pour Newton's Cradle */
-.newtons-cradle {
+/* Style pour le spinner */
+.spinner {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px; /* Ajustez la taille en fonction de vos besoins */
-    height: 60px; /* Ajustez la taille en fonction de vos besoins */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    animation: swing 1s infinite;
-}
-
-.newtons-cradle__dot {
-    width: 20px;
-    height: 20px;
-    background: #333;
+    background-image: linear-gradient(rgb(186, 66, 255) 35%, rgb(0, 225, 255));
+    width: 100px;
+    height: 100px;
+    animation: spinning82341 1.7s linear infinite;
+    text-align: center;
     border-radius: 50%;
-    transform: translateY(0);
-    animation: bounce 1s infinite;
+    filter: blur(1px);
+    box-shadow: 0px -5px 20px 0px rgb(186, 66, 255), 0px 5px 20px 0px rgb(0, 225, 255);
 }
 
-.newtons-cradle__dot:nth-child(1) {
-    animation-delay: 0s;
+.spinner1 {
+    background-color: rgb(36, 36, 36);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    filter: blur(10px);
 }
 
-.newtons-cradle__dot:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.newtons-cradle__dot:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.newtons-cradle__dot:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-@keyframes swing {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(30px); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+@keyframes spinning82341 {
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>
 
@@ -823,12 +804,9 @@ st.markdown("""
     </div>
 </div>
 
-<!-- Newton's Cradle HTML -->
-<div class="newtons-cradle">
-    <div class="newtons-cradle__dot"></div>
-    <div class="newtons-cradle__dot"></div>
-    <div class="newtons-cradle__dot"></div>
-    <div class="newtons-cradle__dot"></div>
+<!-- Spinner HTML -->
+<div class="spinner">
+    <div class="spinner1"></div>
 </div>
 """, unsafe_allow_html=True)
 
