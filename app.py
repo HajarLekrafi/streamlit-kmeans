@@ -419,8 +419,7 @@ if uploaded_file is not None:
                                         for cluster in villes_finales['Cluster'].unique():
                                             city_count = villes_finales[villes_finales['Cluster'] == cluster]
                                             most_common_city = city_count.loc[city_count['Count'].idxmax()]
-                        
-                                        st.markdown(f"""
+                                            st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
                                                     <p>""**Analyse pour le Cluster {cluster} :
@@ -428,6 +427,7 @@ if uploaded_file is not None:
                                                 </div>
                                             </div>
                                             """, unsafe_allow_html=True)
+                                        
                                         
                                         # Créer et afficher le graphique
                                         fig_ville_cluster = go.Figure()
