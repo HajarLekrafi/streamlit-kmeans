@@ -779,7 +779,8 @@ st.markdown("""
 
 
 # Définir le lien de la page officielle de l'entreprise
-entreprise_url = "https://www.cat.co.ma/fr/accueil"
+entreprise_url = "https://www.votre-entreprise.com"
+
 
 
 # Contenu principal de votre application
@@ -797,10 +798,13 @@ st.markdown(
         text-align: center;
         padding: 10px;
         box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        font-size: 14px;
+        color: #333;
     }}
     .footer a {{
         color: #007bff;
         text-decoration: none;
+        font-weight: bold;
     }}
     .footer a:hover {{
         text-decoration: underline;
