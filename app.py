@@ -290,7 +290,6 @@ if uploaded_file is not None:
                                                 subset = data[data['Type_pro'] == type_pro]
                                                 median_mnt = subset['Mnt'].median()
                                                 label = type_pro_labels.get(type_pro, 'Type inconnu')
-                                                st.write(f"**")
                                                 st.markdown(f"""
                                             <div class="features">
                                                 <div class="feature">
