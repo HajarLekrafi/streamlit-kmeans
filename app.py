@@ -613,8 +613,15 @@ if uploaded_file is not None:
                                             type_counts = cluster_data.groupby('Type_pro')['Count'].sum()
                                             most_common_type = type_counts.idxmax()
                                             most_common_type_label = type_pro_labels.get(most_common_type, 'Type inconnu')
-                                            st.write(f"**Cluster {cluster} :** Le type de proposition le plus fréquent est '{most_common_type_label}' avec un total de {type_counts.max()} propositions. "
-                                                    f"Ce type représente {type_counts.max() / type_counts.sum():.1%} du total des propositions dans ce cluster.")
+                                            st.markdown(f"""
+                                            <div class="features">
+                                                <div class="feature">
+                                                    <h2>Analyse des propositions par cluster </h2>
+                                                    <p>Cluster {cluster} :Le type de proposition le plus fréquent est '{most_common_type_label}' avec un total de {type_counts.max()} propositions. 
+                                                    Ce type représente {type_counts.max() / type_counts.sum():.1%} du total des propositions dans ce cluster.")</p></div>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+
 
 
                                     
