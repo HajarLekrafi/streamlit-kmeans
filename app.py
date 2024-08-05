@@ -467,16 +467,23 @@ if uploaded_file is not None:
                                                             color='Mnt')
                                                 st.plotly_chart(fig)
                                                 
-                                                # Analyse basée sur les données
-                                                st.write("**Analyse des Sommes des Montants par Journal :**")
                                                 
                                                 # Trouver le journal avec le montant total le plus élevé et le plus bas
                                                 max_journal = somme_montants.loc[somme_montants['Mnt'].idxmax()]
                                                 min_journal = somme_montants.loc[somme_montants['Mnt'].idxmin()]
                                                 
-                                                st.write(f"- **Journal avec le Montant Total le Plus Élevé** : {max_journal['Jnl']} avec une somme de {max_journal['Mnt']:.2f}. Cela indique que ce journal a enregistré le montant total le plus élevé parmi tous les journaux.")
-                                                st.write(f"- **Journal avec le Montant Total le Plus Bas** : {min_journal['Jnl']} avec une somme de {min_journal['Mnt']:.2f}. Ce journal a enregistré le montant total le plus bas.")
-                                                st.write(f"- **Distribution des Montants** : L'histogramme montre comment les montants totaux sont répartis entre les différents journaux. Les journaux avec des barres plus longues indiquent une somme totale plus élevée, tandis que les barres plus courtes indiquent des montants totaux plus faibles.")
+                                                
+                                                st.markdown(f"""
+                                                <div class="features">
+                                                    <div class="feature">
+                                                    <h2>Analyse des Sommes des Montants par Journal :</h2>
+                                                    <p><strong>Journal avec le Montant Total le Plus Élevé:</strong> {max_journal['Jnl']} avec une somme de {max_journal['Mnt']:.2f}. Cela indique que ce journal a enregistré le montant total le plus élevé parmi tous les journaux.</Br>
+                                                    <strong>Journal avec le Montant Total le Plus Bas :</strong> {min_journal['Jnl']} avec une somme de {min_journal['Mnt']:.2f}. Ce journal a enregistré le montant total le plus bas.</Br>
+                                                    <strong>Distribution des Montants :</strong> L'histogramme montre comment les montants totaux sont répartis entre les différents journaux. Les journaux avec des barres plus longues indiquent une somme totale plus élevée, tandis que les barres plus courtes indiquent des montants totaux plus faibles.</Br>
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
 
                                             else:
                                                 st.error("Les colonnes nécessaires ('Mnt', 'Jnl') ne sont pas présentes dans les données.")
@@ -535,7 +542,7 @@ if uploaded_file is not None:
                                                 st.markdown(f"""
                                                 <div class="features">
                                                     <div class="feature">
-                                                    <p>Cluster {cluster} :La ville la plus fréquente dans ce cluster est : {', '.join(villes_cluster)}.</p>
+                                                    <p><strong>Cluster {cluster} :</strong>La ville la plus fréquente dans ce cluster est : {', '.join(villes_cluster)}.</p>
                                                     </div>
                                                 </div>
                                                 """, unsafe_allow_html=True)   
