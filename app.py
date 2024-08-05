@@ -773,13 +773,13 @@ st.markdown("""
 # Footer
 st.markdown("""
 <footer>
-    <p>&copy; 2024 Cat Assurance et Réassurance</p>
+    <p>&copy; @2024  La CAT Assurance et Réassurance</p>
 </footer>
 """, unsafe_allow_html=True)
 
 
 # Définir le lien de la page officielle de l'entreprise
-entreprise_url = "https://www.votre-entreprise.com"
+entreprise_url = "https://www.cat.co.ma/fr/accueil"
 
 
 # Ajout de la barre fixe en bas de la page
