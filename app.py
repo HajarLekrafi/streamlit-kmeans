@@ -755,61 +755,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Ajoutez le CSS pour le spinner et la mise en forme
+
+# Features Section
 st.markdown("""
-<style>
-/* Style général pour les features */
-.features {
-    padding: 20px;
-}
-
-.feature {
-    margin-bottom: 20px;
-}
-
-/* Style pour le spinner */
-.spinner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(rgb(186, 66, 255) 35%, rgb(0, 225, 255));
-    width: 100px;
-    height: 100px;
-    animation: spinning82341 1.7s linear infinite;
-    text-align: center;
-    border-radius: 50%;
-    filter: blur(1px);
-    box-shadow: 0px -5px 20px 0px rgb(186, 66, 255), 0px 5px 20px 0px rgb(0, 225, 255);
-}
-
-.spinner1 {
-    background-color: rgb(36, 36, 36);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    filter: blur(10px);
-}
-
-@keyframes spinning82341 {
-    to {
-        transform: rotate(360deg);
-    }
-}
-</style>
-
 <div class="features">
     <div class="feature">
         <h2>Pourquoi Clustering ? </h2>
-        <p>Le clustering est crucial dans notre projet d'analyse des sinistres corporelles, car il permet de regrouper les données en ensembles homogènes, facilitant l'identification de schémas et de tendances. En optimisant les processus, le clustering réduit les coûts et augmente l'efficacité opérationnelle, renforçant ainsi la satisfaction des clients.</p>
+        <p>Le clustering est crucial dans notre projet d'analyse des sinistres
+        corporelles, car il permet de regrouper les données en ensembles homogènes,
+        facilitant l'identification de schémas et de tendances.En optimisant les processus, le clustering réduit les coûts 
+        et augmente l'efficacité opérationnelle, 
+        renforçant ainsi la satisfaction des clients..</p>
     </div>
 </div>
-
-<!-- Spinner HTML -->
-<div class="spinner">
-    <div class="spinner1"></div>
-</div>
 """, unsafe_allow_html=True)
-
 
 # Footer
 st.markdown("""
