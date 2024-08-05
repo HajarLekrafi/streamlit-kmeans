@@ -209,8 +209,8 @@ if uploaded_file is not None:
                                             <div class="features">
                                                 <div class="feature">
                                                     <h2>Analyse</h2>
-                                                    <p>Le clustering est crucial dans notre projet d'analyse des sinistres corporels, car il permet de regrouper les données en ensembles homogènes, facilitant l'identification de schémas et de tendances. En optimisant les processus, le clustering réduit les coûts et augmente l'efficacité opérationnelle, renforçant ainsi la satisfaction des clients.</p>
-                                                    <p><strong>Analyse :</strong> La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. {cluster_max}</p>
+                                                    <p><strong>Analyse :</strong> La répartition des sinistres parmi les clusters montre la fréquence relative de chaque cluster. {cluster_max['Cluster']} a le plus grand nombre de sinistres, représentant "
+                                                f"{cluster_max['Count'] / total_sinistres:.1%} du total des sinistres.</p>
                                                 </div>
                                             </div>
                                             """, unsafe_allow_html=True)
