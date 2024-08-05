@@ -668,8 +668,12 @@ st.markdown("""
 st.markdown("""
 <div class="features">
     <div class="feature">
-        <h2>Feature 1</h2>
-        <p>Description of feature 1.</p>
+        <h2>Pourquoi Clustering ? </h2>
+        <p>Le clustering est crucial dans notre projet d'analyse des sinistres
+        corporelles, car il permet de regrouper les données en ensembles homogènes,
+        facilitant l'identification de schémas et de tendances.En optimisant les processus, le clustering réduit les coûts 
+        et augmente l'efficacité opérationnelle, 
+        renforçant ainsi la satisfaction des clients..</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
