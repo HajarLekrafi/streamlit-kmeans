@@ -384,20 +384,24 @@ if uploaded_file is not None:
                                         # Afficher le graphique
                                         st.plotly_chart(fig_trend)
                                         
-                                        # Analyse basée sur les données
-                                        st.write("**Analyse des Tendances des Montants par Année :**")
                                         
+                            
                                         # Trouver les années avec les montants les plus élevés et les plus bas
                                         max_year = trend_data.loc[trend_data['Mnt'].idxmax()]
                                         min_year = trend_data.loc[trend_data['Mnt'].idxmin()]
                                         
-                                        st.write(f"- **Année avec le Montant Total le Plus Élevé** : {max_year['annee']} avec un montant total de {max_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus élevé, ce qui pourrait indiquer une augmentation des propositions ou des sinistres.")
-                                        st.write(f"- **Année avec le Montant Total le Plus Bas** : {min_year['annee']} avec un montant total de {min_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus bas, ce qui pourrait indiquer une diminution des propositions ou des sinistres.")
-                                        st.write(f"- **Tendances Générales** : Le graphique linéaire montre comment les montants totaux évoluent d'année en année. Observez les augmentations ou les diminutions significatives. Par exemple, une tendance croissante pourrait indiquer des changements dans les politiques ou une augmentation des demandes.")
-                                        st.write(f"- **Observations Particulières** : Notez les années avec des pics ou des creux marqués. Cela pourrait être dû à des événements spécifiques ou des changements dans les conditions économiques ou les pratiques de l'entreprise.")
+                                        st.markdown(f"""
+                                                <div class="features">
+                                                    <div class="feature">
+                                                    <p><strong>Année avec le Montant Total le Plus Élevé : </strong>{max_year['annee']} avec un montant total de {max_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus élevé, ce qui pourrait indiquer une augmentation des propositions ou des sinistres.</Br>
+                                                    <strong>Année avec le Montant Total le Plus Bas : </strong>{min_year['annee']} avec un montant total de {min_year['Mnt']:.2f}. Cette année a enregistré le montant total le plus bas, ce qui pourrait indiquer une diminution des propositions ou des sinistres.</Br>
+                                                    <strong>Tendances Générales : </strong>Le graphique linéaire montre comment les montants totaux évoluent d'année en année. Observez les augmentations ou les diminutions significatives. Par exemple, une tendance croissante pourrait indiquer des changements dans les politiques ou une augmentation des demandes.</Br>
+                                                    <strong>Observations Particulières :</strong> Notez les années avec des pics ou des creux marqués. Cela pourrait être dû à des événements spécifiques ou des changements dans les conditions économiques ou les pratiques de l'entreprise.</Br>
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
     
-
-
                                         
                                     elif option == "Répartition des Villes par Cluster":
                                         st.markdown("<h2 style='color: #197d9f;'>Répartition des Villes par Cluster</h2>", unsafe_allow_html=True)
@@ -673,7 +677,7 @@ if uploaded_file is not None:
                                             if not cluster_data.empty:
                                                 avg_nb_propositions = cluster_data['Nb_propositions'].mean()
                                                 avg_montant = cluster_data['Mnt'].mean()                       
-                                                st.markdown("""
+                                                st.markdown(f"""
                                                 <div class="features">
                                                     <div class="feature">
                                                     <p><strong>Cluster {cluster} :</strong></Br>
