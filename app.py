@@ -755,20 +755,83 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
-# Features Section
+# Ajoutez le CSS pour Newton's Cradle et la mise en forme
 st.markdown("""
+<style>
+/* Style général pour les features */
+.features {
+    padding: 20px;
+}
+
+.feature {
+    margin-bottom: 20px;
+}
+
+/* Style pour Newton's Cradle */
+.newtons-cradle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px; /* Ajustez la taille en fonction de vos besoins */
+    height: 60px; /* Ajustez la taille en fonction de vos besoins */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: swing 1s infinite;
+}
+
+.newtons-cradle__dot {
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    transform: translateY(0);
+    animation: bounce 1s infinite;
+}
+
+.newtons-cradle__dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.newtons-cradle__dot:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.newtons-cradle__dot:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.newtons-cradle__dot:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes swing {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(30px); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+</style>
+
 <div class="features">
     <div class="feature">
         <h2>Pourquoi Clustering ? </h2>
-        <p>Le clustering est crucial dans notre projet d'analyse des sinistres
-        corporelles, car il permet de regrouper les données en ensembles homogènes,
-        facilitant l'identification de schémas et de tendances.En optimisant les processus, le clustering réduit les coûts 
-        et augmente l'efficacité opérationnelle, 
-        renforçant ainsi la satisfaction des clients..</p>
+        <p>Le clustering est crucial dans notre projet d'analyse des sinistres corporelles, car il permet de regrouper les données en ensembles homogènes, facilitant l'identification de schémas et de tendances. En optimisant les processus, le clustering réduit les coûts et augmente l'efficacité opérationnelle, renforçant ainsi la satisfaction des clients.</p>
     </div>
 </div>
+
+<!-- Newton's Cradle HTML -->
+<div class="newtons-cradle">
+    <div class="newtons-cradle__dot"></div>
+    <div class="newtons-cradle__dot"></div>
+    <div class="newtons-cradle__dot"></div>
+    <div class="newtons-cradle__dot"></div>
+</div>
 """, unsafe_allow_html=True)
+
 
 # Footer
 st.markdown("""
@@ -815,148 +878,3 @@ st.markdown(
 
 
     
-
-# Ajout du CSS personnalisé pour la sidebar
-st.markdown("""
-    <style>
-    /* Style de la barre latérale */
-    [data-testid="stSidebar"] {
-        background-color: #f0f0f5;
-        padding: 20px;
-        border-right: 1px solid #ddd;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Styles pour les titres dans la sidebar */
-    [data-testid="stSidebar"] h1,
-    [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3,
-    [data-testid="stSidebar"] h4,
-    [data-testid="stSidebar"] h5,
-    [data-testid="stSidebar"] h6 {
-        color: #333; /* Couleur des titres */
-    }
-
-    /* Styles pour les cases à cocher personnalisées */
-    .reject-checkbox .checkbox-wrapper * {
-        -webkit-tap-highlight-color: transparent;
-        outline: none;
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"] {
-        display: none;
-    }
-    .reject-checkbox .checkbox-wrapper label {
-        --size: 50px;
-        --shadow: calc(var(--size) * 0.07) calc(var(--size) * 0.1);
-        position: relative;
-        display: block;
-        width: var(--size);
-        height: var(--size);
-        margin: 0 auto;
-        background-color: #4158d0;
-        background-image: linear-gradient(
-            43deg,
-            #4158d0 0%,
-            #c850c0 46%,
-            #ffcc70 100%
-        );
-        border-radius: 50%;
-        box-shadow: 0 var(--shadow) #ffbeb8;
-        cursor: pointer;
-        transition: 0.2s ease transform, 0.2s ease background-color,
-            0.2s ease box-shadow;
-        overflow: hidden;
-        z-index: 1;
-    }
-    .reject-checkbox .checkbox-wrapper label:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 0;
-        left: 0;
-        width: calc(var(--size) * 0.7);
-        height: calc(var(--size) * 0.7);
-        margin: 0 auto;
-        background-color: #fff;
-        transform: translateY(-50%);
-        border-radius: 50%;
-        box-shadow: inset 0 var(--shadow) #ffbeb8;
-        transition: 0.2s ease width, 0.2s ease height;
-    }
-    .reject-checkbox .checkbox-wrapper label:hover:before {
-        width: calc(var(--size) * 0.55);
-        height: calc(var(--size) * 0.55);
-        box-shadow: inset 0 var(--shadow) #ff9d96;
-    }
-    .reject-checkbox .checkbox-wrapper label:active {
-        transform: scale(0.9);
-    }
-    .reject-checkbox .checkbox-wrapper .tick_mark {
-        position: absolute;
-        top: 9px;
-        left: 2px;
-        right: 0;
-        width: calc(var(--size) * 0.6);
-        height: calc(var(--size) * 0.6);
-        margin: 0 auto;
-        margin-left: calc(var(--size) * 0.14);
-        transform: rotateZ(-92deg);
-    }
-    .reject-checkbox .checkbox-wrapper .tick_mark:before,
-    .reject-checkbox .checkbox-wrapper .tick_mark:after {
-        content: "";
-        position: absolute;
-        background-color: #fff;
-        border-radius: 2px;
-        opacity: 0;
-        transition: 0.2s ease transform, 0.2s ease opacity;
-    }
-    .reject-checkbox .checkbox-wrapper .tick_mark:before {
-        left: 0;
-        bottom: 0;
-        width: calc(var(--size) * 0.1);
-        height: calc(var(--size) * 0.3);
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
-        transform: translateY(calc(var(--size) * -0.68));
-    }
-    .reject-checkbox .checkbox-wrapper .tick_mark:after {
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: calc(var(--size) * 0.1);
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
-        transform: translateX(calc(var(--size) * 0.78));
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label {
-        background-color: #4158d0;
-        background-image: linear-gradient(
-            43deg,
-            #f7805c 0%,
-            #fb4545 46%,
-            #e1236a 100%
-        );
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-            rgba(0, 0, 0, 0.22) 0px 15px 12px;
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label:before {
-        width: 0;
-        height: 0;
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark:before,
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark:after {
-        background-color: #fff;
-        width: calc(var(--size) * 0.4);
-        height: calc(var(--size) * 0.1);
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 1;
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark:before {
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
-    .reject-checkbox .checkbox-wrapper input[type="checkbox"]:checked + label .tick_mark:after {
-        transform: translate(-50%, -50%) rotate(-45deg);
-    }
-    </style>
-    """, unsafe_allow_html=True)
