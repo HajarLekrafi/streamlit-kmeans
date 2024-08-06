@@ -1,7 +1,3 @@
-[server]
-headless = true
-port = 8504
-enableCORS = false
 [theme]
 base="light"
 primaryColor="#000000"
