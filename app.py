@@ -51,23 +51,32 @@ st.markdown(loader_html, unsafe_allow_html=True)
 
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
+# Master checkbox to select/deselect all
+select_all = st.sidebar.checkbox("Sélectionner tout")
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    accueil = st.checkbox("Accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
-    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
+    accueil = st.checkbox("Accueil", value=select_all)
+    repartition_clusters = st.checkbox("Répartition des Clusters", value=select_all)
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster", value=select_all)
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster", value=select_all)
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster", value=select_all)
 
 with st.sidebar.expander("Montants", expanded=True):
-    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
-    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
-    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
-    somme_journal = st.checkbox("Somme des Montants par Journal")
-    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
-    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
-    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
-    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
+    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot", value=select_all)
+    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin", value=select_all)
+    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster", value=select_all)
+    somme_journal = st.checkbox("Somme des Montants par Journal", value=select_all)
+    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster", value=select_all)
+    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions", value=select_all)
+    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année", value=select_all)
+    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition", value=select_all)
+
+
+# Sidebar for navigation with custom checkboxes
+st.sidebar.header("Navigation")
+
+
+
 
 # Options sélectionnées
 options = {
