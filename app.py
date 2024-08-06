@@ -49,55 +49,25 @@ loader_html = """
 # Inclure le spinner dans la page
 st.markdown(loader_html, unsafe_allow_html=True)
 
-
 # Sidebar for navigation with custom checkboxes
 st.sidebar.header("Navigation")
-
-# Fonction pour mettre à jour les checkboxes en fonction de "Sélectionner tout"
-def update_checkboxes(checkboxes, select_all):
-    for key in checkboxes.keys():
-        checkboxes[key].checkbox_state = select_all
-
 # Création des sous-sections
 with st.sidebar.expander("Analyse des Clusters", expanded=True):
-    select_all_clusters = st.checkbox("Sélectionner tout", key="select_all_clusters")
-    accueil = st.checkbox("Accueil", key="accueil")
-    repartition_clusters = st.checkbox("Répartition des Clusters", key="repartition_clusters")
-    repartition_villes = st.checkbox("Répartition des Villes par Cluster", key="repartition_villes")
-    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster", key="repartition_propositions")
-    repartition_propositions = st.checkbox("Répartition des Types de Proposition par Cluster", key="types_propositions")
-
-    if select_all_clusters:
-        update_checkboxes({
-            "accueil": accueil,
-            "repartition_clusters": repartition_clusters,
-            "repartition_villes": repartition_villes,
-            "repartition_propositions": repartition_propositions,
-            "types_propositions": types_propositions
-        }, True)
+    accueil = st.checkbox("Accueil")
+    repartition_clusters = st.checkbox("Répartition des Clusters")
+    repartition_villes = st.checkbox("Répartition des Villes par Cluster")
+    repartition_propositions = st.checkbox("Répartition des Propositions par Cluster")
+    types_propositions = st.checkbox("Répartition des Types de Proposition par Cluster")
 
 with st.sidebar.expander("Montants", expanded=True):
-    select_all_montants = st.checkbox("Sélectionner tout", key="select_all_montants")
-    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot", key="valeurs_boxplot")
-    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin", key="valeurs_violin")
-    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster", key="montants_ville_frequent")
-    somme_journal = st.checkbox("Somme des Montants par Journal", key="somme_journal")
-    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster", key="moyenne_montants")
-    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions", key="nuage_points")
-    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année", key="tendances_annuelles")
-    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition", key="boxplot_types_proposition")
-
-    if select_all_montants:
-        update_checkboxes({
-            "valeurs_boxplot": valeurs_boxplot,
-            "valeurs_violin": valeurs_violin,
-            "montants_ville_frequent": montants_ville_frequent,
-            "somme_journal": somme_journal,
-            "moyenne_montants": moyenne_montants,
-            "nuage_points": nuage_points,
-            "tendances_annuelles": tendances_annuelles,
-            "boxplot_types_proposition": boxplot_types_proposition
-        }, True)
+    valeurs_boxplot = st.checkbox("Valeurs des Montants par Cluster en BoxPlot")
+    valeurs_violin = st.checkbox("Valeurs des Montants par Cluster en Diagramme en Violin")
+    montants_ville_frequent = st.checkbox("Montants par Ville la Plus Fréquente de Chaque Cluster")
+    somme_journal = st.checkbox("Somme des Montants par Journal")
+    moyenne_montants = st.checkbox("Moyenne des Montants par Cluster")
+    nuage_points = st.checkbox("Diagramme de Nuage de Points pour Montants et Nombre de Propositions")
+    tendances_annuelles = st.checkbox("Analyse des Tendances des Montants par Année")
+    boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition")
 
 # Options sélectionnées
 options = {
@@ -115,6 +85,7 @@ options = {
     "Analyse des Tendances des Montants par Année": tendances_annuelles,
     "BoxPlot des Montants par Type de Proposition": boxplot_types_proposition
 }
+
 
 
 # Uploader le fichier CSV
