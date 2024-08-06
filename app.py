@@ -72,10 +72,6 @@ with st.sidebar.expander("Montants", expanded=True):
     boxplot_types_proposition = st.checkbox("BoxPlot des Montants par Type de Proposition", value=select_all)
 
 
-# Sidebar for navigation with custom checkboxes
-st.sidebar.header("Navigation")
-
-
 
 
 # Options sélectionnées
