@@ -767,7 +767,7 @@ st.markdown("""
     <div class="feature">
         <h2>Pourquoi Clustering ? </h2>
         <p>Le clustering est crucial dans notre projet d'analyse des sinistres
-        corporelles, car il permet de regrouper les données en ensembles homogènes,
+        corporels, car il permet de regrouper les données en ensembles homogènes,
         facilitant l'identification de schémas et de tendances.En optimisant les processus, le clustering réduit les coûts 
         et augmente l'efficacité opérationnelle, 
         renforçant ainsi la satisfaction des clients..</p>
@@ -812,7 +812,7 @@ st.markdown(
     }}
     </style>
     <div class="footer">
-        <a href="{entreprise_url}" target="_blank">Visitez notre site officiel</a>
+        <a href="{entreprise_url}" target="_blank">Lien pour Visiter site officiel de La Cat Assurance et Réassurance</a>
     </div>
     """,
     unsafe_allow_html=True
